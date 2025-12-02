@@ -1,5 +1,11 @@
 # cyd01 - set up a basic dev environment with a simple board test
 
+## Setup
+In Arduino IDE turn on Serial Monitor via Tools -> Serial Monitor.
+
+## Expected Behavior
+When you upload the sketch you should see the onboard LEDs blink 3 times, plus logging in the Serial Monitor.
+
 ## Sample Output From Serial Monitor
 ````
 18:33:01.213 -> x�x�x�x��xxxx�x����x������x�x�        
