@@ -1,0 +1,131 @@
+#define LVGL_TICK_PERIOD 5
+unsigned long lastLvTick = 0;
+LGFX_JustDisplay tft;
+
+CST820 touch(33, 32, 25, 21);  // SDA, SCL, RST, INT
+
+const uint8_t MAX_IMAGES = 2;
+//String fileNames[MAX_IMAGES] = { "/panda.jpg", "/GrandPrismaticSpring_240_320_ys08_0398_P1020005.jpg" };
+String fileNames[MAX_IMAGES] = { "/btn1.jpg", "/btn1.jpg" };
+uint8_t imageIndex = 0;
+
+//const char* cities[3] = { "New York", "Los Angeles", "Chicago" };
+//char* buttonnames[10];  // not const because the function we use it in won't accept anything but 'void *'
+char buttonnames[10][70];
+
+const char *pressed = "A:/Users/jordysimpson/Desktop/code/lv_port_pc_vscode/images/48.png";
+
+// LVGL flush callback
+void lv_flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* color_p)
+{
+    tft.pushImage(area->x1, area->y1,
+                  area->x2 - area->x1 + 1,
+                  area->y2 - area->y1 + 1,
+                  (lgfx::rgb565_t*)color_p);
+    lv_display_flush_ready(disp);
+}
+
+// from https:  //randomnerdtutorials.com/esp32-microsd-card-arduino/
+void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
+{
+    Serial.printf("Listing directory: %s\n", dirname);
+
+    File root = fs.open(dirname);
+    if (!root)
+    {
+        Serial.println("Failed to open directory");
+        return;
+    }
+    if (!root.isDirectory())
+    {
+        Serial.println("Not a directory");
+        return;
+    }
+
+    File file = root.openNextFile();
+    while (file)
+    {
+        if (file.isDirectory())
+        {
+            Serial.print("  DIR : ");
+            Serial.println(file.name());
+            if (levels)
+            {
+                listDir(fs, file.name(), levels - 1);
+            }
+        }
+        else
+        {
+            Serial.print("  FILE: ");
+            Serial.print(file.name());
+            Serial.print("  SIZE: ");
+            Serial.println(file.size());
+        }
+        file = root.openNextFile();
+    }
+}
+
+void InitializeSerialCommunication(void)
+{
+    loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
+
+    Serial.begin(115200);
+
+    // Wait for the serial port to connect so the Serial Monitor printouts work consistently
+    // This may not be necessary on Windows or Linux but with my Macbook Air M3 (2024) it is.
+    delay(2000);
+
+    logit("");  // insert a newline after the random garbage that gets printed on connection/powerup
+    logit("####### Done initializing serial communication. ################################");
+    exitfunction("InitializeSerialCommunication");
+}
+
+void InitializeOnboardLEDs(void)
+{
+    enterfunction("InitializeOnboardLEDs");
+
+    // set up onboard LED pins so we can get visual feedback that at least that much is working
+    for (int p : ledPins)
+    {
+        pinMode(p, OUTPUT);
+    }
+
+    exitfunction("InitializeOnboardLEDs");
+}
+
+void TurnOnOnboardLEDs(void)
+{
+    enterfunction("TurnOnOnboardLEDs");
+
+    for (int p : ledPins)
+    {
+        logit("Turning on GPIO %d", p);
+        digitalWrite(p, LOW);
+    }
+
+    exitfunction("TurnOnOnboardLEDs");
+}
+
+void TurnOffOnboardLEDs(void)
+{
+    enterfunction("TurnOffOnboardLEDs");
+
+    for (int p : ledPins)
+    {
+        logit("Turning off GPIO %d", p);
+        digitalWrite(p, HIGH);
+    }
+
+    exitfunction("TurnOffOnboardLEDs");
+}
+
+void BlinkOnboardLEDs(void)
+{
+    enterfunction("BlinkOnboardLEDs");
+
+    TurnOnOnboardLEDs();
+    delay(300);
+    TurnOffOnboardLEDs();
+
+    exitfunction("BlinkOnboardLEDs");
+}
