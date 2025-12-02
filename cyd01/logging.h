@@ -115,7 +115,7 @@ void logitnoindent(const char* input...)
 
 void enterfunction(const char* x)
 {
-    logit("Entering %s",x);
+    logit("Entering %s", x);
     incrementindent();
 }
 
