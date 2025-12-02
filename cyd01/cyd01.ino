@@ -1,10 +1,11 @@
 #include "logging.h"
+#include "leds.h"
 #include "code.h"
 
 void setup()
 {
-    loglevel++; // would normally be part of the call to enterfunction for Setup()
-    
+    loglevel++;  // would normally be part of the call to enterfunction for Setup()
+
     InitializeSerialCommunication();
     InitializeOnboardLEDs();
 
@@ -20,6 +21,9 @@ void loop()
     //
     // enterfunction("loop");
 
+    // Blink so we have a visual clue that the
+    // sketch ran in case the display isn't
+    // used or isn't working.
     if (blinkflag)
     {
         BlinkOnboardLEDs();
