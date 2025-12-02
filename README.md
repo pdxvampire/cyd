@@ -1,4 +1,4 @@
-#<div align="center"><span style="color: #FFFF00; background-color:black;">Cheap Yellow Display</span></div>
+#Cheap Yellow Display
 
 ##<span style="color: #FF8C00;">cyd01</span>
 
