@@ -86,6 +86,31 @@ void logitnonewline(const char* input...)
     // Serial.println();
     va_end(args);
 }
+void logitnoindent(const char* input...)
+{
+    va_list args;
+    va_start(args, input);
+    for (const char* i = input; *i != 0; ++i)
+    {
+        if (*i != '%')
+        {
+            Serial.print(*i);
+            continue;
+        }
+        switch (*(++i))
+        {
+            case '%': Serial.print('%'); break;
+            case 's': Serial.print(va_arg(args, char*)); break;
+            case 'd': Serial.print(va_arg(args, int), DEC); break;
+            case 'b': Serial.print(va_arg(args, int), BIN); break;
+            case 'o': Serial.print(va_arg(args, int), OCT); break;
+            case 'x': Serial.print(va_arg(args, int), HEX); break;
+            case 'f': Serial.print(va_arg(args, double), 2); break;
+        }
+    }
+    Serial.println();
+    va_end(args);
+}
 // == == == == == == ==== == == == == == ==
 
 void enterfunction(const char* x)
@@ -105,6 +130,7 @@ void exitfunction(const char* x)
 // Don't take up any memory or processing for production.
 #define logit(x)
 #define logitnonewline(x)
+#define logitnoindent(x)
 #define enterfunction(x)
 #define exitfunction(x)
 #define incrementindent()
