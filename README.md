@@ -1,7 +1,7 @@
 # <div align="center">$${\color{lime}Cheap \space Yellow \space Display}$$</div>
 
 
-## $${\color{green}cyd01}$$
+## $${\color{yellow}cyd01}$$
 Basic framework to test the board, includes pretty logging in Serial Monitor, suitable for using as a template for future projects.
 
 ## $${\color{yellow}cyd02 - cyd06}$$
