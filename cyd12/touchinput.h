@@ -67,6 +67,25 @@ void SetupTestTouch(void)
     lv_obj_t* label = lv_label_create(btn);
     lv_label_set_text(label, "Hello LVGL Touch");
     lv_obj_center(label);
+
+    // Create slider below the button
+    lv_obj_t* slider = lv_slider_create(lv_screen_active());
+    lv_slider_set_range(slider, 0, 100);
+    lv_obj_set_width(slider, 200);                                 // Width of the slider
+    lv_obj_align_to(slider, btn, LV_ALIGN_OUT_BOTTOM_MID, 0, 20);  // Position under button
+
+    // Slider release event
+    lv_obj_add_event_cb(
+        slider, [](lv_event_t* e)
+        {
+            if (lv_event_get_code(e) == LV_EVENT_RELEASED)
+            {
+                lv_obj_t* slider = (lv_obj_t*)lv_event_get_target(e);  // Cast required in LVGL v9
+                int val = lv_slider_get_value(slider);
+                Serial.printf("🎚 Slider released, value: %d\n", val);
+            }
+        },
+        LV_EVENT_ALL, NULL);
 }
 
 void HandleTouchBasic(void)
