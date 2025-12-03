@@ -26,6 +26,15 @@ void setup()
 
 void loop()
 {
-    HandleTouchBasic();
-    delay(10);  // Small delay to prevent I2C flooding
+    //HandleTouchBasic();
+    //delay(10);  // Small delay to prevent I2C flooding
+
+    if (millis() - lastLvTick > LVGL_TICK_PERIOD)
+    {
+        lv_tick_inc(LVGL_TICK_PERIOD);
+        lastLvTick = millis();
+    }
+
+    lv_timer_handler();
+    delay(5);
 }
