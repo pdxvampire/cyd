@@ -1,8 +1,8 @@
-# <div align="center"><span style="color: #FFFF00; background-color:black;">Cheap Yellow Display</span></div>
+# <div align="center">$${\color{yellow}Cheap \space Yellow \space Display}$$</div>
 
 $${\color{red}Color \space your \space \color{green}.md \space file \space \color{blue}in \space Github}$$
 
-## <span style="color: #FF8C00;">cyd01</span>
+## $${\color{orange}cyd01}$$
 Basic framework to test the board, includes pretty logging in Serial Monitor, suitable for using as a template for future projects.
 
 ## <span style="color: #FF8C00;">cyd02 - cy06</span>
