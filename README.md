@@ -19,3 +19,13 @@ turn on the display using LovyanGFX
 ## $${\color{yellow}cyd10}$$
 turn on the display using LVGL on top of LovyanGFX
 
+## $${\color{yellow}cyd11}$$
+basic touch using CST820
+
+## $${\color{yellow}cyd12}$$
+LVGL touch using CST820
+
+## $${\color{yellow}cyd13}$$
+LVGL touch using CST820 with SD card
+
+
