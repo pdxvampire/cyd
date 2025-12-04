@@ -1,0 +1,3 @@
+JC2432W328C capacitive touch
+240x320 TFT LCD Module ESP-32 Development Board ST7789
+ESP32-WROOM-32
