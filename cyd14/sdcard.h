@@ -49,6 +49,28 @@ void InitializeSDCard(void)
     exitfunction("InitializeSDCard");
 }
 
+String readFile(fs::FS &fs, const char *path)
+{
+    Serial.printf("Reading file: %s\n", path);
+    File file = fs.open(path, FILE_READ);  // Open the file in read mode
+    if (!file)
+    {
+        Serial.println("Failed to open file for reading");
+        return "";  // Return empty string if file can't be opened
+    }
+
+    Serial.print("Read from file: ");
+    String fileContent = "";
+    while (file.available())
+    {
+        // Read byte by byte into the string
+        fileContent += (char)file.read();
+    }
+    file.close();        // Close the file
+    return fileContent;  // Return the entire content
+}
+
+
 // from https:  //randomnerdtutorials.com/esp32-microsd-card-arduino/
 void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
 {
@@ -85,6 +107,10 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
         }
         else
         {
+
+
+
+
             logit("FILE: %s", file.name());
             logit("    SIZE: %dkb", file.size() / 1024);
         }
