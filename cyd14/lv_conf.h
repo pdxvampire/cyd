@@ -45,10 +45,10 @@
 #define LV_USE_LODEPNG 1
 /** PNG decoder(libpng) library */
 #define LV_USE_LIBPNG 0
-#define LV_USE_IMAGE 1
+//#define LV_USE_IMAGE 1
 /** Decode bin images to RAM */
 /*#define LV_BIN_DECODER_RAM_LOAD 1*/
-
+#define LV_USE_TJPGD 1
 /** Setting a default driver letter allows skipping the driver prefix in filepaths. */
 #define LV_FS_DEFAULT_DRIVE_LETTER 'A'
 
