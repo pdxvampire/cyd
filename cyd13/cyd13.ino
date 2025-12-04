@@ -14,13 +14,11 @@ void setup()
     InitializeSerialCommunication();
     InitializeOnboardLEDs();
 
-
-// Initialise SD before TFT
-InitializeSDCard();
-logit("####### CALL LISTDIR (1 level deep) ########");
-listDir(SD, "/", 0);
-logit("####### BACK FROM CALL LISTDIR ########");
-
+    InitializeSDCard();
+    logit("####### CALL LISTDIR (1 level deep) ########");
+    listDir(SD, "/", 0);
+    logit("####### BACK FROM CALL LISTDIR ########");
+    SD.end();
 
     InitializeDisplay();
 
@@ -36,9 +34,6 @@ logit("####### BACK FROM CALL LISTDIR ########");
 
 void loop()
 {
-    //HandleTouchBasic();
-    //delay(10);  // Small delay to prevent I2C flooding
-
     if (millis() - lastLvTick > LVGL_TICK_PERIOD)
     {
         lv_tick_inc(LVGL_TICK_PERIOD);
