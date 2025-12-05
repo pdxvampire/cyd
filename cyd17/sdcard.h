@@ -8,7 +8,7 @@ uint64_t cardSize;
 const int buffersize = 18432;  // Define the size of your buffer
 // in this case I'm working with a 17.3kb jpg so giving it a little wiggle room jic
 
-uint8_t* binarydata[buffersize];
+uint8_t binarydata[buffersize];
 size_t filesize;  // actual file size from File object
 
 File infile;
@@ -103,7 +103,7 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
     decrementindent();
 }
 
-bool readbinarydata(const char *infilename, File &infile, uint8_t &buffer, size_t &filesize)
+bool readbinarydata(const char *infilename, File &infile, uint8_t *buffer, size_t &filesize)
 {
     enterfunction("readbinarydata");
 
@@ -161,7 +161,7 @@ bool readbinarydata(const char *infilename, File &infile, uint8_t &buffer, size_
     return true;
 }
 
-bool writebinarydata(const char *outfilename, File &outfile, uint8_t &buffer)
+bool writebinarydata(const char *outfilename, File &outfile, const uint8_t *buffer)
 {
     enterfunction("writebinarydata");
 
@@ -180,7 +180,7 @@ bool writebinarydata(const char *outfilename, File &outfile, uint8_t &buffer)
 
     logit("File writing from 0 byte.");
     outfile.seek(0);  //Write from 0 byte
-    outfile.write(binarydata, filesize);
+    outfile.write(buffer, filesize);
 
     // Close the file
     outfile.close();

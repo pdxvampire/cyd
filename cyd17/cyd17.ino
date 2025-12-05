@@ -19,7 +19,7 @@ void setup()
     const char* infilename = "/btn1.jpg";
     const char* outfilename = "/btn3.jpg";
 
-    if (!readbinarydata(infilename, infile, binarydata))
+    if (!readbinarydata(infilename, infile, binarydata, filesize))
     {
         // error handling is done in readbinarydata(), just exit
         return;
