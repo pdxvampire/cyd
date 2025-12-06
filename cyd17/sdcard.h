@@ -5,8 +5,13 @@
 uint8_t cardType;
 uint64_t cardSize;
 
-const int buffersize = 18432;  // Define the size of your buffer
-// in this case I'm working with a 17.3kb jpg so giving it a little wiggle room jic
+// Define the size of your buffer,
+// in this case set a maximum of 50k which should be way
+// more than needed for a single 120x120 jpg.
+// Yes it would be possible to use std::vector to
+// dynamically handle the size but that is not recommended
+// on Arduino due to a high likelihood of heap corruption.
+const int buffersize = 51200;
 
 uint8_t binarydata[buffersize];
 size_t filesize;  // actual file size from File object
@@ -131,7 +136,7 @@ bool readbinarydata(const char *infilename, File &infile, uint8_t *buffer, size_
 
     if (bytes_read == filesize)
     {
-        logit("Data successfully read from '%s' into buffer.", infilename);
+        logit("Data successfully read from '%s' into buffer, '%d' bytes.", infilename, filesize);
 
         // If you really want to see the hex...
         //   Serial.print("Read data: ");
@@ -181,6 +186,8 @@ bool writebinarydata(const char *outfilename, File &outfile, const uint8_t *buff
     logit("File writing from 0 byte.");
     outfile.seek(0);  //Write from 0 byte
     outfile.write(buffer, filesize);
+
+    logit("Wrote '%d' bytes.", filesize);
 
     // Close the file
     outfile.close();
