@@ -34,6 +34,7 @@ void setup()
     InitializeOnboardLEDs();
     logit("lcd init");
    //lcd.init();
+   lv_init();
 InitializeDisplay();
 //lcd.setColorDepth(16);
 // Enable backlight (GPIO 27 must be HIGH)
@@ -50,13 +51,13 @@ InitializeDisplay();
     lcd.fillScreen(lcd.color888(255, 255, 0));
 
     
-    //lv_init();
+    //
 
 
- //   logit("attempting draw");
+    logit("attempting draw");
 
-/*
-    if (lcd.drawJpg(arrImages[0], jpeg_data_len, 0, 0))
+
+    if (lcd.drawJpg(arrImages[0], filesize, 0, 0))
     {
         Serial.println("JPEG drawn successfully from byte array.");
     }
@@ -65,7 +66,7 @@ InitializeDisplay();
         Serial.println("Error drawing JPEG. Check memory or image format.");
         // Error codes can be retrieved if you use the underlying utility functions.
     }
-*/
+
     logit("back");
 
     //   InitializeTouch();

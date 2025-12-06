@@ -11,7 +11,7 @@ uint64_t cardSize;
 // Yes it would be possible to use std::vector to
 // dynamically handle the size but that is not recommended
 // on Arduino due to a high likelihood of heap corruption.
-const int buffersize = 51200;
+const int buffersize = 1;//51200;
 
 uint8_t binarydata[buffersize];
 size_t filesize;  // actual file size from File object
