@@ -2,11 +2,10 @@
 //#include <JPEGDecoder.h>
 #include "LGFX_JustDisplay.h"
 #include <lvgl.h>
-LGFX_JustDisplay lcd;
 #include "logging.h"
 #include "leds.h"
 #include "sdcard.h"
-//#include "display.h"
+#include "display.h"
 #include "touchinput.h"
 #include "code.h"
 
@@ -25,31 +24,37 @@ void setup()
         return;
     }
 
-    const size_t jpeg_data_len = sizeof(arrImages[0]);
-    logit("filesize: %d", filesize);
+// this shows the actual size of the image, 17278 (or whatever)
+//    logit("filesize: %d", filesize);
 
-    logit("sizeof: %d", jpeg_data_len);
+//    const size_t jpeg_data_len = sizeof(arrImages[0]);
+// this shows 51200, the preallocated size of the byte array
+//    logit("sizeof: %d", jpeg_data_len);
 
     InitializeOnboardLEDs();
     logit("lcd init");
-   lcd.init();
-//InitializeDisplay();
-lcd.setColorDepth(16);
+   //lcd.init();
+InitializeDisplay();
+//lcd.setColorDepth(16);
 // Enable backlight (GPIO 27 must be HIGH)
-    pinMode(27, OUTPUT);
-    digitalWrite(27, HIGH);
+//    pinMode(27, OUTPUT);
+//    digitalWrite(27, HIGH);
 
-    lcd.setBrightness(128);
-    lcd.setRotation(2);  // portrait
+ //   lcd.setBrightness(128);
+ //   lcd.setRotation(2);  // portrait
     //lcd.fillScreen(random(0xFFFF));
  //   logit("fill black");
  //   lcd.fillScreen(0xfff);  //backfill white
 
-    logit("fill color");
-    lcd.fillScreen(0x00ff00);
+    logit("fill color yellow");
+    lcd.fillScreen(lcd.color888(255, 255, 0));
+
+    
+    //lv_init();
+
+
  //   logit("attempting draw");
 
-    //lv_init();
 /*
     if (lcd.drawJpg(arrImages[0], jpeg_data_len, 0, 0))
     {

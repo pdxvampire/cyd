@@ -95,7 +95,7 @@ class LGFX_JustDisplay : public lgfx::LGFX_Device
             cfg.dummy_read_bits = 1;
             cfg.readable = false;
             cfg.invert = false;  // No inversion
-            cfg.rgb_order = 1;   // RGB (not BGR)
+            cfg.rgb_order = 0;   // RGB (not BGR)
             cfg.dlen_16bit = false;
             cfg.bus_shared = true;
 
