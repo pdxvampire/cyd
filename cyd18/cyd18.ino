@@ -50,13 +50,13 @@ void setup()
             ;
     }
     logit("Reading from '%s' into buffer.", infilename);
-     // Get the file size in bytes
+    // Get the file size in bytes
     filesize = infile.size();
-logit("buffer size is '%d'",buffersize);
-logit("file size is '%d'",filesize);
+    logit("buffer size is '%d'", buffersize);
+    logit("file size is '%d'", filesize);
 
-//uint8_t argh[buffersize];
- //   size_t bytes_read = infile.read(argh, filesize);
+    uint8_t argh[buffersize];
+    size_t bytes_read = infile.read(argh, filesize);
 
 
     /*
@@ -92,10 +92,10 @@ logit("file size is '%d'",filesize);
     // start lvgl
     lv_init();
 
-    lcd.fillScreen(lcd.color888(0, 110, 100));
+    lcd.fillScreen(lcd.color888(199, 0, 100));
 
     // Seed the random number generator using an analog pin for better randomness
-   // randomSeed(analogRead(0));
+    // randomSeed(analogRead(0));
 
     // Create an LVGL timer to update the color every 1000 milliseconds (1 second)
     //lv_timer_create(update_background_color, 1000, NULL);
