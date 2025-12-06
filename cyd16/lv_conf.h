@@ -7,14 +7,15 @@
 #define LV_USE_DRAW_SW          1
 #define LV_USE_DEV_CUSTOM       0
 
-#define LV_COLOR_DEPTH          16
+#define LV_COLOR_DEPTH          24
 #define LV_COLOR_SCREEN_TRANSP  0
 
 #define LV_TICK_CUSTOM          0
 
 #define LV_USE_USER_DATA        1
 #define LV_USE_LAYER            1
-#define LV_MEM_SIZE             (48U * 1024U)  // 48KB heap
+//#define LV_MEM_SIZE             (48U * 1024U)  // 48KB heap
+#define LV_MEM_SIZE             (2048U * 1024U)
 
 #define LV_USE_TIMER            1
 #define LV_USE_LABEL            1

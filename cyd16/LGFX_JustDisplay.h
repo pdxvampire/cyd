@@ -72,8 +72,9 @@ class LGFX_JustDisplay : public lgfx::LGFX_Device
             /////cfg.readable = false;
             ////cfg.readable = true;
             ////cfg.invert = false;
+            
 
-            ////cfg.rgb_order = false;   // Set to true if the red and blue of the panel are swapped
+            ////cfg.rgb_order = true;   // Set to true if the red and blue of the panel are swapped
             ////cfg.dlen_16bit = false;  // Set to true if the panel ////transmit data in 16-bit via 16-bit parallel or SPI
             ////cfg.bus_shared = false;  // Set to true if the bus is shared with the SD card (The bus is controlled for drawJpg etc.)
 
@@ -94,7 +95,7 @@ class LGFX_JustDisplay : public lgfx::LGFX_Device
             cfg.dummy_read_bits = 1;
             cfg.readable = false;
             cfg.invert = false;  // No inversion
-            cfg.rgb_order = 0;   // RGB (not BGR)
+            cfg.rgb_order = 1;   // RGB (not BGR)
             cfg.dlen_16bit = false;
             cfg.bus_shared = true;
 
