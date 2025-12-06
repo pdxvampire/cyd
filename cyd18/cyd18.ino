@@ -4,20 +4,83 @@
 #include "sdcard.h"
 
 LGFX_JustDisplay lcd;
+//uint8_t arrImages[1][buffersize];
+const char* infilename = "/btn1.jpg";
+const char* outfilename = "/btn4.jpg";
+/*
+
+void update_background_color(lv_timer_t * timer)
+{
+    // Generate a random 24-bit color (0x000000 to 0xFFFFFF)
+    uint32_t randomColor = random(0x1000000); // 0x1000000 is 16,777,216
+
+    // Convert to LVGL color type
+    lv_color_t color = lv_color_hex(randomColor);
+
+    // Set the background color of the active screen
+    lv_obj_set_style_bg_color(lv_scr_act(), color, LV_PART_MAIN);
+    // Ensure the background is opaque (if using a theme that might make it transparent by default)
+    lv_obj_set_style_bg_opa(lv_scr_act(), LV_OPA_COVER, LV_PART_MAIN);
+}
+*/
 
 void setup()
 {
-  Serial.begin(115200);
-  delay(2000);
-  Serial.println("");
+    Serial.begin(115200);
+    delay(2000);
+    Serial.println("");
 
-
- // Enable backlight (GPIO 27 must be HIGH)
+    // Enable backlight (GPIO 27 must be HIGH)
     pinMode(27, OUTPUT);
     digitalWrite(27, HIGH);
 
+    InitializeSDCard();
+    // Open the file for reading
+    infile = SD.open(infilename);
+    if (!infile)
+    {
+        logit("Error opening file '%s' for reading.", infilename);
 
- lcd.init();
+        // Close the file
+        infile.close();
+        logit("File '%s' closed.", infilename);
+
+        exitfunction("readbinarydata");
+        while (1)
+            ;
+    }
+    logit("Reading from '%s' into buffer.", infilename);
+     // Get the file size in bytes
+    filesize = infile.size();
+logit("buffer size is '%d'",buffersize);
+logit("file size is '%d'",filesize);
+
+//uint8_t argh[buffersize];
+ //   size_t bytes_read = infile.read(argh, filesize);
+
+
+    /*
+    if (!readbinarydata(infilename, infile, arrImages[0], filesize))
+    {
+        // error handling is done in readbinarydata(), just exit
+        return;
+    }
+    
+    if (!writebinarydata(outfilename, outfile, arrImages[0]))
+    {
+        // error handling is done in writebinarydata(), just exit
+        return;
+    }
+*/
+    // the new file has been written, show a dir listing to see it
+    logit("####### CALL LISTDIR (1 level deep) ########");
+    listDir(SD, "/", 0);
+    logit("####### BACK FROM CALL LISTDIR ########");
+
+    ///////// only sdcard stuff above, if you touch another SPI bus
+    ///////// device it kills off the sd card
+
+    lcd.init();
     lcd.setRotation(2);  // Use native portrait orientationv
     // Set the color mode as needed. (Initial value is 16)
     // 16 - Faster, but the red and blue tones are 5 bits.
@@ -26,12 +89,32 @@ void setup()
     lcd.setColorDepth(24);  // Set to 24 bits for RGB888 - Note that the actual
                             // number of colors displayed may be 18 bits (RGB666)
                             // depending on the display hardware.
-// start lvgl
-lv_init();
+    // start lvgl
+    lv_init();
 
-lcd.fillScreen(lcd.color888(255, 0, 0));
+    lcd.fillScreen(lcd.color888(0, 110, 100));
+
+    // Seed the random number generator using an analog pin for better randomness
+   // randomSeed(analogRead(0));
+
+    // Create an LVGL timer to update the color every 1000 milliseconds (1 second)
+    //lv_timer_create(update_background_color, 1000, NULL);
 
 
+    logit("attempting draw");
+
+    /*
+    if (lcd.drawJpg(arrImages[0], filesize, 0, 0))
+    {
+        Serial.println("JPEG drawn successfully from byte array.");
+    }
+    else
+    {
+        Serial.println("Error drawing JPEG. Check memory or image format.");
+        // Error codes can be retrieved if you use the underlying utility functions.
+    }
+*/
+    logit("back");
 }
 void loop()
 {
