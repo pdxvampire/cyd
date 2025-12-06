@@ -1,0 +1,80 @@
+// JPEG decoder library
+//#include <JPEGDecoder.h>
+#include "LGFX_JustDisplay.h"
+#include <lvgl.h>
+LGFX_JustDisplay lcd;
+#include "logging.h"
+#include "leds.h"
+#include "sdcard.h"
+//#include "display.h"
+#include "touchinput.h"
+#include "code.h"
+
+
+void setup()
+{
+    loglevel++;  // would normally be part of the call to enterfunction for Setup()
+
+    InitializeSerialCommunication();
+    InitializeOnboardLEDs();
+
+    InitializeSDCard();
+    const char *infilename = "/btn1.jpg";
+    if (!readbinarydata(infilename, infile, arrImages[0], filesize))
+    {
+        // error handling is done in readbinarydata(), just exit
+        return;
+    }
+
+    const size_t jpeg_data_len = sizeof(arrImages[0]);
+    logit("filesize: %d", filesize);
+
+    logit("sizeof: %d", jpeg_data_len);
+
+
+    logit("lcd init");
+    lcd.init();
+
+    lcd.setRotation(2);  // portrait
+    //lcd.fillScreen(random(0xFFFF));
+    logit("fill black");
+    //lcd.fillScreen(0xfff);  //backfill black
+
+    logit("fill color");
+    //lcd.fillScreen(0xff00ff);
+    logit("attempting draw");
+
+/*
+    if (lcd.drawJpg(arrImages[0], jpeg_data_len, 0, 0))
+    {
+        Serial.println("JPEG drawn successfully from byte array.");
+    }
+    else
+    {
+        Serial.println("Error drawing JPEG. Check memory or image format.");
+        // Error codes can be retrieved if you use the underlying utility functions.
+    }
+*/
+    logit("back");
+
+    //   InitializeTouch();
+    //   SetupTestTouch();
+
+
+    TurnOffOnboardLEDs();
+
+    // No need to blink the lights at this point
+    // unless nothing is displaying.
+    blinkflag = false;
+    Serial.println("####### DONE SETUP #################################");
+}
+
+//####################################################################################################
+// Main loop
+//####################################################################################################
+void loop()
+{
+    //HandleTouch();
+    delay(500);  // Wait for 500 milliseconds (adjust for desired speed)
+}
+
