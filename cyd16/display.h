@@ -1,12 +1,13 @@
 LGFX_JustDisplay lcd;
 
-static lv_color_t buf1[240 * 10];
-static lv_display_t* disp;
+//static lv_color_t buf1[240 * 10];
+//static lv_display_t* disp;
 
 #define LVGL_TICK_PERIOD 5
 unsigned long lastLvTick = 0;
 
 // LVGL flush callback
+/*
 void lv_flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* color_p)
 {
     lcd.pushImage(area->x1, area->y1,
@@ -15,6 +16,7 @@ void lv_flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* color_p)
                   (lgfx::rgb565_t*)color_p);
     lv_display_flush_ready(disp);
 }
+*/
 
 void SetBrightnessFull(void)
 {
@@ -60,11 +62,11 @@ void InitializeDisplay(void)
 
     // LVGL init
     lv_init();
-
+/*
     static lv_color_t buf1[240 * 10];
     static lv_display_t* disp = lv_display_create(240, 320);
     lv_display_set_flush_cb(disp, lv_flush_cb);
     lv_display_set_buffers(disp, buf1, NULL, sizeof(buf1), LV_DISPLAY_RENDER_MODE_PARTIAL);
-
+*/
     exitfunction("InitializeDisplay");
 }

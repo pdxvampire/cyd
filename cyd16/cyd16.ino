@@ -16,7 +16,6 @@ void setup()
     loglevel++;  // would normally be part of the call to enterfunction for Setup()
 
     InitializeSerialCommunication();
-    InitializeOnboardLEDs();
 
     InitializeSDCard();
     const char *infilename = "/btn1.jpg";
@@ -31,19 +30,26 @@ void setup()
 
     logit("sizeof: %d", jpeg_data_len);
 
-
+    InitializeOnboardLEDs();
     logit("lcd init");
-    lcd.init();
+   lcd.init();
+//InitializeDisplay();
+lcd.setColorDepth(16);
+// Enable backlight (GPIO 27 must be HIGH)
+    pinMode(27, OUTPUT);
+    digitalWrite(27, HIGH);
 
+    lcd.setBrightness(128);
     lcd.setRotation(2);  // portrait
     //lcd.fillScreen(random(0xFFFF));
-    logit("fill black");
-    //lcd.fillScreen(0xfff);  //backfill black
+ //   logit("fill black");
+ //   lcd.fillScreen(0xfff);  //backfill white
 
     logit("fill color");
-    //lcd.fillScreen(0xff00ff);
-    logit("attempting draw");
+    lcd.fillScreen(0x00ff00);
+ //   logit("attempting draw");
 
+    //lv_init();
 /*
     if (lcd.drawJpg(arrImages[0], jpeg_data_len, 0, 0))
     {
@@ -61,7 +67,7 @@ void setup()
     //   SetupTestTouch();
 
 
-    TurnOffOnboardLEDs();
+   TurnOffOnboardLEDs();
 
     // No need to blink the lights at this point
     // unless nothing is displaying.
