@@ -43,6 +43,7 @@
 // Include the jpeg decoder library
 #include <TJpg_Decoder.h>  // https://github.com/Bodmer/TJpg_Decoder
 
+#include "logging.h"
 // Include SD
 #include "sdcard.h"
 
@@ -112,14 +113,14 @@ void setup()
     foo();
     InitializeTouch();
 
-    //lv_init();
-    //create_image_button_from_sd();
+    lv_init();
+    create_image_button_from_sd();
 }
 
 void loop()
 {
-    //HandleTouch();
-    delay(100);
+    HandleTouch();
+    delay(20); // Small delay to avoid excessive polling
 }
 
 void foo(void)
