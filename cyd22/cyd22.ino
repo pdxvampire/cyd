@@ -59,7 +59,31 @@ TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
 //SPIClass touchscreenSPI = SPIClass(VSPI);
 #include "touchinput.h"
 
+#include <lvgl.h>
 
+void create_image_button_from_sd() {
+  // 1. Create the image button object
+  lv_obj_t *imgbtn = lv_imagebutton_create(lv_screen_active());
+  lv_obj_center(imgbtn);
+  lv_obj_set_size(imgbtn, 100, 100); // Set size if using all three src parts
+
+  // 2. Set the image sources for different states
+  // We use the same image for simplicity, but you can have different images for pressed/released states
+  const char *imagePath = "/horn01.jpg"; 
+
+  lv_imagebutton_set_src(imgbtn, LV_IMAGEBUTTON_STATE_RELEASED, NULL, imagePath, NULL);
+  lv_imagebutton_set_src(imgbtn, LV_IMAGEBUTTON_STATE_PRESSED, NULL, imagePath, NULL);
+  // ... set for other states like DISABLED, CHECKED, etc.
+
+  // 3. Optional: Add a callback function for button press event
+  lv_obj_add_event_cb(imgbtn, button_event_callback, LV_EVENT_CLICKED, NULL);
+}
+
+// Callback function definition
+void button_event_callback(lv_event_t *e) {
+  // Handle button click here
+  Serial.println("Image button clicked!");
+}
 
 void setup()
 {
@@ -87,6 +111,9 @@ void setup()
     //displayImage(fileNames[imageIndex]);
     foo();
     InitializeTouch();
+
+    //lv_init();
+    //create_image_button_from_sd();
 }
 
 void loop()
