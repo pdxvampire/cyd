@@ -12,7 +12,6 @@
  */
 
 /* clang-format off */
-/*JS*/
 #if 1 /* Set this to "1" to enable content */
 
 #ifndef LV_CONF_H
@@ -30,8 +29,8 @@
 /** Color depth: 1 (I1), 8 (L8), 16 (RGB565), 24 (RGB888), 32 (XRGB8888) */
 #define LV_COLOR_DEPTH 16
 /*JS*/
-#define LV_HOR_RES_MAX 320
-#define LV_VER_RES_MAX 240
+#define LV_HOR_RES_MAX 240
+#define LV_VER_RES_MAX 320
 
 /*=========================
    STDLIB WRAPPER SETTINGS
@@ -415,7 +414,7 @@
 
 /** Enable log module */
 /*JS*/
-#define LV_USE_LOG 1
+#define LV_USE_LOG 0
 #if LV_USE_LOG
     /** Set value to one of the following levels of logging detail:
      *  - LV_LOG_LEVEL_TRACE    Log detailed information.
@@ -429,7 +428,7 @@
     /** - 1: Print log with 'printf';
      *  - 0: User needs to register a callback with `lv_log_register_print_cb()`. */
 /*JS*/    
-#define LV_LOG_PRINTF 1
+#define LV_LOG_PRINTF 0
 
     /** Set callback to print logs.
      *  E.g `my_print`. The prototype should be `void my_print(lv_log_level_t level, const char * buf)`.
@@ -614,7 +613,7 @@
 #define LV_FONT_MONTSERRAT_12 0
 #define LV_FONT_MONTSERRAT_14 1
 #define LV_FONT_MONTSERRAT_16 0
-#define LV_FONT_MONTSERRAT_18 0
+#define LV_FONT_MONTSERRAT_18 1
 #define LV_FONT_MONTSERRAT_20 0
 #define LV_FONT_MONTSERRAT_22 0
 #define LV_FONT_MONTSERRAT_24 0
@@ -727,11 +726,11 @@
  * */
 #define LV_WIDGETS_HAS_DEFAULT_VALUE  1
 
-#define LV_USE_ANIMIMG    1
+#define LV_USE_ANIMIMG    0
 
 #define LV_USE_ARC        1
 
-#define LV_USE_ARCLABEL  1
+#define LV_USE_ARCLABEL  0
 
 #define LV_USE_BAR        1
 
@@ -739,7 +738,7 @@
 
 #define LV_USE_BUTTONMATRIX  1
 
-#define LV_USE_CALENDAR   1
+#define LV_USE_CALENDAR   0
 #if LV_USE_CALENDAR
     #define LV_CALENDAR_WEEK_STARTS_MONDAY 0
     #if LV_CALENDAR_WEEK_STARTS_MONDAY
@@ -756,7 +755,7 @@
 
 #define LV_USE_CANVAS     1
 
-#define LV_USE_CHART      1
+#define LV_USE_CHART      0
 
 #define LV_USE_CHECKBOX   1
 
@@ -779,7 +778,7 @@
 
 #define LV_USE_LINE       1
 
-#define LV_USE_LIST       1
+#define LV_USE_LIST       0
 
 #define LV_USE_LOTTIE     0  /**< Requires: lv_canvas, thorvg */
 
@@ -793,7 +792,7 @@
 
 #define LV_USE_SLIDER     1   /**< Requires: lv_bar */
 
-#define LV_USE_SPAN       1
+#define LV_USE_SPAN       0
 #if LV_USE_SPAN
     /** A line of text can contain this maximum number of span descriptors. */
     #define LV_SPAN_SNIPPET_STACK_SIZE 64
@@ -814,9 +813,9 @@
     #define LV_TEXTAREA_DEF_PWD_SHOW_TIME 1500    /**< [ms] */
 #endif
 
-#define LV_USE_TILEVIEW   1
+#define LV_USE_TILEVIEW   0
 
-#define LV_USE_WIN        1
+#define LV_USE_WIN        0
 
 #define LV_USE_3DTEXTURE  0
 
@@ -829,7 +828,7 @@
 #define LV_USE_THEME_DEFAULT 1
 #if LV_USE_THEME_DEFAULT
     /** 0: Light mode; 1: Dark mode */
-    #define LV_THEME_DEFAULT_DARK 0
+    #define LV_THEME_DEFAULT_DARK 1
 
     /** 1: Enable grow on press */
     #define LV_THEME_DEFAULT_GROW 1
@@ -842,7 +841,7 @@
 #define LV_USE_THEME_SIMPLE 1
 
 /** A theme designed for monochrome displays */
-#define LV_USE_THEME_MONO 1
+#define LV_USE_THEME_MONO 0
 
 /*==================
  * LAYOUTS
@@ -865,7 +864,7 @@
 /** Setting a default driver letter allows skipping the driver prefix in filepaths.
  *  Documentation about how to use the below driver-identifier letters can be found at
  *  https://docs.lvgl.io/master/details/main-modules/fs.html#lv-fs-identifier-letters . */
-#define LV_FS_DEFAULT_DRIVER_LETTER '\0'
+#define LV_FS_DEFAULT_DRIVER_LETTER 'A'
 
 /** API for fopen, fread, etc. */
 /*JS*/
@@ -940,15 +939,13 @@
 #endif
 
 /** LODEPNG decoder library */
-/*JS*/
-#define LV_USE_LODEPNG 1
+#define LV_USE_LODEPNG 0
 
 /** PNG decoder(libpng) library */
 #define LV_USE_LIBPNG 0
 
 /** BMP decoder library */
-/*JS*/
-#define LV_USE_BMP 1
+#define LV_USE_BMP 0
 
 /** JPG + split JPG decoder library.
  *  Split JPG is a custom format optimized for embedded systems. */
@@ -1155,7 +1152,8 @@
 
 /** 1: Support using images as font in label or span widgets */
 /*JS*/
-#define LV_USE_IMGFONT 1
+#define LV_USE_IMGFONT 0
+#define LV_USE_IMG 1
 
 /** 1: Enable an observer pattern implementation */
 #define LV_USE_OBSERVER 1
@@ -1180,8 +1178,7 @@
 
 /** 1: Enable file explorer.
  *  - Requires: lv_table */
-/*JS*/
-#define LV_USE_FILE_EXPLORER                     1
+#define LV_USE_FILE_EXPLORER                     0
 #if LV_USE_FILE_EXPLORER
     /** Maximum length of path */
     #define LV_FILE_EXPLORER_PATH_MAX_LEN        (128)
@@ -1320,7 +1317,6 @@
 #endif
 
 /** Interface for TFT_eSPI */
-/*JS*/
 #define LV_USE_TFT_ESPI         1
 
 /** Interface for Lovyan_GFX */
@@ -1407,7 +1403,7 @@
 /*=====================
 * BUILD OPTIONS
 *======================*/
-/*JS*/
+
 /** Enable examples to be built with the library. */
 #define LV_BUILD_EXAMPLES 0
 
@@ -1420,8 +1416,7 @@
 
 #if LV_BUILD_DEMOS
     /** Show some widgets. This might be required to increase `LV_MEM_SIZE`. */
-    /*JS*/
-    #define LV_USE_DEMO_WIDGETS 1
+    #define LV_USE_DEMO_WIDGETS 0
 
     /** Demonstrate usage of encoder and keyboard. */
     #define LV_USE_DEMO_KEYPAD_AND_ENCODER 0
@@ -1460,18 +1455,18 @@
     /*---------------------------
      * Demos from lvgl/lv_demos
       ---------------------------*/
-/*JS*/
+
     /** Flex layout demo */
-    #define LV_USE_DEMO_FLEX_LAYOUT     1
+    #define LV_USE_DEMO_FLEX_LAYOUT     0
 
     /** Smart-phone like multi-language demo */
     #define LV_USE_DEMO_MULTILANG       0
 
     /** Widget transformation demo */
-    #define LV_USE_DEMO_TRANSFORM       1
+    #define LV_USE_DEMO_TRANSFORM       0
 
     /** Demonstrate scroll settings */
-    #define LV_USE_DEMO_SCROLL          1
+    #define LV_USE_DEMO_SCROLL          0
 
     /*E-bike demo with Lottie animations (if LV_USE_LOTTIE is enabled)*/
     #define LV_USE_DEMO_EBIKE           0
@@ -1485,8 +1480,6 @@
     /* Smart watch demo */
     #define LV_USE_DEMO_SMARTWATCH      0
 #endif /* LV_BUILD_DEMOS */
-/*JS*/
-#define LV_USE_EXAMPLES 1
 
 /*--END OF LV_CONF_H--*/
 
