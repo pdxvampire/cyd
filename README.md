@@ -1,5 +1,7 @@
 # <div align="center">$${\color{lime}Cheap \space Yellow \space Display}$$</div>
 
+PRO TIP:  IF YOU RUN INTO SOMETHING FUNKY LIKE A SKETCH THAT WORKED BEFOR BUT DOESN'T NOW, CHECK THAT NOTHING CHANGED IN YOUR LIBRARIES, LV_CONF.H, AND USER_SETUP.H.  IF NOTHING HAS CHANGED, CLOSE OUT OF ARDUINO IDE AND CLEAR THE CACHE DIRECTORY.
+
 
 ## $${\color{yellow}cyd01}$$
 Basic framework to test the board, includes pretty logging in Serial Monitor, suitable for using as a template for future projects.
@@ -28,4 +30,9 @@ LVGL touch using CST820
 ## $${\color{yellow}cyd13}$$
 LVGL touch using CST820 with SD card
 
+## $${\color{yellow}cyd14}$$
+LVGL touch using CST820 with SD card and loading a JPG image from the card.
+
+
+cyd17 - binary read and write SD card
 
