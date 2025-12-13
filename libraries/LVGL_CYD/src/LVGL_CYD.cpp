@@ -71,6 +71,7 @@ static int16_t besttwoavg(int16_t a, int16_t b, int16_t c);
 void LVGL_CYD::begin(lv_display_rotation_t rotation) {
 
   Serial.begin(115200);
+delay(2000); // needed on mac m3
 
   Serial.printf("LVGL_CYD version: %s\n", LVGL_CYD_VERSION);
   Serial.printf("TFT_eSPI version: %s\n", TFT_ESPI_VERSION);
