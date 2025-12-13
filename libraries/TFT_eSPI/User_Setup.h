@@ -42,7 +42,7 @@
 //#define RPI_DISPLAY_TYPE // 20MHz maximum SPI
 
 // Only define one driver, the other ones must be commented out
-//#define ILI9341_DRIVER       // Generic driver for common displays
+#define ILI9341_DRIVER       // Generic driver for common displays
 //#define ILI9341_2_DRIVER     // Alternative ILI9341 driver, see https://github.com/Bodmer/TFT_eSPI/issues/1172
 //#define ST7735_DRIVER      // Define additional parameters below for this display
 //#define ILI9163_DRIVER     // Define additional parameters below for this display
@@ -52,7 +52,7 @@
 //#define ILI9481_DRIVER
 //#define ILI9486_DRIVER
 //#define ILI9488_DRIVER     // WARNING: Do not connect ILI9488 display SDO to MISO if other devices share the SPI bus (TFT SDO does NOT tristate when CS is high)
-#define ST7789_DRIVER      // Full configuration option, define additional parameters below for this display
+//#define ST7789_DRIVER      // Full configuration option, define additional parameters below for this display
 //#define ST7789_2_DRIVER    // Minimal configuration option, define additional parameters below for this display
 //#define R61581_DRIVER
 //#define RM68140_DRIVER
@@ -85,11 +85,11 @@
 // #define TFT_WIDTH  128
 // #define TFT_WIDTH  172 // ST7789 172 x 320
 // #define TFT_WIDTH  170 // ST7789 170 x 320
-#define TFT_WIDTH  240 // ST7789 240 x 240 and 240 x 320
+// #define TFT_WIDTH  240 // ST7789 240 x 240 and 240 x 320
 // #define TFT_HEIGHT 160
 // #define TFT_HEIGHT 128
 // #define TFT_HEIGHT 240 // ST7789 240 x 240
-#define TFT_HEIGHT 320 // ST7789 240 x 320
+// #define TFT_HEIGHT 320 // ST7789 240 x 320
 // #define TFT_HEIGHT 240 // GC9A01 240 x 240
 
 // For ST7735 ONLY, define the type of display, originally this was based on the
@@ -114,7 +114,7 @@
 // 2 lines try both options, one of the options should correct the inversion.
 
 // #define TFT_INVERSION_ON
-#define TFT_INVERSION_OFF
+// #define TFT_INVERSION_OFF
 
 
 // ##################################################################################
@@ -129,8 +129,8 @@
 // driven with a PWM signal or turned OFF/ON then this must be handled by the user
 // sketch. e.g. with digitalWrite(TFT_BL, LOW);
 
-#define TFT_BL   27            // LED back-light control pin
-#define TFT_BACKLIGHT_ON HIGH  // Level to turn ON back-light (HIGH or LOW)
+// #define TFT_BL   32            // LED back-light control pin
+// #define TFT_BACKLIGHT_ON HIGH  // Level to turn ON back-light (HIGH or LOW)
 
 
 
@@ -182,21 +182,6 @@
 //#define TOUCH_CS PIN_D2     // Chip select pin (T_CS) of touch screen
 
 //#define TFT_WR PIN_D2       // Write strobe for modified Raspberry Pi TFT only
-
-
-
-//be mapped to any pins
-#define ESP32_DMA
-// #define TFT_MISO 12 //comment out so can use touch+lvgl+sd per https://forum.arduino.cc/t/cyd-esp-2432s028-sd-card-conflict-with-lvgl/141$
-#define TFT_MOSI 13 // In some display driver board, it might be written as "SDA" and so on.
-#define TFT_SCLK 14
-#define TFT_CS 15  // Chip select control pin
-#define TFT_DC 2   // Data Command control pin
-#define TFT_RST -1 // Reset pin (could connect to Arduino RESET pin)
-#define TFT_BL 27  // LED back-light
-
-#define TOUCH_CS 33 // Chip select pin (T_CS) of touch screen
-
 
 
 // ######  FOR ESP8266 OVERLAP MODE EDIT THE PIN NUMBERS IN THE FOLLOWING LINES  ######

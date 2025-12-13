@@ -292,11 +292,11 @@ JRESULT TJpg_Decoder::drawFsJpg(int32_t x, int32_t y, fs::File inFile) {
 
   jpgFile = inFile;
 
-  jresult = jd_prepare(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, (unsigned int)0);
+  jresult = jd_preparejs(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, (unsigned int)0);
 
   // Extract image and render
   if (jresult == JDR_OK) {
-    jresult = jd_decomp(&jdec, jd_output, jpgScale);
+    jresult = jd_decompjs(&jdec, jd_output, jpgScale);
   }
 
   // Close file
@@ -352,7 +352,7 @@ JRESULT TJpg_Decoder::getFsJpgSize(uint16_t *w, uint16_t *h, fs::File inFile) {
 
   jpgFile = inFile;
 
-  jresult = jd_prepare(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
+  jresult = jd_preparejs(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
 
   if (jresult == JDR_OK) {
     *w = jdec.width;
@@ -419,11 +419,11 @@ JRESULT TJpg_Decoder::drawSdJpg(int32_t x, int32_t y, File inFile) {
 
   jpgSdFile = inFile;
 
-  jresult = jd_prepare(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
+  jresult = jd_preparejs(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
 
   // Extract image and render
   if (jresult == JDR_OK) {
-    jresult = jd_decomp(&jdec, jd_output, jpgScale);
+    jresult = jd_decompjs(&jdec, jd_output, jpgScale);
   }
 
   // Close file
@@ -481,7 +481,7 @@ JRESULT TJpg_Decoder::getSdJpgSize(uint16_t *w, uint16_t *h, File inFile) {
 
   jpgSdFile = inFile;
 
-  jresult = jd_prepare(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
+  jresult = jd_preparejs(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
 
   if (jresult == JDR_OK) {
     *w = jdec.width;
@@ -515,11 +515,11 @@ JRESULT TJpg_Decoder::drawJpg(int32_t x, int32_t y, const uint8_t jpeg_data[], u
   jdec.swap = _swap;
 
   // Analyse input data
-  jresult = jd_prepare(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
+  jresult = jd_preparejs(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
 
   // Extract image and render
   if (jresult == JDR_OK) {
-    jresult = jd_decomp(&jdec, jd_output, jpgScale);
+    jresult = jd_decompjs(&jdec, jd_output, jpgScale);
   }
 
   return jresult;
@@ -542,7 +542,7 @@ JRESULT TJpg_Decoder::getJpgSize(uint16_t *w, uint16_t *h, const uint8_t jpeg_da
   array_size  = data_size;
 
   // Analyse input data
-  jresult = jd_prepare(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
+  jresult = jd_preparejs(&jdec, jd_input, workspace, TJPGD_WORKSPACE_SIZE, 0);
 
   if (jresult == JDR_OK) {
     *w = jdec.width;
