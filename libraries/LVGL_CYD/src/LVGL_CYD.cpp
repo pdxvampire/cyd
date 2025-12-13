@@ -71,7 +71,7 @@ static int16_t besttwoavg(int16_t a, int16_t b, int16_t c);
 void LVGL_CYD::begin(lv_display_rotation_t rotation) {
 
   Serial.begin(115200);
-delay(2000);
+
   Serial.printf("LVGL_CYD version: %s\n", LVGL_CYD_VERSION);
   Serial.printf("TFT_eSPI version: %s\n", TFT_ESPI_VERSION);
   Serial.printf("LVGL version: %i.%i.%i\n", lv_version_major(), lv_version_minor(), lv_version_patch());
@@ -131,14 +131,14 @@ delay(2000);
 
   if (!ili9341) {
     // ST7789 needs to be inverted
-//    LVGL_CYD::tft->invertDisplay(true);
+    LVGL_CYD::tft->invertDisplay(true);
 
     // gamma fix for ST7789
-//    LVGL_CYD::tft->writecommand(ILI9341_GAMMASET); //Gamma curve selected
-//    LVGL_CYD::tft->writedata(2);
-//    delay(120);
-//    LVGL_CYD::tft->writecommand(ILI9341_GAMMASET); //Gamma curve selected
-//    LVGL_CYD::tft->writedata(1);
+    LVGL_CYD::tft->writecommand(ILI9341_GAMMASET); //Gamma curve selected
+    LVGL_CYD::tft->writedata(2);
+    delay(120);
+    LVGL_CYD::tft->writecommand(ILI9341_GAMMASET); //Gamma curve selected
+    LVGL_CYD::tft->writedata(1);
   }
 
   // if there's a touch screen, set up corresponding LVGL input device

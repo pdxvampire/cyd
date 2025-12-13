@@ -975,7 +975,7 @@ static JRESULT mcu_output (
 #define	LDB_WORD(ptr)		(uint16_t)(((uint16_t)*((uint8_t*)(ptr))<<8)|(uint16_t)*(uint8_t*)((ptr)+1))
 
 
-JRESULT jd_prepare (
+JRESULT jd_preparejs (
 	JDEC* jd,				/* Blank decompressor object */
 	size_t (*infunc)(JDEC*, uint8_t*, size_t),	/* JPEG strem input function */
 	void* pool,				/* Working buffer for the decompression session */
@@ -1132,7 +1132,7 @@ JRESULT jd_prepare (
 /* Start to decompress the JPEG picture                                  */
 /*-----------------------------------------------------------------------*/
 
-JRESULT jd_decomp (
+JRESULT jd_decompjs (
 	JDEC* jd,								/* Initialized decompression object */
 	int (*outfunc)(JDEC*, void*, JRECT*),	/* RGB output function */
 	uint8_t scale							/* Output de-scaling factor (0 to 3) */
