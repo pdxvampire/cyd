@@ -83,7 +83,7 @@ delay(2000); // needed on mac m3
   LVGL_CYD::capacitive = Wire.endTransmission() == 0;
   Wire.end();
   if (LVGL_CYD::capacitive) {
-    Serial.println("Capacitive touch detected");
+    Serial.println("Capacitive touch detected, turn backlight on");
     pinMode(BACKLIGHT_CAPACITIVE, OUTPUT);
   } else {
     // detect resistive touch chip (when something pulls up the IRQ)
@@ -116,20 +116,23 @@ delay(2000); // needed on mac m3
   }
   slr.end();
 
-
+Serial.println("call lv_init()");
   // start LVGL
   lv_init();
+Serial.println("back from call");
 
   lv_tick_set_cb([]() -> uint32_t { return millis(); });
 
   // initialize display using TFT_eSPI library
-
+Serial.println("initialize display using TFT_eSPI library");
   lv_disp_t * display = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
-  lv_display_set_rotation(display, rotation);
+Serial.println("back from call");
 
+  lv_display_set_rotation(display, rotation);
+Serial.println("create tft object");
   // pointer to a TFT_eSPI object for the screen
   LVGL_CYD::tft = * (TFT_eSPI * *) lv_display_get_driver_data(display);
-
+Serial.println("back from call");
   if (!ili9341) {
     // ST7789 needs to be inverted
     LVGL_CYD::tft->invertDisplay(true);
