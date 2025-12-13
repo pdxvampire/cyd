@@ -28,8 +28,6 @@
 #define LV_USE_ARC              1
 #define LV_USE_IMG              1
 
-#define LV_FS_DEFAULT_DRIVER_LETTER '\0'
-
 /** API for fopen, fread, etc. */
 #define LV_USE_FS_STDIO 1
 #if LV_USE_FS_STDIO
@@ -43,6 +41,7 @@
 */
 /** LODEPNG decoder library */
 #define LV_USE_LODEPNG 1
+#define LV_USE_LODEPNG 1
 /** PNG decoder(libpng) library */
 #define LV_USE_LIBPNG 0
 //#define LV_USE_IMAGE 1
@@ -50,6 +49,6 @@
 /*#define LV_BIN_DECODER_RAM_LOAD 1*/
 #define LV_USE_TJPGD 1
 /** Setting a default driver letter allows skipping the driver prefix in filepaths. */
-#define LV_FS_DEFAULT_DRIVE_LETTER 'A'
+#define LV_FS_DEFAULT_DRIVER_LETTER 'A'
 
 #endif // LV_CONF_H

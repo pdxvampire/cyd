@@ -1,3 +1,4 @@
+#include "CST820.h"
 CST820 touch(33, 32, 25, 21);  // Touch: SDA, SCL, RST, INT
 uint16_t rawX, rawY;
 

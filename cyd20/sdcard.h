@@ -55,7 +55,7 @@ bool InitializeSDCard(void)
     {
         logitnoindent("UNKNOWN");
     }
-
+return false;
     cardSize = SD.cardSize() / (1024 * 1024);
     logit("SD Card Size: %dMB", cardSize);
 

@@ -1,9 +1,9 @@
-#include "LGFX_JustDisplay.h"
-#include <lvgl.h>
+//#include "LGFX_JustDisplay.h"
+//#include <lvgl.h>
 #include "logging.h"
 #include "sdcard.h"
 
-LGFX_JustDisplay lcd;
+//LGFX_JustDisplay lcd;
 //uint8_t arrImages[1][buffersize];
 const char* infilename = "/btn1.jpg";
 const char* outfilename = "/btn4.jpg";
@@ -56,8 +56,8 @@ void setup()
     logit("file size is '%d'", filesize);
 
     uint8_t argh[buffersize];
-    size_t bytes_read = infile.read(argh, filesize);
-
+//    size_t bytes_read = infile.read(argh, filesize);
+    size_t bytes_read = infile.read(argh, buffersize);
 
     /*
     if (!readbinarydata(infilename, infile, arrImages[0], filesize))
@@ -80,19 +80,19 @@ void setup()
     ///////// only sdcard stuff above, if you touch another SPI bus
     ///////// device it kills off the sd card
 
-    lcd.init();
-    lcd.setRotation(2);  // Use native portrait orientationv
+//    lcd.init();
+//    lcd.setRotation(2);  // Use native portrait orientationv
     // Set the color mode as needed. (Initial value is 16)
     // 16 - Faster, but the red and blue tones are 5 bits.
     // 24 - Slower, but the gradation expression is cleaner.
     //lcd.setColorDepth(16);  // Set to 16 bits of RGB565
-    lcd.setColorDepth(24);  // Set to 24 bits for RGB888 - Note that the actual
+//    lcd.setColorDepth(24);  // Set to 24 bits for RGB888 - Note that the actual
                             // number of colors displayed may be 18 bits (RGB666)
                             // depending on the display hardware.
     // start lvgl
-    lv_init();
+ //   lv_init();
 
-    lcd.fillScreen(lcd.color888(199, 0, 100));
+ //   lcd.fillScreen(lcd.color888(199, 0, 100));
 
     // Seed the random number generator using an analog pin for better randomness
     // randomSeed(analogRead(0));

@@ -5,7 +5,6 @@
 
 #include <LovyanGFX.hpp>   // Display library
 #include "pins_arduino.h"  // friendly names
-#include "CST820.h"        // Custom I2C driver for CST820 capacitive touchscreen
 
 class LGFX_JustDisplay : public lgfx::LGFX_Device
 {
@@ -22,7 +21,9 @@ class LGFX_JustDisplay : public lgfx::LGFX_Device
             auto cfg = _bus_instance.config();
             cfg.spi_host = VSPI_HOST;   // Use VSPI (default high-speed SPI)
             cfg.spi_mode = 0;           // SPI mode 0
-            cfg.freq_write = 27000000;  // Write speed: 27 MHz
+            ////cfg.freq_write = 27000000;  // Write speed: 27 MHz
+      cfg.freq_write = 40000000;    // 40MHz (ST7789 supports higher speeds)
+    
             cfg.freq_read = 16000000;   // Read speed (not used here)
             cfg.spi_3wire = false;
             cfg.use_lock = true;

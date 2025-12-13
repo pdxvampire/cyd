@@ -5,7 +5,7 @@
 uint8_t cardType;
 uint64_t cardSize;
 
-void InitializeSDCard(void)
+bool InitializeSDCard(void)
 {
     enterfunction("InitializeSDCard");
 
@@ -13,7 +13,8 @@ void InitializeSDCard(void)
     {
         logit("SD.begin failed!");
         logit("Card Mount Failed");
-        return;
+        exitfunction("InitializeSDCard");
+        return false;
     }
     logit("SD card initialisation done.");
 
@@ -22,7 +23,8 @@ void InitializeSDCard(void)
     if (cardType == CARD_NONE)
     {
         logit("No SD card attached");
-        return;
+        exitfunction("InitializeSDCard");
+        return false;
     }
 
     logitnonewline("SD Card Type: ");
@@ -47,6 +49,7 @@ void InitializeSDCard(void)
     logit("SD Card Size: %dMB", cardSize);
 
     exitfunction("InitializeSDCard");
+    return true;
 }
 
 String readFile(fs::FS &fs, const char *path)
@@ -118,4 +121,29 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
         file = root.openNextFile();
     }
     decrementindent();
+}
+
+void TestFileAccess(void)
+{
+    enterfunction("TestFileAccess");
+
+    if (SD.exists("/helloworld.txt"))
+    {
+        logit("helloworld.txt exists.");
+    }
+    else
+    {
+        logit("helloworld.txt doesn't exist.");
+    }
+
+    if (SD.exists("/01.png"))
+    {
+        logit("01.png exists.");
+    }
+    else
+    {
+        logit("01.png doesn't exist.");
+    }
+
+    exitfunction("TestFileAccess");
 }
