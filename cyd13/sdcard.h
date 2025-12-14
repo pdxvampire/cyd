@@ -13,6 +13,7 @@ void InitializeSDCard(void)
     {
         logit("SD.begin failed!");
         logit("Card Mount Failed");
+        exitfunction("InitializeSDCard");
         return;
     }
     logit("SD card initialisation done.");
@@ -22,6 +23,7 @@ void InitializeSDCard(void)
     if (cardType == CARD_NONE)
     {
         logit("No SD card attached");
+        exitfunction("InitializeSDCard");
         return;
     }
 
