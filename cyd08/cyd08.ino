@@ -5,9 +5,7 @@
 
 void setup()
 {
-    loglevel++;  // would normally be part of the call to enterfunction for Setup()
-
-    InitializeSerialCommunication();
+    InitializeSerialCommunication("SKETCH CYD08");
     InitializeOnboardLEDs();
 
     // Initialise SD before TFT
