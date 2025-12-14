@@ -177,6 +177,6 @@ void PNGDraw(PNGDRAW *pDraw)
     uint16_t usPixels[320];
 
     png.getLineAsRGB565(pDraw, usPixels, PNG_RGB565_LITTLE_ENDIAN, 0xffffffff);
-    lcd.writeData(0, pDraw->y + 24, pDraw->iWidth, 1, usPixels);
-    //lcd.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
+    //lcd.writeData(0, pDraw->y + 24, pDraw->iWidth, 1, usPixels);
+    lcd.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
 }
