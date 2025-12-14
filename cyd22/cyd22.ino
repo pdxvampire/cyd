@@ -62,7 +62,7 @@ TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
 
 #include <lvgl.h>
 
-#include "code.h"
+//#include "code.h"
 
 void create_image_button_from_sd() {
   // 1. Create the image button object
@@ -90,7 +90,12 @@ void button_event_callback(lv_event_t *e) {
 
 void setup()
 {
-InitializeSerialCommunication("SKETCH CYD22");
+//InitializeSerialCommunication("SKETCH CYD22");
+Serial.begin(115200);
+
+    // Wait for the serial port to connect so the Serial Monitor printouts work consistently
+    // This may not be necessary on Windows or Linux but with my Macbook Air M3 (2024) it is.
+    delay(2000);
 
     // Initialise the TFT
     lcd.begin();
