@@ -4,11 +4,8 @@
 
 void setup()
 {
-    loglevel++;  // would normally be part of the call to enterfunction for Setup()
-
-    InitializeSerialCommunication();
+    InitializeSerialCommunication("SKETCH CYD01");
     InitializeOnboardLEDs();
-
     exitfunction("setup");
 }
 
