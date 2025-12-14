@@ -1,7 +1,5 @@
-void InitializeSerialCommunication(void)
+void InitializeSerialCommunication(const char* title)
 {
-    loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
-
     Serial.begin(115200);
 
     // Wait for the serial port to connect so the Serial Monitor printouts work consistently
@@ -9,6 +7,10 @@ void InitializeSerialCommunication(void)
     delay(2000);
 
     logit("");  // insert a newline after the random garbage that gets printed on connection/powerup
+
+    logheader(title);
+    loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
+
     logit("####### Done initializing serial communication. ################################");
     exitfunction("InitializeSerialCommunication");
 }
