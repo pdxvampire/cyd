@@ -8,6 +8,28 @@ int loglevel = 0;
 
 #if DEBUGMODE
 
+void logheader(const char* title)
+{
+    int i = strlen(title);
+    i += 12;  // some padding on each side
+
+    for (int x = 0; x < i - 1; x++)
+    {
+        Serial.print("=");
+    }
+    Serial.println("=");
+
+    Serial.print("      ");  // padding left
+    Serial.print(title);
+    Serial.println("      ");  // padding right
+
+    for (int x = 0; x < i - 1; x++)
+    {
+        Serial.print("=");
+    }
+    Serial.println("=");
+}
+
 void printindent(void)
 {
     for (int ctr = 1; ctr <= loglevel; ctr++)
@@ -115,7 +137,7 @@ void logitnoindent(const char* input...)
 
 void enterfunction(const char* x)
 {
-    logit("Entering %s",x);
+    logit("Entering %s", x);
     incrementindent();
 }
 
@@ -136,5 +158,5 @@ void exitfunction(const char* x)
 #define incrementindent()
 #define decrementindent()
 #define printindent()
-
+#define logheader(x)
 #endif
