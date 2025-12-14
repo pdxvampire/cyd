@@ -62,6 +62,8 @@ TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
 
 #include <lvgl.h>
 
+#include "code.h"
+
 void create_image_button_from_sd() {
   // 1. Create the image button object
   lv_obj_t *imgbtn = lv_imagebutton_create(lv_screen_active());
@@ -88,8 +90,7 @@ void button_event_callback(lv_event_t *e) {
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.println("\n\n Testing TJpg_Decoder library");
+InitializeSerialCommunication("SKETCH CYD22");
 
     // Initialise the TFT
     lcd.begin();
