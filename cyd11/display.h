@@ -1,10 +1,10 @@
 LGFX_JustDisplay lcd;
 
-static lv_color_t buf1[240 * 10];
-static lv_display_t* disp;
+//static lv_color_t buf1[240 * 10];
+//static lv_display_t* disp;
 
-#define LVGL_TICK_PERIOD 5
-unsigned long lastLvTick = 0;
+//#define LVGL_TICK_PERIOD 5
+//unsigned long lastLvTick = 0;
 
 void SetBrightnessFull(void)
 {

@@ -1,5 +1,4 @@
 #include "LGFX_JustDisplay.h"
-#include <lvgl.h>
 #include "logging.h"
 #include "leds.h"
 #include "display.h"
@@ -10,7 +9,7 @@ void setup()
 {
     loglevel++;  // would normally be part of the call to enterfunction for Setup()
 
-    InitializeSerialCommunication();
+    InitializeSerialCommunication("SKETCH CYD11");
     InitializeOnboardLEDs();
     InitializeDisplay();
 
