@@ -59,11 +59,13 @@ TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
 //SPIClass touchscreenSPI = SPIClass(VSPI);
 #include "touchinput.h"
 
+#include "logging.h"
 
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("\n\n Testing TJpg_Decoder library");
+  delay(2000);
+  logheader("SKETCH CYD21");
 
   // Initialise the TFT
   lcd.begin();
