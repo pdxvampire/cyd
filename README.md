@@ -23,42 +23,67 @@ SD card - read the contents and display in Serial Monitor. **USED TO WORK, SOMET
 
 ## $${\color{yellow}cyd09}$$
 turn on the display using LovyanGFX (just display, no interaction)
-**$${\color{green}WORKS}$$**
+**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd10}$$
 turn on the display using LVGL on top of LovyanGFX (just display, no interaction)
-**$${\color{green}WORKS}$$**
+**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd11}$$
 basic touch using CST820 and LGFX_JustDisplay, drag your finger on the screen to draw
-**$${\color{green}WORKS}$$**
+**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd12}$$
 LVGL touch using CST820
-**$${\color{green}WORKS}$$**
+**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd13}$$
 LVGL touch using CST820 with SD card.
-**$${\color{green}WORKS}$$**
+**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd14}$$
-LVGL touch using CST820 with SD card and loading a JPG (JPEGDecoder) or PNG (PNGdec) image from the card.
+LVGL touch using CST820 with SD card and loading a JPG (JPEGDecoder) or PNG (PNGdec) image from the card.  This is where I discovered that there is no working code online for the capacitive touch + display + sd card.  So the touch and display work on this but not the card unless you flip the init order, in which case the card works but not the display.  It is possible to load things from the card and then have the touch + display work, but there isn't enough memory on this board without a hardward mod to add PSRAM which I have not done to my board.
 ***$${\color{red}Does not work.}$$***
 
 ## $${\color{yellow}cyd15}$$
 Trying to get LittleFS + LovyanGFX + png to work.
 ***$${\color{red}Does not work.}$$***
 
+## $${\color{yellow}cyd16}$$
+Draw JPG from binary data array. Runs into linker memory issue trying to include everything.  Remove LVGL and it has enough.  Abandoned after trying all suggestions I could find online.
+***$${\color{red}Does not work.}$$***
+
 ## $${\color{yellow}cyd17$$}
 Binary read and write SD card.
-**$${\color{green}WORKS}$$**
-also 20??
+**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
+## $${\color{yellow}cyd18}$$
+Trying to get everything to work using memory.  Abandoned after trying all suggestions I could find online.
+***$${\color{red}Does not work.}$$***
 
+## $${\color{yellow}cyd19}$$
+There isn't one, apparently I skipped a number in my tests.
+***$${\color{red}Does not work.}$$***
+
+## $${\color{yellow}cyd20$$}
+Added showmemstats trying to see how much memory I have to work with. That part works.
+**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd21}$$
-Trying TFT_eSPI + TJpgDec + touch + sd card.
+Trying TFT_eSPI + TJpgDec + touch + sd card. Requires JPG images in root of sd card to work (not included in repo because any 100x100 images will do). Was working, this is where I discovered something else I did had changed the libraries and it no longer works but its code didn't change as far as I can recall. I have a great video of this working with Fallout images but right now can't get it to work again.  Will try and rebuild as a new sketch later after finishing this README and repo cleanup.
 ***$${\color{red}Does not work.}$$***
 
 ## $${\color{yellow}cyd22}$$
 TFT\_eSPI + lvgl + touch + TJpgDec as individual buttons (create\_image\_button\_from\_sd).  Was working, this is where I discovered something else I did had changed the libraries and it no longer works but its code didn't change as far as I can recall. Touch is working, display lights up, but that's it. ***$${\color{red}Does not work.}$$***
+
+## $${\color{yellow}cyd23}$$
+Playing with LVGL_CYD.  Abandoned after discovering yet other library changes killed what I had working at one point earlier.  THE LVGL BUTTON IS THERE AND RESPONDS BUT THERE IS ONLY A BLANK DISPLAY. Based on that I'm marking it as not working.
+***$${\color{red}Does not work.}$$***
+
+## $${\color{yellow}cyd24}$$
+Trying to manually create what LGVL_CYD does.  Same not working as cyd23. Does write what it has to Serial Monitor. Abandoned at leat for now.
+***$${\color{red}Does not work.}$$***
+
+## $${\color{yellow}cyd25}$$
+Trying to recreate the nuka cola that worked (cyd21) and figure out what I did to the libraries.
+***$${\color{blue}IN PROGRESS}$$***
