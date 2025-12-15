@@ -1,13 +1,9 @@
-# $${\color{lime}<div align="center">Cheap \space Yellow \space Display</div>}$$
+<div align="center"># $${\color{lime}Cheap \space Yellow \space Display}$$</div>
 
 **PRO TIP:**  IF YOU RUN INTO SOMETHING FUNKY LIKE A SKETCH THAT WORKED BEFORE BUT DOESN'T NOW AND YOU DIDN'T CHANGE ANYTHING THAT YOU CAN RECALL, CHECK THAT NOTHING CHANGED FROM WORKING ON A DIFFERENT SKETCH, SUCH AS IN YOUR LIBRARIES, _LV\_CONF.H_, AND _USER\_SETUP.H_.  IF NOTHING HAS CHANGED, CLOSE OUT OF ARDUINO IDE AND CLEAR THE CACHE DIRECTORY.
 
 **NOTE:**  I ALWAYS ENABLE THE SERIAL MONITOR (_TOOLS->SERIAL MONITOR_) AND LOG TO IT SO IF A SKETCH COMPILES AND UPLOADS BUT APPEARS TO DO NOTHING, CHECK
 THE SERIAL MONITOR FOR OUTPUT THERE.
-
-*italic*
-**bold**
-***both***
 
 ## $${\color{yellow}cyd01}$$
 Basic framework to test the board, includes pretty logging in Serial Monitor, suitable for using as a template for future projects. Just blinks the onboard LEDs a few times and writes to the log.
@@ -19,7 +15,7 @@ $${\color{red}Does \space not \space work.}$$
 
 ## $${\color{yellow}cyd07}$$
 Bunch of code jumbled together.  Not left in a working state because I realized I needed desperately to get things into source control after losing a "it all works" piece of code when I lost power during a save and it zeroed out the file.  This will get sliced and diced into further small modules that each work, then eventually all put back into one sketch.
-***$${\color{red}Does not work.}$$***
+$${\color{red}***Does \space not \space work.***}$$
 
 ## $${\color{yellow}cyd08}$$
 SD card - read the contents and display in Serial Monitor. **USED TO WORK, SOMETHING CHANGED IN THE LIBRARIES AND I WASN'T TRACKING THEM AT THIS POINT.**
