@@ -1,4 +1,4 @@
-# <div align="center">$${\color{lime}Cheap \space Yellow \space Display}$$</div>
+# $${\color{lime}<div align="center">Cheap Yellow Display</div> }$$
 
 **PRO TIP:**  IF YOU RUN INTO SOMETHING FUNKY LIKE A SKETCH THAT WORKED BEFORE BUT DOESN'T NOW AND YOU DIDN'T CHANGE ANYTHING THAT YOU CAN RECALL, CHECK THAT NOTHING CHANGED FROM WORKING ON A DIFFERENT SKETCH, SUCH AS IN YOUR LIBRARIES, _LV\_CONF.H_, AND _USER\_SETUP.H_.  IF NOTHING HAS CHANGED, CLOSE OUT OF ARDUINO IDE AND CLEAR THE CACHE DIRECTORY.
 
@@ -23,7 +23,7 @@ SD card - read the contents and display in Serial Monitor. **USED TO WORK, SOMET
 
 ## $${\color{yellow}cyd09}$$
 turn on the display using LovyanGFX (just display, no interaction)
-**$${\color{green}WORKS as of commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
+**$${\color{green}WORKS \space as \space of \space commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd10}$$
 turn on the display using LVGL on top of LovyanGFX (just display, no interaction)
