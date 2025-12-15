@@ -15,11 +15,11 @@ $${\color{red}Does \space not \space work.}$$
 
 ## $${\color{yellow}cyd07}$$
 Bunch of code jumbled together.  Not left in a working state because I realized I needed desperately to get things into source control after losing a 'it all works' piece of code when I lost power during a save and it zeroed out the file. This will get sliced and diced into further small modules that each work, then eventually all put back into one sketch.
-$${\color{red}***Does \space not \space work.***}$$
+$${\color{red}Does \space not \space work.}$$
 
 ## $${\color{yellow}cyd08}$$
 SD card - read the contents and display in Serial Monitor. **USED TO WORK, SOMETHING CHANGED IN THE LIBRARIES AND I WASN'T TRACKING THEM AT THIS POINT.**
-**$${\color{red}Does not work.}$$**
+$${\color{red}**Does not work.**}$$
 $${\color{red}Does \space not \space work.}$$
 
 ## $${\color{yellow}cyd09}$$
