@@ -15,7 +15,7 @@ $${\color{red}Does not work.}$$
 
 ## $${\color{yellow}cyd07}$$
 Bunch of code jumbled together.  Not left in a working state because I realized I needed desperately to get things into source control after losing a "it all works" piece of code when I lost power during a save and it zeroed out the file.  This will get sliced and diced into further small modules that each work, then eventually all put back into one sketch.
-**$${\color{red}Does not work.}$$**
+***$${\color{red}Does not work.}$$***
 
 ## $${\color{yellow}cyd08}$$
 SD card - read the contents and display in Serial Monitor. **USED TO WORK, SOMETHING CHANGED IN THE LIBRARIES AND I WASN'T TRACKING THEM AT THIS POINT.**
@@ -74,7 +74,8 @@ Trying TFT_eSPI + TJpgDec + touch + sd card. Requires JPG images in root of sd c
 ***$${\color{red}Does not work.}$$***
 
 ## $${\color{yellow}cyd22}$$
-TFT\_eSPI + lvgl + touch + TJpgDec as individual buttons (create\_image\_button\_from\_sd).  Was working, this is where I discovered something else I did had changed the libraries and it no longer works but its code didn't change as far as I can recall. Touch is working, display lights up, but that's it. ***$${\color{red}Does not work.}$$***
+TFT\_eSPI + lvgl + touch + TJpgDec as individual buttons (create\_image\_button\_from\_sd).  Was working, this is where I discovered something else I did had changed the libraries and it no longer works but its code didn't change as far as I can recall. Touch is working, display lights up, but that's it.
+***$${\color{red}Does not work.}$$***
 
 ## $${\color{yellow}cyd23}$$
 Playing with LVGL_CYD.  Abandoned after discovering yet other library changes killed what I had working at one point earlier.  THE LVGL BUTTON IS THERE AND RESPONDS BUT THERE IS ONLY A BLANK DISPLAY. Based on that I'm marking it as not working.
