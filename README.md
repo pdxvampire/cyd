@@ -1,4 +1,4 @@
-# $${\color{lime}<div align="center">Cheap Yellow Display</div> }$$
+<div align="center"># $${\color{lime}Cheap \space Yellow \space Display}$$</div>
 
 **PRO TIP:**  IF YOU RUN INTO SOMETHING FUNKY LIKE A SKETCH THAT WORKED BEFORE BUT DOESN'T NOW AND YOU DIDN'T CHANGE ANYTHING THAT YOU CAN RECALL, CHECK THAT NOTHING CHANGED FROM WORKING ON A DIFFERENT SKETCH, SUCH AS IN YOUR LIBRARIES, _LV\_CONF.H_, AND _USER\_SETUP.H_.  IF NOTHING HAS CHANGED, CLOSE OUT OF ARDUINO IDE AND CLEAR THE CACHE DIRECTORY.
 
@@ -11,19 +11,19 @@ Basic framework to test the board, includes pretty logging in Serial Monitor, su
 
 ## $${\color{yellow}cyd02 - cyd06}$$
 Don't use, only saving JIC and will be deleted once I have the rest of the samples cleaned up and checked in.
-***$${\color{red}Does not work.}$$***
+$${\color{red}***Does not work.***}$$
 
 ## $${\color{yellow}cyd07}$$
 Bunch of code jumbled together.  Not left in a working state because I realized I needed desperately to get things into source control after losing a "it all works" piece of code when I lost power during a save and it zeroed out the file.  This will get sliced and diced into further small modules that each work, then eventually all put back into one sketch.
-***$${\color{red}Does not work.}$$***
+**$${\color{red}Does not work.}$$**
 
 ## $${\color{yellow}cyd08}$$
 SD card - read the contents and display in Serial Monitor. **USED TO WORK, SOMETHING CHANGED IN THE LIBRARIES AND I WASN'T TRACKING THEM AT THIS POINT.**
-***$${\color{red}Does not work.}$$***
+**$${\color{red}Does not work.}$$**
 
 ## $${\color{yellow}cyd09}$$
 turn on the display using LovyanGFX (just display, no interaction)
-**$${\color{green}WORKS \space as \space of \space commit 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
+**$${\color{green}WORKS \space as \space of \space commit \space 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd10}$$
 turn on the display using LVGL on top of LovyanGFX (just display, no interaction)
