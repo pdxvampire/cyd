@@ -14,7 +14,7 @@ Don't use, only saving JIC and will be deleted once I have the rest of the sampl
 $${\color{red}Does \space not \space work.}$$
 
 ## $${\color{yellow}cyd07}$$
-Bunch of code jumbled together.  Not left in a working state because I realized I needed desperately to get things into source control after losing a "it all works" piece of code when I lost power during a save and it zeroed out the file.  This will get sliced and diced into further small modules that each work, then eventually all put back into one sketch.
+Bunch of code jumbled together.  Not left in a working state because I realized I needed desperately to get things into source control after losing a 'it all works' piece of code when I lost power during a save and it zeroed out the file. This will get sliced and diced into further small modules that each work, then eventually all put back into one sketch.
 $${\color{red}***Does \space not \space work.***}$$
 
 ## $${\color{yellow}cyd08}$$
@@ -43,7 +43,7 @@ LVGL touch using CST820 with SD card.
 
 ## $${\color{yellow}cyd14}$$
 LVGL touch using CST820 with SD card and loading a JPG (JPEGDecoder) or PNG (PNGdec) image from the card.  This is where I discovered that there is no working code online for the capacitive touch + display + sd card.  So the touch and display work on this but not the card unless you flip the init order, in which case the card works but not the display.  It is possible to load things from the card and then have the touch + display work, but there isn't enough memory on this board without a hardward mod to add PSRAM which I have not done to my board.
-***$${\color{red}Does not work.}$$***
+$${\color{red}Does \space not \space work.}$$
 
 ## $${\color{yellow}cyd15}$$
 Trying to get LittleFS + LovyanGFX + png to work.
