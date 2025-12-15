@@ -7,7 +7,7 @@ THE SERIAL MONITOR FOR OUTPUT THERE.
 
 ## $${\color{yellow}cyd01}$$
 Basic framework to test the board, includes pretty logging in Serial Monitor, suitable for using as a template for future projects. Just blinks the onboard LEDs a few times and writes to the log.
-**$${\color{green}WORKS}$$**
+<br>**$${\color{green}WORKS}$$**
 
 ## $${\color{yellow}cyd02 - cyd06}$$
 Don't use, only saving JIC and will be deleted once I have the rest of the samples cleaned up and checked in.
@@ -19,11 +19,11 @@ $${\color{red}Does \space not \space work.}$$
 
 ## $${\color{yellow}cyd08}$$
 SD card - read the contents and display in Serial Monitor. **USED TO WORK, SOMETHING CHANGED IN THE LIBRARIES AND I WASN'T TRACKING THEM AT THIS POINT.**
-$${\color{red}**Does not work.**}$$
-$${\color{red}Does \space not \space work.}$$
+$${\color{red}**Does not work.**}$$  
+$${\color{red}Does \space not \space work.}$$<br>xyz
 
 ## $${\color{yellow}cyd09}$$
-turn on the display using LovyanGFX (just display, no interaction)
+turn on the display using LovyanGFX (just display, no interaction)  
 **$${\color{green}WORKS \space as \space of \space commit \space 968c5e646512c533c3665fcf6c1a62293220fff5}$$**
 
 ## $${\color{yellow}cyd10}$$
