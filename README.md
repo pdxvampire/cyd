@@ -62,7 +62,7 @@ Trying to get everything to work using memory.  Abandoned after trying all sugge
 ***$${\color{red}Does not work.}$$***
 
 ## $${\color{yellow}cyd19}$$
-There isn't one, apparently I skipped a number in my tests.
+Playing with LodePNG attempting to blink an eye.  Abandoned for now, will come back after getting JPG working as PNG adds yet another level of complexity.
 ***$${\color{red}Does not work.}$$***
 
 ## $${\color{yellow}cyd20$$}

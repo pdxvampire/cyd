@@ -17,13 +17,14 @@ typedef struct myprivate
   bool bConvert;
 } PRIVATE;
 
-void PNGDraw(PNGDRAW *pDraw)
+int PNGDraw(PNGDRAW *pDraw)
 {
 PRIVATE *pPriv = (PRIVATE *)pDraw->pUser;
-uint16_t usPixels[240];
+uint16_t usPixels[320];
 
   if (pPriv->bConvert)
      png.getLineAsRGB565(pDraw, usPixels, PNG_RGB565_LITTLE_ENDIAN, 0xffffffff); // don't do alpha color blending
+  return 1;
 } /* PNGDraw() */
 
 void setup() {
@@ -45,9 +46,13 @@ PRIVATE priv;
         priv.bConvert = false;
         lTime = micros();
         rc = png.decode((void *)&priv, PNG_FAST_PALETTE);
-        lTime = micros() - lTime;
-        sprintf(szTemp, "Decode time for native pixels = %d us\n", (int)lTime);
-        Serial.print(szTemp);
+        if (rc == PNG_SUCCESS) {
+          lTime = micros() - lTime;
+          sprintf(szTemp, "Decode time for native pixels = %d us\n", (int)lTime);
+          Serial.print(szTemp);
+        } else {
+          Serial.print("Decode error: "); Serial.println(rc, DEC);
+        }
         priv.bConvert = true;
         lTime = micros();
         rc = png.decode((void *)&priv, PNG_FAST_PALETTE);

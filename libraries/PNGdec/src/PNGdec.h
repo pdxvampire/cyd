@@ -49,8 +49,13 @@
 /* Defines and variables */
 #define PNG_FILE_BUF_SIZE 2048
 // Number of bytes to reserve for current and previous lines
-// Defaults to 640 32-bit pixels max width
-#define PNG_MAX_BUFFERED_PIXELS (640*4 + 1)
+// Defaults to 320 32-bit pixels max width
+// but can be overidden with a macro defined at compile time
+#ifndef PNG_MAX_BUFFERED_PIXELS
+#define PNG_MAX_BUFFERED_PIXELS ((320*4 + 1)*2)
+#endif
+
+#ifndef __PNGENC__
 // PNG filter type
 enum {
     PNG_FILTER_NONE=0,
@@ -75,6 +80,30 @@ enum {
     PNG_PIXEL_GRAY_ALPHA=4,
     PNG_PIXEL_TRUECOLOR_ALPHA=6
 };
+
+// Error codes returned by getLastError()
+enum {
+    PNG_SUCCESS = 0,
+    PNG_INVALID_PARAMETER,
+    PNG_DECODE_ERROR,
+    PNG_MEM_ERROR,
+    PNG_NO_BUFFER,
+    PNG_UNSUPPORTED_FEATURE,
+    PNG_INVALID_FILE,
+    PNG_TOO_BIG,
+    PNG_QUIT_EARLY
+};
+
+typedef struct png_file_tag
+{
+  int32_t iPos; // current file position
+  int32_t iSize; // file size
+  uint8_t *pData; // memory file pointer
+  void * fHandle; // class pointer to File/SdFat or whatever you want
+} PNGFILE;
+
+#endif // !__PNGENC__
+
 // RGB565 endianness
 enum {
     PNG_RGB565_LITTLE_ENDIAN = 0,
@@ -86,18 +115,6 @@ enum {
     PNG_MEM_FLASH
 };
 
-// Error codes returned by getLastError()
-enum {
-    PNG_SUCCESS = 0,
-    PNG_INVALID_PARAMETER,
-    PNG_DECODE_ERROR,
-    PNG_MEM_ERROR,
-    PNG_NO_BUFFER,
-    PNG_UNSUPPORTED_FEATURE,
-    PNG_INVALID_FILE,
-    PNG_TOO_BIG
-};
-
 typedef struct png_draw_tag
 {
     int y; // starting x,y of this line
@@ -105,25 +122,18 @@ typedef struct png_draw_tag
     int iPitch; // bytes per line
     int iPixelType; // PNG pixel type (0,2,3,4,6)
     int iBpp; // bits per color stimulus
+    int iHasAlpha; // flag indicating the presence of an alpha palette
     void *pUser; // user supplied pointer
     uint8_t *pPalette;
     uint16_t *pFastPalette;
     uint8_t *pPixels;
 } PNGDRAW;
 
-typedef struct png_file_tag
-{
-  int32_t iPos; // current file position
-  int32_t iSize; // file size
-  uint8_t *pData; // memory file pointer
-  void * fHandle; // class pointer to File/SdFat or whatever you want
-} PNGFILE;
-
 // Callback function prototypes
 typedef int32_t (PNG_READ_CALLBACK)(PNGFILE *pFile, uint8_t *pBuf, int32_t iLen);
 typedef int32_t (PNG_SEEK_CALLBACK)(PNGFILE *pFile, int32_t iPosition);
 typedef void * (PNG_OPEN_CALLBACK)(const char *szFilename, int32_t *pFileSize);
-typedef void (PNG_DRAW_CALLBACK)(PNGDRAW *);
+typedef int (PNG_DRAW_CALLBACK)(PNGDRAW *);
 typedef void (PNG_CLOSE_CALLBACK)(void *pHandle);
 
 //
@@ -146,9 +156,9 @@ typedef struct png_image_tag
     PNG_DRAW_CALLBACK *pfnDraw;
     PNG_CLOSE_CALLBACK *pfnClose;
     PNGFILE PNGFile;
-    uint8_t ucZLIB[32768 + sizeof(inflate_state)]; // put this here to avoid needing malloc/free
+    uint8_t ucZLIB[32768 + sizeof(struct inflate_state)]; // put this here to avoid needing malloc/free
     uint8_t ucPalette[1024];
-    uint8_t ucPixels[PNG_MAX_BUFFERED_PIXELS * 2];
+    uint8_t ucPixels[PNG_MAX_BUFFERED_PIXELS];
     uint8_t ucFileBuf[PNG_FILE_BUF_SIZE]; // holds temp file data
 } PNGIMAGE;
 
@@ -185,8 +195,8 @@ class PNG
 };
 #else
 #define PNG_STATIC
-int PNG_openRAM(PNGIMAGE *pPNG, uint8_t *pData, int iDataSize);
-int PNG_openFile(PNGIMAGE *pPNG, const char *szFilename);
+int PNG_openRAM(PNGIMAGE *pPNG, uint8_t *pData, int iDataSize, PNG_DRAW_CALLBACK *pfnDraw);
+int PNG_openFile(PNGIMAGE *pPNG, const char *szFilename, PNG_DRAW_CALLBACK *pfnDraw);
 int PNG_getWidth(PNGIMAGE *pPNG);
 int PNG_getHeight(PNGIMAGE *pPNG);
 int PNG_decode(PNGIMAGE *pPNG, void *pUser, int iOptions);

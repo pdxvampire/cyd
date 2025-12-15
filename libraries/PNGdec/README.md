@@ -20,6 +20,7 @@ The PNG image specification was written at a time when computers had megabytes o
 
 Feature summary:<br>
 ----------------<br>
+- *New* Added PNGDisplay helper class to simplify displaying images on displays supported by my bb_spi_lcd library<br>
 - Runs on any MCU with at least 48K of free RAM<br>
 - No external dependencies (including malloc/free)<br>
 - Decode an image line by line with a callback function<br>
@@ -33,7 +34,7 @@ Feature summary:<br>
 
 How fast is it?<br>
 ---------------<br>
-The examples folder contains a sketch to measure the performance of decoding a 240x200 image of varying bit depths. Here's the results when run on a few common MCUs:<br>
+For most PNG images, the time is split about 50/50 between inflate and de-filtering. Indexed images usually don't enable filtering, so it becomes nearly 100% the inflator. Converting the output to RGB565 can take significant cycles if doing alpha blending. The examples folder contains a sketch to measure the performance of decoding a 240x200 image of varying bit depths. Here's the results when run on a few common MCUs:<br>
 
 <br>
 <p align="center">
@@ -45,3 +46,11 @@ Documentation:<br>
 Detailed information about the API is in the [Wiki](https://github.com/bitbank2/PNGdec/wiki)<br>
 See the examples folder for easy starting points<br>
 <br>
+
+## Funding
+
+This project received funding through [NGI Zero Core](https://nlnet.nl/core), a fund established by [NLnet](https://nlnet.nl) with financial support from the European Commission's [Next Generation Internet](https://ngi.eu) program. Learn more at the [NLnet project page](https://nlnet.nl/project/ImageCodes-Optimised).
+
+[<img src="https://nlnet.nl/logo/banner.png" alt="NLnet foundation logo" width="20%" />](https://nlnet.nl)
+[<img src="https://nlnet.nl/image/logos/NGI0_tag.svg" alt="NGI Zero Logo" width="20%" />](https://nlnet.nl/core)
+
