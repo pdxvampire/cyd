@@ -10,7 +10,7 @@ void InitializeTouch(void)
 
 void SetupTestTouch(void)
 {
-    lcd.fillScreen(TFT_BLACK);
+    lcd.fillScreen(0x); //TFT_BLACK
     lcd.setTextColor(TFT_YELLOW);
     lcd.setTextSize(2);
     lcd.setCursor(10, 100);

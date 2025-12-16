@@ -1,5 +1,6 @@
 #include "logging.h"
 #include "code.h"
+#include "LGFX_JustDisplay.h"
 
 // Include the jpeg decoder library
 #include <TJpg_Decoder.h>  // https://github.com/Bodmer/TJpg_Decoder
@@ -8,9 +9,9 @@
 #include "sdcard.h"
 
 // Include the TFT library https://github.com/Bodmer/TFT_eSPI
-#include "SPI.h"
+//#include "SPI.h"
 #include <TFT_eSPI.h>       // Hardware-specific library
-TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
+//TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
 
 #include "display.h"
 
@@ -23,12 +24,12 @@ void setup()
     InitializeSerialCommunication("SKETCH CYD25");
 
     // Initialise the TFT
-    lcd.begin();
-    lcd.setRotation(DISPLAY_ORIENTATION_PORTRAIT);
-    lcd.setTextColor(0xFFFF, 0x0000);
-    lcd.fillScreen(TFT_BLACK);
-    lcd.setSwapBytes(true);
-
+    //lcd.begin();
+    //lc/d.setRotation(DISPLAY_ORIENTATION_PORTRAIT);
+    //lcd.setTextColor(0xFFFF, 0x0000);
+    //lcd.fillScreen(TFT_BLACK);
+    //lcd.setSwapBytes(true);
+InitializeDisplay();
 
     sdcard_setup();
 
