@@ -260,7 +260,7 @@ void testFileIO(fs::FS &fs, const char *path)
  * Note the global variable 'SPI' is assigned to 'VSPI' same as 'CYD_SD_SPI_BUS'.
  * https://github.com/espressif/arduino-esp32/blob/master/libraries/SPI/src/SPI.cpp#L333-L337
  *--------------------------------------------------------------------------------*/
-bool sdcard_setup()
+void sdcard_setup()
 {
 
 #if false
@@ -274,7 +274,7 @@ bool sdcard_setup()
   if (!SD.begin()) {
 #endif
     Serial.println("Card Mount Failed");
-    return false;
+    return;
   }
 
 #elif 0

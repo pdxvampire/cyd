@@ -1,37 +1,31 @@
+#include <lvgl.h>
+#include <TJpg_Decoder.h>
+#include <TFT_eSPI.h>
 #include "logging.h"
-#include "code.h"
-#include "LGFX_JustDisplay.h"
-
-// Include the jpeg decoder library
-#include <TJpg_Decoder.h>  // https://github.com/Bodmer/TJpg_Decoder
-
-// Include SD
+//#include "LGFX_JustDisplay.h"
+#include "leds.h"
 #include "sdcard.h"
-
-// Include the TFT library https://github.com/Bodmer/TFT_eSPI
-//#include "SPI.h"
-#include <TFT_eSPI.h>       // Hardware-specific library
-//TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
-
 #include "display.h"
-
-//SPIClass touchscreenSPI = SPIClass(VSPI);
 #include "touchinput.h"
+#include "code.h"
 
+// If LVGL logging is enabled, it will inform the user about what is happening in the library
+void log_print(lv_log_level_t level, const char* buf)
+{
+    LV_UNUSED(level);
+    Serial.println(buf);
+    Serial.flush();
+}
 
 void setup()
 {
     InitializeSerialCommunication("SKETCH CYD25");
-
-    // Initialise the TFT
-    //lcd.begin();
-    //lc/d.setRotation(DISPLAY_ORIENTATION_PORTRAIT);
-    //lcd.setTextColor(0xFFFF, 0x0000);
-    //lcd.fillScreen(TFT_BLACK);
-    //lcd.setSwapBytes(true);
-InitializeDisplay();
-
+    InitializeDisplay();
     sdcard_setup();
+    InitializeTouch();
+
+    // Register print function for LVGL debugging
+    lv_log_register_print_cb(log_print);
 
     // The jpeg image can be scaled by a factor of 1, 2, 4, or 8
     TJpgDec.setJpgScale(1);
@@ -43,8 +37,6 @@ InitializeDisplay();
     lcd.drawCentreString("Touch Image -> next", lcd.width() / 2, 290, 2);
 
     displayImage(fileNames[imageIndex]);
-
-    InitializeTouch();
 }
 
 void loop()
