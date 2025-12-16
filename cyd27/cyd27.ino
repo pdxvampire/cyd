@@ -213,6 +213,9 @@ void setup() {
 
     Serial.println("");
 
+    // Register print function for LVGL debugging
+    lv_log_register_print_cb(log_print);
+
      tft.begin();
 
     pinMode(27, OUTPUT);
@@ -227,14 +230,14 @@ void setup() {
      tft.setRotation(2);  
       tft.fillScreen(0x0110);  //backfill black
 
-drawSdJpeg("/btn1.jpg", 128, 108);
+drawSdJpeg("/btn1.jpg", 128, 200);
 
 Serial.println("xxxxxxxxxxxx");
-File jpegFile = SD.open("/pic01-1.jpg", FILE_READ);  // or, file handle reference for SD library
+File jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
 if (!jpegFile)
     {
         Serial.print("ERROR: File \"");
-        Serial.print("/pic01-1.jpg");
+        Serial.print("/horn02.jpg");
         Serial.println("\" not found!");
         return;
     }
@@ -249,8 +252,15 @@ jpegFile.close();
 
 Serial.println("xxxxxxxxxxxx");
 
-drawSdJpeg("/horn01.jpg", 50, 50);
+drawSdJpeg("/horn01.jpg", 0, 200);
 
+
+    // Draw the image, top left at 0,0
+    TJpgDec.drawSdJpg(0, 0, "/horn02.jpg");
+
+lv_obj_t *img = lv_image_create(lv_screen_active());
+lv_image_set_src(img, "/horn03.jpg"); // 'A:' is your filesystem driver
+lv_obj_center(img);
 
 }
 
