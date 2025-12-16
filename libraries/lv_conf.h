@@ -657,6 +657,14 @@
     #define LV_FS_MEMFS_LETTER '\0'     /*Set an upper cased letter on which the drive will accessible (e.g. 'A')*/
 #endif
 
+#define LV_USE_FS_ARDUINO_SD 0
+#if LV_USE_FS_ARDUINO_SD
+    #define LV_FS_ARDUINO_SD_LETTER 'A' /* Set an upper-cased letter for the drive (e.g., 'S') */
+    #define LV_FS_ARDUINO_SD_CS_PIN 10  /* Set the pin connected to the chip select line of the SD card */
+    #define LV_FS_ARDUINO_SD_FREQUENCY 55000000 /* Set the frequency used by the chip (e.g., 40MHz) */
+    #define LV_FS_ARDUINO_SD_SKIP_SD_INIT 0 /* Let the LVGL driver initialize the SD card library */
+#endif
+
 /*LODEPNG decoder library*/
 #define LV_USE_LODEPNG 0
 

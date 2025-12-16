@@ -215,7 +215,7 @@
 // The hardware SPI can be mapped to any pins
 
 #define ESP32_DMA
-//#define TFT_MISO 12
+#define TFT_MISO 12
 #define TFT_MOSI 13
 #define TFT_SCLK 14
 #define TFT_CS   15  // Chip select control pin
@@ -225,6 +225,8 @@
 
 #define TOUCH_CS 33     // Chip select pin (T_CS) of touch screen
 ////#define TOUCH_CS 22
+
+
 /*
 #define TFT_MISO 19
 #define TFT_MOSI 23
