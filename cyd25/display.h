@@ -2,8 +2,11 @@
 TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
 
 
-static lv_color_t buf1[240 * 10];
-static lv_display_t* disp;
+//static lv_color_t buf1[240 * 10];
+/* LVGL will render to this 1/10 screen sized buffer for 2 bytes/pixel */
+static uint8_t buf[320 * 240 / 10 * 2];
+static lv_display_t* display;
+
 
 #define LVGL_TICK_PERIOD 5
 unsigned long lastLvTick = 0;
@@ -61,16 +64,44 @@ void displayImage(String imagename)
 
 
 // LVGL flush callback
-/*
-void lv_flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* color_p)
+void lv_flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* pixelmap)
 {
-    lcd.pushImage(area->x1, area->y1,
-                  area->x2 - area->x1 + 1,
-                  area->y2 - area->y1 + 1,
-                  (lgfx::rgb565_t*)color_p);
+    int16_t x;
+    int16_t y;
+    uint16_t w;
+    uint16_t h;
+
+    x = area->x1;
+    y = area->y1;
+    w = area->x2 - area->x1 + 1;
+    h = area->y2 - area->y1 + 1;
+
+    if (y >= lcd.height()) return;
+
+    lcd.pushImage(x, y, w, h, pixelmap);
+
+    /* Indicate that the buffer is available.
+     * If DMA were used, call in the DMA complete interrupt. */
     lv_display_flush_ready(disp);
 }
-*/
+void my_disp_flush (lv_display_t *disp, const lv_area_t *area, uint8_t *pixelmap)
+{
+    uint32_t w = ( area->x2 - area->x1 + 1 );
+    uint32_t h = ( area->y2 - area->y1 + 1 );
+
+    if (LV_COLOR_16_SWAP) {
+        size_t len = lv_area_get_size( area );
+        lv_draw_sw_rgb565_swap( pixelmap, len );
+    }
+
+    lcd.startWrite();
+    lcd.setAddrWindow( area->x1, area->y1, w, h );
+    lcd.pushColors( (uint16_t*) pixelmap, w * h, true );
+    lcd.endWrite();
+
+    lv_disp_flush_ready( disp );
+}
+
 /* // only in LGFX_JustDisplay, not TFT_eSPI
 void SetBrightnessFull(void)
 {
@@ -111,8 +142,8 @@ void InitializeDisplay(void)
     // 24 - Slower, but the gradation expression is cleaner.
     //lcd.setColorDepth(16);  // Set to 16 bits of RGB565
     ////lcd.setColorDepth(24);  // Set to 24 bits for RGB888 - Note that the actual
-                            // number of colors displayed may be 18 bits (RGB666)
-                            // depending on the display hardware.
+    // number of colors displayed may be 18 bits (RGB666)
+    // depending on the display hardware.
     lcd.setTextColor(0xFFFF, 0x0000);
     lcd.fillScreen(TFT_BLACK);
     lcd.setSwapBytes(true);
@@ -122,11 +153,12 @@ void InitializeDisplay(void)
     // LVGL init
     lv_init();
 
-/*
-    static lv_color_t buf1[240 * 10];
-    static lv_display_t* disp = lv_display_create(240, 320);
-    lv_display_set_flush_cb(disp, lv_flush_cb);
-    lv_display_set_buffers(disp, buf1, NULL, sizeof(buf1), LV_DISPLAY_RENDER_MODE_PARTIAL);
-*/
+    display = lv_display_create(320, 240);
+    lv_display_set_buffers(display, buf, NULL, sizeof(buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
+
+    /* This callback will display the rendered image */
+    //lv_display_set_flush_cb(display, lv_flush_cb);
+    lv_display_set_flush_cb(display, my_disp_flush);
+
     exitfunction("InitializeDisplay");
 }

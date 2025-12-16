@@ -17,6 +17,15 @@ void log_print(lv_log_level_t level, const char* buf)
     Serial.flush();
 }
 
+void HandleButtonClick(lv_event_t* e)
+{
+    if (lv_event_get_code(e) == LV_EVENT_CLICKED)
+    {
+        logit("✅ Button Clicked!");
+        listDir(SD, "/", 0);
+    }
+}
+
 void setup()
 {
     InitializeSerialCommunication("SKETCH CYD25");
@@ -36,13 +45,23 @@ void setup()
     lcd.drawCentreString("Touch Image -> next", lcd.width() / 2, 20, 2);
     lcd.drawCentreString("Touch Image -> next", lcd.width() / 2, 290, 2);
 
-    displayImage(fileNames[imageIndex]);
+ lv_obj_t* btn = lv_button_create(lv_screen_active());
+ //   lv_obj_center(btn);
+ //   lv_obj_add_event_cb(btn, HandleButtonClick, LV_EVENT_ALL, NULL);
+
+    //displayImage(fileNames[imageIndex]);
+
+exitfunction("setup");
 }
 
 void loop()
 {
-    // put your main code here, to run repeatedly:
-    //lv_task_handler();
+     if (millis() - lastLvTick > LVGL_TICK_PERIOD)
+    {
+        lv_tick_inc(LVGL_TICK_PERIOD);  // tell LVGL how much time has passed
+        lastLvTick = millis();
+    }
+    lv_task_handler();
 
     HandleTouch();
     delay(5);

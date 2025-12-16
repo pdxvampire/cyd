@@ -34,8 +34,8 @@ void HandleTouch(void)
         // Draw a small circle where the user touched
         //lcd.fillCircle(x, y, 4, TFT_CYAN);
 
-        imageIndex++;
-    if (imageIndex > (MAX_IMAGES - 1)) imageIndex = 0;
-    displayImage(fileNames[imageIndex]);
+       // imageIndex++;
+    //if (imageIndex > (MAX_IMAGES - 1)) imageIndex = 0;
+    //displayImage(fileNames[imageIndex]);
     }
 }
