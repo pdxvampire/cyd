@@ -36,6 +36,22 @@ void setup()
     // Register print function for LVGL debugging
     lv_log_register_print_cb(log_print);
 
+
+logit("xxxxxxxxxxxx");
+File jpegFile = SD.open("/panda.jpg", FILE_READ);  // or, file handle reference for SD library
+if (!jpegFile)
+    {
+        Serial.print("ERROR: File \"");
+        Serial.print("/panda.jpg");
+        Serial.println("\" not found!");
+        return;
+    }
+jpegFile.close();
+logit("xxxxxxxxxxxx");
+
+
+
+
     // The jpeg image can be scaled by a factor of 1, 2, 4, or 8
     TJpgDec.setJpgScale(1);
 

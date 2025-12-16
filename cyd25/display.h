@@ -153,12 +153,16 @@ void InitializeDisplay(void)
     // LVGL init
     lv_init();
 
-    display = lv_display_create(320, 240);
-    lv_display_set_buffers(display, buf, NULL, sizeof(buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
+    //display = lv_display_create(320, 240);
+    
+// initialize display using TFT_eSPI library
+  display = lv_tft_espi_create(240, 320, buf, sizeof(buf));
+  //lv_display_set_rotation(display, rotation);
+  //lv_display_set_buffers(display, buf, NULL, sizeof(buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
     /* This callback will display the rendered image */
-    //lv_display_set_flush_cb(display, lv_flush_cb);
-    lv_display_set_flush_cb(display, my_disp_flush);
+    lv_display_set_flush_cb(display, lv_flush_cb);
+    //lv_display_set_flush_cb(display, my_disp_flush);
 
     exitfunction("InitializeDisplay");
 }

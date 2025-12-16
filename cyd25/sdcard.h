@@ -39,9 +39,12 @@
  * https://github.com/espressif/arduino-esp32/tree/master/libraries/SD
  */
 
-#include "FS.h"
-#include "SD.h"
-#include "SPI.h"
+//#include "FS.h"
+//#include "SD.h"
+//#include "SPI.h"
+#include <SPI.h>
+#include <FS.h>
+#include <SD.h>
 
 /* Uncomment and set up if you want to use custom pins for the SPI communication
 #define REASSIGN_PINS
