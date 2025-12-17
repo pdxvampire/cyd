@@ -64,6 +64,15 @@ TFT_eSPI lcd = TFT_eSPI();  // Invoke custom library
 
 //#include "code.h"
 
+
+
+void log_print(lv_log_level_t level, const char *buf)
+{
+    LV_UNUSED(level);
+    Serial.println(buf);
+    Serial.flush();
+}
+
 void create_image_button_from_sd() {
   // 1. Create the image button object
   lv_obj_t *imgbtn = lv_imagebutton_create(lv_screen_active());
@@ -97,30 +106,44 @@ Serial.begin(115200);
     // This may not be necessary on Windows or Linux but with my Macbook Air M3 (2024) it is.
     delay(2000);
 
+    // Register print function for LVGL debugging
+    //lv_log_register_print_cb(log_print);
+
     // Initialise the TFT
     lcd.begin();
     lcd.setRotation(DISPLAY_ORIENTATION_PORTRAIT);
     lcd.setTextColor(0xFFFF, 0x0000);
     lcd.fillScreen(TFT_BLACK);
     lcd.setSwapBytes(true);  // We need to swap the colour bytes (endianess)
-
+Serial.println("1");
     sdcard_setup();
-
+Serial.println("2");
     // The jpeg image can be scaled by a factor of 1, 2, 4, or 8
     TJpgDec.setJpgScale(1);
-
+Serial.println("3");
     // The decoder must be given the exact name of the rendering function above
     TJpgDec.setCallback(tft_output);
-
+Serial.println("4");
     lcd.drawCentreString("Touch Image -> next", lcd.width() / 2, 20, 2);
     lcd.drawCentreString("Touch Image -> next", lcd.width() / 2, 290, 2);
-
+Serial.println("5");
     //displayImage(fileNames[imageIndex]);
     foo();
+    Serial.println("6");
     InitializeTouch();
-
+Serial.println("7");
     lv_init();
-    create_image_button_from_sd();
+    Serial.println("8");
+    //adding this causes a reboot loop, probably a stack overflow/oom issue
+    //create_image_button_from_sd();
+    // In setup() after LVGL and FS initialization:
+lv_obj_t * img_obj = lv_img_create(lv_scr_act());
+Serial.println("9");
+// Assuming 'S' is the configured letter for your SD card or SPIFFS
+lv_img_set_src(img_obj, "/btn1.jpg"); 
+Serial.println("10");
+lv_obj_set_pos(img_obj, 50, 20); 
+Serial.println("11");
 }
 
 void loop()
