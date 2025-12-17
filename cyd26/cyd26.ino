@@ -1,5 +1,13 @@
 #include <lvgl.h>
-//#include <TJpg_Decoder.h>
+#include <SPI.h>
+
+#include <FS.h>
+#include <SD.h>
+
+// JPEG decoder library
+//#include <JPEGDecoder.h>
+#include <TJpg_Decoder.h>
+
 #include "logging.h"
 #include "LGFX_JustDisplay.h"
 #include "leds.h"
@@ -46,10 +54,10 @@ void setup()
     //  lv_obj_t * img1 = lv_image_create(lv_screen_active());
     //  lv_image_set_src(img1, &my_image);
     //  lv_obj_align(img1, LV_ALIGN_CENTER, 0, 0);
-sdcard_test();
+//sdcard_test();
 logit("######################################################");
 //testFileIO(SD, "/test.txt");
-File file = SD.open("/pic01-1.jpg");
+File file = SD.open("/btn1.jpg");
   if (!file) {
     Serial.println("Failed to open file for reading");
     return;
@@ -64,7 +72,7 @@ File file = SD.open("/pic01-1.jpg");
     /* Assuming a File system is attached to letter 'A'
      * E.g. set LV_USE_FS_STDIO 'A' in lv_conf.h */
     //const void* void_ptr = imagename.c_str();
-    lv_image_set_src(wp, "A:/pic01-1.jpg");
+    lv_image_set_src(wp, "/horn02.jpg");
     //lv_obj_center(wp);
     lv_obj_align(wp, LV_ALIGN_CENTER, 0, 0);
 
