@@ -38,11 +38,11 @@ void setup()
 
 
 logit("xxxxxxxxxxxx");
-File jpegFile = SD.open("/panda.jpg", FILE_READ);  // or, file handle reference for SD library
+File jpegFile = SD.open("/btn1.jpg", FILE_READ);  // or, file handle reference for SD library
 if (!jpegFile)
     {
         Serial.print("ERROR: File \"");
-        Serial.print("/panda.jpg");
+        Serial.print("/btn1.jpg");
         Serial.println("\" not found!");
         return;
     }
@@ -62,8 +62,8 @@ logit("xxxxxxxxxxxx");
     lcd.drawCentreString("Touch Image -> next", lcd.width() / 2, 290, 2);
 
  lv_obj_t* btn = lv_button_create(lv_screen_active());
- //   lv_obj_center(btn);
- //   lv_obj_add_event_cb(btn, HandleButtonClick, LV_EVENT_ALL, NULL);
+    lv_obj_center(btn);
+    lv_obj_add_event_cb(btn, HandleButtonClick, LV_EVENT_ALL, NULL);
 
     //displayImage(fileNames[imageIndex]);
 

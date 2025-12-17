@@ -78,7 +78,7 @@ File file = SD.open("/btn1.jpg");
 
     //lv_imagebutton_set_src(imgbtn, LV_IMGBTN_STATE_RELEASED, NULL, "A:/pic01-1.jpg", NULL);
     // Set size automatically based on content
-    //lv_obj_set_size(imgbtn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+    lv_obj_set_size(wp, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 
     exitfunction("setup");
 }
