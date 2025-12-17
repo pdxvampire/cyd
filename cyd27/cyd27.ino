@@ -3,7 +3,7 @@
 
 #include <FS.h>
 #include <SD.h>
-//#include "code.h"
+//#include "image.h"
 
 #include <TFT_eSPI.h>
 TFT_eSPI tft = TFT_eSPI();
@@ -12,14 +12,15 @@ TFT_eSPI tft = TFT_eSPI();
 #include <JPEGDecoder.h>
 #include <TJpg_Decoder.h>
 
-void log_print(lv_log_level_t level, const char* buf)
+
+void log_print(lv_log_level_t level, const char *buf)
 {
     LV_UNUSED(level);
     Serial.println(buf);
     Serial.flush();
 }
 
-bool tft_output(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
+bool tft_output(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t *bitmap)
 {
     // Stop further decoding as image is running off bottom of screen
     if (y >= tft.height()) return 0;
@@ -201,9 +202,9 @@ void jpegInfo()
 }
 
 
-
-void setup() {
-  // put your setup code here, to run once:
+void setup()
+{
+    // put your setup code here, to run once:
 
     Serial.begin(115200);
 
@@ -216,7 +217,7 @@ void setup() {
     // Register print function for LVGL debugging
     lv_log_register_print_cb(log_print);
 
-     tft.begin();
+    tft.begin();
 
     pinMode(27, OUTPUT);
     digitalWrite(27, HIGH);
@@ -227,44 +228,56 @@ void setup() {
         return;
     }
 
-     tft.setRotation(2);  
-      tft.fillScreen(0x0110);  //backfill black
+    tft.setRotation(2);
+    tft.fillScreen(0x001100);
 
-drawSdJpeg("/btn1.jpg", 128, 200);
+    drawSdJpeg("/horn04.jpg", 128, 200);
 
-Serial.println("xxxxxxxxxxxx");
-File jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
-if (!jpegFile)
+    Serial.println("xxxxxxxxxxxx");
+    File jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
+    if (!jpegFile)
     {
         Serial.print("ERROR: File \"");
         Serial.print("/horn02.jpg");
         Serial.println("\" not found!");
         return;
     }
-jpegFile.close();
+    jpegFile.close();
 
-  // The jpeg image can be scaled by a factor of 1, 2, 4, or 8
+    // The jpeg image can be scaled by a factor of 1, 2, 4, or 8
     TJpgDec.setJpgScale(1);
 
     // The decoder must be given the exact name of the rendering function above
     TJpgDec.setCallback(tft_output);
 
 
-Serial.println("xxxxxxxxxxxx");
+    Serial.println("xxxxxxxxxxxx");
 
-drawSdJpeg("/horn01.jpg", 0, 200);
+    drawSdJpeg("/horn01.jpg", 0, 200);
 
 
     // Draw the image, top left at 0,0
-    TJpgDec.drawSdJpg(0, 0, "/horn02.jpg");
+    TJpgDec.drawSdJpg(0, 90, "/btn1.jpg");
 
-lv_obj_t *img = lv_image_create(lv_screen_active());
-lv_image_set_src(img, "/horn03.jpg"); // 'A:' is your filesystem driver
-lv_obj_center(img);
 
+    lv_obj_t *label = lv_label_create(lv_scr_act());
+    lv_label_set_text(label, "Hello LVGL with TJpgDec!");
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+
+    lv_obj_t *img = lv_image_create(lv_screen_active());
+    lv_image_set_src(img, "/btn1.jpg");  // 'A:' is your filesystem driver
+    lv_obj_center(img);
+
+    //LV_IMAGE_DECLARE(my_image);
+    //lv_obj_t * img1 = lv_image_create(lv_screen_active());
+    //lv_image_set_src(img1, &my_image);
+    //lv_obj_align(img1, LV_ALIGN_CENTER, 0, 0);
+
+    lv_obj_t * labelf = lv_label_create(lv_screen_active());
+    lv_label_set_text(labelf, "Hello LVGL!");
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-
+void loop()
+{
+    // put your main code here, to run repeatedly:
 }
