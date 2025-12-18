@@ -7,7 +7,7 @@
 // to the SD card using you PC.
 
 // Include the jpeg decoder library
-#include <TJpg_Decoder.h>
+//#include <TJpg_Decoder.h>
 #include "sdcard.h"
 // Include SD
 #define FS_NO_GLOBALS
@@ -23,6 +23,10 @@
 #include <TFT_eSPI.h>  // Hardware-specific library
 #include <lvgl.h>
 #include "image.h"
+
+#include "logging.h"
+
+
 TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
 
 /* Define screen resolution */
@@ -30,7 +34,8 @@ TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
 #define SCREEN_HEIGHT 320
 
 /* Draw buffer for LVGL */
-static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
+//static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
+static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 ];
 lv_display_t *disp;
 
 // This next function will be called during decoding of the jpeg file to
@@ -62,33 +67,27 @@ void log_print(lv_log_level_t level, const char *buf)
 #endif
 
 
+SET_LOOP_TASK_STACK_SIZE(32*1024); // Increase to 16KB, or more if needed
+
 void setup()
 {
     Serial.begin(115200);
     delay(2000);
-    Serial.println("\n\n Testing TJpg_Decoder library");
+logit("@@@@@@@@@@@@@@@@@");
+logit("Arduino Stack was set to %d bytes", getArduinoLoopTaskStackSize());
+
+  // Print unused stack for the task that is running setup()
+  logit("Setup() - Free Stack Space: %d", uxTaskGetStackHighWaterMark(NULL));
+
     sdcard_setup();
     Serial.println("\r\nInitialisation done.");
+logit("Arduino Stack was set to %d bytes", getArduinoLoopTaskStackSize());
 
-Serial.println("xxxxxxxxxxxx");
- if (!SD.begin())
-    {
-        Serial.println("Card Mount Failed");
-        return;
-    }
-
-    File jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
-    if (!jpegFile)
-    {
-        Serial.print("ERROR: File \"");
-        Serial.print("/horn02.jpg");
-        Serial.println("\" not found!");
-        return;
-    }
-    jpegFile.close();
-Serial.println("xxxxxxxxxxxx");
+  // Print unused stack for the task that is running setup()
+  logit("\nSetup() - Free Stack Space before lv: %d", uxTaskGetStackHighWaterMark(NULL));
 
     lv_init();
+  logit("\nSetup() - Free Stack Space after lv: %d", uxTaskGetStackHighWaterMark(NULL));
 
     // Register print function for LVGL debugging
 #if LV_USE_LOG != 0
@@ -108,19 +107,14 @@ Serial.println("xxxxxxxxxxxx");
 
     /* 2. Optional: Set display rotation */
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_0);
-
-    // The jpeg image can be scaled by a factor of 1, 2, 4, or 8
-    TJpgDec.setJpgScale(1);
-
-    // The decoder must be given the exact name of the rendering function above
-    TJpgDec.setCallback(tft_output);
-    tft.setRotation(2);
+// not needed since using lvgl for drawing
+//    tft.setRotation(2);
 
     // Time recorded for test purposes
     uint32_t t = millis();
 
-Serial.println("8888888888888");
- jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
+logit("8888888888888");
+ File jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
     if (!jpegFile)
     {
         Serial.print("ERROR: File \"");
@@ -129,10 +123,7 @@ Serial.println("8888888888888");
         return;
     }
     jpegFile.close();
-    Serial.println("8888888888888");
-
-    // Draw the image, top left at 0,0
-    TJpgDec.drawSdJpg(10, 200, "/horn01.jpg");
+    logit("8888888888888");
 
     // How much time did rendering take
     t = millis() - t;
@@ -154,17 +145,28 @@ Serial.println("8888888888888");
     lv_label_set_text(label, "Hello LVGL with\nimages and styles!");
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 100);
     lv_obj_align_to(label, imgarr, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
-
+*/
     lv_obj_t *imgsdcard = lv_image_create(lv_screen_active());
-    lv_image_set_src(imgsdcard, "A:/horn03.jpg");
+    lv_image_set_src(imgsdcard, "A:/horn02.jpg");
     lv_obj_center(imgsdcard);
-    */
+    
 }
 
 void loop()
 {
-  //  lv_display_flush_ready(disp);
-  //  lv_timer_handler();
-  //  lv_tick_inc(5);
+    // Print unused stack for the task that is running loop() - the same as for setup()
+ // logit("\nLoop() - Free Stack Space before: %d", uxTaskGetStackHighWaterMark(NULL));
+  // it's printing 5324 bytes before increasing, 24556 after
+//return;
+  lv_display_flush_ready(disp);
+  //return;
+    lv_timer_handler();
+    lv_tick_inc(5);
+
+
+    // Print unused stack for the task that is running loop() - the same as for setup()
+  //logit("\nLoop() - Free Stack Space after: %d", uxTaskGetStackHighWaterMark(NULL));
+
+
     delay(5);
 }
