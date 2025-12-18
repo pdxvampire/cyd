@@ -70,6 +70,24 @@ void setup()
     sdcard_setup();
     Serial.println("\r\nInitialisation done.");
 
+Serial.println("xxxxxxxxxxxx");
+ if (!SD.begin())
+    {
+        Serial.println("Card Mount Failed");
+        return;
+    }
+
+    File jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
+    if (!jpegFile)
+    {
+        Serial.print("ERROR: File \"");
+        Serial.print("/horn02.jpg");
+        Serial.println("\" not found!");
+        return;
+    }
+    jpegFile.close();
+Serial.println("xxxxxxxxxxxx");
+
     lv_init();
 
     // Register print function for LVGL debugging
@@ -101,6 +119,18 @@ void setup()
     // Time recorded for test purposes
     uint32_t t = millis();
 
+Serial.println("8888888888888");
+ jpegFile = SD.open("/horn02.jpg", FILE_READ);  // or, file handle reference for SD library
+    if (!jpegFile)
+    {
+        Serial.print("ERROR: File \"");
+        Serial.print("/horn02.jpg");
+        Serial.println("\" not found!");
+        return;
+    }
+    jpegFile.close();
+    Serial.println("8888888888888");
+
     // Draw the image, top left at 0,0
     TJpgDec.drawSdJpg(10, 200, "/horn01.jpg");
 
@@ -108,7 +138,7 @@ void setup()
     t = millis() - t;
     Serial.print(t);
     Serial.println(" ms");
-
+/*
     LV_IMAGE_DECLARE(my_image);
     lv_obj_t *imgarr = lv_image_create(lv_screen_active());
     lv_image_set_src(imgarr, &my_image);
@@ -128,12 +158,13 @@ void setup()
     lv_obj_t *imgsdcard = lv_image_create(lv_screen_active());
     lv_image_set_src(imgsdcard, "A:/horn03.jpg");
     lv_obj_center(imgsdcard);
+    */
 }
 
 void loop()
 {
-    lv_display_flush_ready(disp);
-    lv_timer_handler();
-    lv_tick_inc(5);
+  //  lv_display_flush_ready(disp);
+  //  lv_timer_handler();
+  //  lv_tick_inc(5);
     delay(5);
 }
