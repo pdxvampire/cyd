@@ -7,19 +7,19 @@
 #include <TFT_eSPI.h>  // Hardware-specific library
 #include <lvgl.h>
 
-
+// Globals needed by several of the includes below.
 TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
+static lv_style_t popuplabelstyle;
+static lv_obj_t* popuplabel;
+
+// Prevent stack overflow reboot loops.
+SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 
 #include "logging.h"
 #include "sdcard.h"
 #include "touchinput.h"
 #include "display.h"
 #include "code.h"
-
-// Prevent stack overflow reboot loops.
-SET_LOOP_TASK_STACK_SIZE(32 * 1024);
-
-
 
 void setup()
 {

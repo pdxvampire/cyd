@@ -1,3 +1,5 @@
+#include "core/lv_obj_pos.h"
+#include "misc/lv_types.h"
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320
 
@@ -38,11 +40,24 @@ lv_display_t *disp;
 
 int curpage = 0;
 int arrxpos[12] = { 13, 13, 13, 128, 128, 128, 13, 13, 13, 128, 128, 128 };
-int arrypos[12] = { 5, 110, 215, 5, 110, 215, 5, 110, 215, 5, 110, 215, };
+int arrypos[12] = {
+    5,
+    110,
+    215,
+    5,
+    110,
+    215,
+    5,
+    110,
+    215,
+    5,
+    110,
+    215,
+};
 
 // This isn't an oversight, there is room for 12 images but we only have 10.
 const char *filenames[NUMIMAGESUSED] = {
-    "A:/horn01.jpg", "A:/horn02.jpg", "A:/horn03.jpg", "A:/horn04.jpg", "A:/horn05.jpg","A:/horn07.jpg", 
+    "A:/horn01.jpg", "A:/horn02.jpg", "A:/horn03.jpg", "A:/horn04.jpg", "A:/horn05.jpg", "A:/horn07.jpg",
     "A:/horn08.jpg", "A:/horn06.jpg", "A:/horn09.jpg", "A:/settings.jpg"
 };
 
@@ -104,7 +119,10 @@ void InitializeDisplay()
 
     // Initialise the TFT
     tft.begin();
-    tft.fillScreen(0x000000);
+    //tft.fillScreen(0x000000); //black
+    // Example: fuschia
+uint16_t fuschia = tft.color565(255, 0, 255);
+tft.fillScreen(fuschia);
 
     // Initialize LVGL
     lv_init();
@@ -126,6 +144,22 @@ void InitializeDisplay()
     // lv_obj_set_style_bg_color(lv_screen_active(), lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
     // fill active screen with black
     lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
+
+    lv_style_init(&popuplabelstyle);
+    lv_style_set_text_color(&popuplabelstyle, lv_palette_main(LV_PALETTE_RED));
+    // Set the background color and ensure it's visible
+    lv_style_set_bg_color(&popuplabelstyle, lv_color_black());
+    lv_style_set_bg_opa(&popuplabelstyle, LV_OPA_COVER);
+
+    //lv_style_set_text_letter_space(&popuplabelstyle, 5); // more space between letters
+    lv_style_set_text_font(&popuplabelstyle, &lv_font_montserrat_30); /*Set a larger font*/
+
+    popuplabel = lv_label_create(lv_screen_active());
+    //lv_obj_set_pos(popuplabel, 200,200);
+    lv_obj_center(popuplabel);
+    lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);  // Hide the object
+
+
 
     exitfunction("InitializeDisplay");
 }
