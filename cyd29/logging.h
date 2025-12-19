@@ -4,9 +4,19 @@
 #define DEBUGMODE true
 #endif
 
-int loglevel = 0;
+/* Serial debugging for LVGL */
+#if LV_USE_LOG != 0
+void log_print(lv_log_level_t level, const char *buf)
+{
+    LV_UNUSED(level);
+    Serial.println(buf);
+    Serial.flush();
+}
+#endif
 
 #if DEBUGMODE
+
+int loglevel = 0;
 
 void logheader(const char* title)
 {

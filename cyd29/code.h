@@ -1,3 +1,4 @@
+
 void InitializeSerialCommunication(const char* title)
 {
     Serial.begin(115200);

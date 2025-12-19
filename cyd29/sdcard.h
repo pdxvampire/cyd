@@ -42,6 +42,8 @@
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
+#define FS_NO_GLOBALS
+
 
 /* Uncomment and set up if you want to use custom pins for the SPI communication
 #define REASSIGN_PINS

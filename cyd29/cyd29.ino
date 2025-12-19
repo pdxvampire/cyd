@@ -1,93 +1,14 @@
-#include <FS.h>
-//#ifdef ESP32
-//#include "SPIFFS.h"  // ESP32 only
-//#endif
-
-#include <SPI.h>
-#include <TFT_eSPI.h>  // Hardware-specific library
+#include "tft.h"
 #include <lvgl.h>
-
-#define FS_NO_GLOBALS
-#define SD_CS 5
-#define SCREEN_WIDTH 240
-#define SCREEN_HEIGHT 320
-
-// Prevent stack overflow reboot loops.
-SET_LOOP_TASK_STACK_SIZE(32 * 1024);
-
-TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
 
 #include "logging.h"
 #include "sdcard.h"
+#include "display.h"
 #include "touchinput.h"
 #include "code.h"
 
-/* Draw buffer for LVGL */
-static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
-//static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10];
-// main display object for LVGL
-lv_display_t *disp;
-
-/* Serial debugging */
-#if LV_USE_LOG != 0
-void log_print(lv_log_level_t level, const char *buf)
-{
-    LV_UNUSED(level);
-    Serial.println(buf);
-    Serial.flush();
-}
-#endif
-
-// Image button callback function
-void button_event_callback(lv_event_t *e)
-{
-    // Handle button click here
-    logit("Image button clicked!");
-}
-
-void create_image_button_from_sd()
-{
-    enterfunction("create_image_button_from_sd");
-    // Time recorded for test purposes
-    uint32_t t = millis();
-
-#if DEBUGMODE
-    // Test to make sure we can read the image.
-    File jpegFile = SD.open("/horn06.jpg", FILE_READ);  // or, file handle reference for SD library
-    if (!jpegFile)
-    {
-        Serial.print("ERROR: File \"");
-        Serial.print("/horn06.jpg");
-        Serial.println("\" not found!");
-        return;
-    }
-    jpegFile.close();
-#endif
-
-    // 1. Create the image button object and align it
-    lv_obj_t *imgbtnsdcard = lv_imagebutton_create(lv_screen_active());
-    lv_image_set_src(imgbtnsdcard, "A:/horn06.jpg");
-    lv_obj_center(imgbtnsdcard);
-
-    //  lv_obj_set_size(imgbtn, 100, 100); // Set size if using all three src parts
-    //
-
-
-    // 2. Set the image sources for different states
-    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, "A:/horn07.jpg", NULL);
-    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/horn08.jpg", NULL);
-    // ... set for other states like DISABLED, CHECKED, etc.
-
-
-    // 3. Optional: Add a callback function for button press event
-    lv_obj_add_event_cb(imgbtnsdcard, button_event_callback, LV_EVENT_CLICKED, NULL);
-
-    // How much time did rendering take
-    t = millis() - t;
-    logit("Rendered in %d ms.", t);
-
-    exitfunction("create_image_button_from_sd");
-}
+// Prevent stack overflow reboot loops.
+SET_LOOP_TASK_STACK_SIZE(32 * 1024);
 
 void setup()
 {
@@ -112,7 +33,10 @@ void setup()
 
     InitializeTouch();
 
-    create_image_button_from_sd();
+    for (int x = 0; x < NUMIMGS; x++)
+    {
+        create_image_button_from_sd(x);
+    }
 
 
     /*
@@ -128,18 +52,17 @@ void setup()
     lv_label_set_text(label, "Hello LVGL with\nimages and styles!");
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 100);
     lv_obj_align_to(label, imgarr, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
-
-      lv_obj_t *imgsdcard = lv_image_create(lv_screen_active());
-    lv_image_set_src(imgsdcard, "A:/horn02.jpg");
-    lv_obj_center(imgsdcard);
 */
 }
 
 void loop()
 {
-    lv_display_flush_ready(disp);
-    lv_timer_handler();
-    lv_tick_inc(5);
+    if (millis() - lastLvTick > LVGL_TICK_PERIOD)
+    {
+        lv_tick_inc(LVGL_TICK_PERIOD);  // tell LVGL how much time has passed
+        lastLvTick = millis();
+    }
 
-    delay(5);
+    lv_task_handler();        // let the GUI do its work
+    delay(LVGL_TICK_PERIOD);  // let this time pass
 }
