@@ -13,15 +13,15 @@ void HandleButtonClick(lv_event_t* e)
         //       if (imageIndex > (MAX_IMAGES - 1)) imageIndex = 0;
         //       displayImage(fileNames[imageIndex]);
 
-lv_obj_t * btn = (lv_obj_t*)lv_event_get_target(e); // Get the object that triggered the event
-// Now 'btn' points to the specific button that was clicked
+        lv_obj_t* btn = (lv_obj_t*)lv_event_get_target(e);  // Get the object that triggered the event
+                                                            // Now 'btn' points to the specific button that was clicked
         // You can use 'btn' to identify the button
-        lv_obj_t * user_obj = (lv_obj_t*) lv_event_get_user_data(e);
-const char* button_id = (const char*) user_obj;
+        lv_obj_t* user_obj = (lv_obj_t*)lv_event_get_user_data(e);
+        const char* button_id = (const char*)user_obj;
 
-logit("button id:  %s", button_id);
+        logit("button id:  %s", button_id);
 
-   /*
+        /*
     
 
     static lv_style_t style;
@@ -35,7 +35,7 @@ logit("button id:  %s", button_id);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 100);
     lv_obj_align_to(label, imgarr, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
 */
-//lv_style_set_text_font(&my_style, LV_STATE_DEFAULT, &lv_font_montserrat_28);  /*Set a larger font*/
+        //lv_style_set_text_font(&my_style, LV_STATE_DEFAULT, &lv_font_montserrat_28);  /*Set a larger font*/
     }
 }
 
@@ -46,12 +46,14 @@ void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data)
     if (touch.getTouch(&rawX, &rawY))
     {
         data->state = LV_INDEV_STATE_PRESSED;
-        //data->point.x = rawY;
-        //data->point.y = 240 - rawX;
-        //data->point.x = rawY;
-        data->point.x = 240 - rawX - 1;
-        //data->point.y = 240 - tmp - 1;
-        data->point.y = 320 - rawY - 1;
+        
+        ///// without LVGL use this for portrait with USB at top
+        /////        data->point.x = 240 - rawX - 1;
+        /////        data->point.y = 320 - rawY - 1;
+
+        ///// with LVGL the raw coords are correct
+        data->point.x = rawX;
+        data->point.y = rawY;
 
         logit("🖐 LVGL Touch at (%d, %d) | Raw: (%d, %d)",
               data->point.x, data->point.y, rawX, rawY);

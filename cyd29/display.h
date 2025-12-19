@@ -34,7 +34,7 @@ int curimg = 0;
 int arrxpos[12] = { 10, 10, 10, 120, 120, 120, 10, 10, 10, 120, 120, 120 };
 int arrypos[12] = { 0, 110, 220, 0, 110, 220, 0, 110, 220, 0, 110, 220 };
 const uint8_t NUMIMGS = 10;
-const char * filenames[NUMIMGS] = { "A:/horn01.jpg", "A:/horn02.jpg", "/horn03.jpg", "/horn04.jpg", "/horn05.jpg", "/horn06.jpg", "/horn07.jpg", "/horn08.jpg", "/horn09.jpg", "/settings.jpg" };
+const char *filenames[NUMIMGS] = { "/horn01.jpg", "/horn02.jpg", "/horn03.jpg", "/horn04.jpg", "/horn05.jpg", "/horn06.jpg", "/horn07.jpg", "/horn08.jpg", "/horn09.jpg", "/settings.jpg" };
 
 
 // Image button callback function
@@ -44,7 +44,7 @@ void button_event_callback(lv_event_t *e)
     logit("Image button clicked!");
 }
 
-void create_image_button_from_sd()
+void create_image_button_from_sdgrr()
 {
     enterfunction("create_image_button_from_sd");
     // Time recorded for test purposes
@@ -65,7 +65,7 @@ void create_image_button_from_sd()
 
     // 1. Create the image button object and align it
     lv_obj_t *imgbtnsdcard = lv_imagebutton_create(lv_screen_active());
-    lv_image_set_src(imgbtnsdcard, "A:/horn01.jpg");
+
     lv_obj_center(imgbtnsdcard);
 
     //  lv_obj_set_size(imgbtn, 100, 100); // Set size if using all three src parts
@@ -73,8 +73,8 @@ void create_image_button_from_sd()
 
 
     // 2. Set the image sources for different states
-    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, "A:/horn07.jpg", NULL);
-    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/horn08.jpg", NULL);
+    //  lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, "A:/horn07.jpg", NULL);
+    //  lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/horn08.jpg", NULL);
     // ... set for other states like DISABLED, CHECKED, etc.
 
 
@@ -88,7 +88,7 @@ void create_image_button_from_sd()
     exitfunction("create_image_button_from_sd");
 }
 
-/*
+
 void create_image_button_from_sd_xx()
 {
     enterfunction("create_image_button_from_sd");
@@ -118,7 +118,7 @@ void create_image_button_from_sd_xx()
 
 
     // 2. Set the image sources for different states
-   // lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, "A:/horn07.jpg", NULL);
+    // lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, "A:/horn07.jpg", NULL);
     //lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/horn08.jpg", NULL);
     // ... set for other states like DISABLED, CHECKED, etc.
 
@@ -132,15 +132,18 @@ void create_image_button_from_sd_xx()
 
     exitfunction("create_image_button_from_sd");
 }
-void create_image_button_from_sdx(int imgidx)
+
+void create_image_button_from_sd(int imgidx)
 {
     enterfunction("create_image_button_from_sd");
     // Time recorded for test purposes
     uint32_t t = millis();
 
-    const char* imagepath = filenames[imgidx];
+    const char *imagepath = filenames[imgidx];
 
     // Test to make sure we can read the image.
+  /*
+  this needs just /foo.jpg, the lvimg needs A:/foo.jpg
     File jpegFile = SD.open(imagepath, FILE_READ);  // or, file handle reference for SD library
     if (!jpegFile)
     {
@@ -148,14 +151,20 @@ void create_image_button_from_sdx(int imgidx)
         return;
     }
     jpegFile.close();
+*/
+    // create the image button object
+    lv_obj_t *imgbtnsdcard = lv_imagebutton_create(lv_screen_active());
 
-    // create the image button object and align it
-    lv_obj_t* imgbtnsdcard = lv_imagebutton_create(lv_screen_active());
-lv_image_set_src(imgbtnsdcard, "A:/horn09.jpg");
-    //lv_image_set_src(imgbtnsdcard, imagepath);
+    // set the image sources for different states
+    // load the main image from SD card, use NULL for left/right sides because we don't care about those
+    //lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, imagepath,NULL);
+    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, "A:/horn03.jpg", NULL);
+    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/btn1.jpg", NULL);
+    // ... set for other states like DISABLED, CHECKED, etc.
 
-lv_obj_center(imgbtnsdcard);
-    //lv_obj_set_pos(imgbtnsdcard, arrxpos[imgidx], arrypos[imgidx]);
+    // set the position based on the array defined at the top of this file
+    //lv_obj_set_pos(imgbtnsdcard, arrxpos[imgidx], arrypos[imgidx]);    
+    lv_obj_set_pos(imgbtnsdcard, 10, 10);
 
     // darken the button when pressed
     static lv_style_t style_pr;
@@ -166,7 +175,7 @@ lv_obj_center(imgbtnsdcard);
 
     // add a callback function for button press event
     // add the filename as user data to identify the button in the event handler
-    lv_obj_add_event_cb(imgbtnsdcard, HandleButtonClick, LV_EVENT_CLICKED, (void*)filenames[imgidx]);
+    lv_obj_add_event_cb(imgbtnsdcard, HandleButtonClick, LV_EVENT_CLICKED, (void *)filenames[imgidx]);
 
     // How much time did rendering take
     t = millis() - t;
@@ -174,5 +183,3 @@ lv_obj_center(imgbtnsdcard);
 
     exitfunction("create_image_button_from_sd");
 }
-*/
-

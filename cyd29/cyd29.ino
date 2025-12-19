@@ -39,12 +39,13 @@ void setup()
     /* 1. Register display using the built-in TFT_eSPI helper */
     disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
 
-    /* 2. Optional: Set display rotation */
-    lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_0);
+    /* 2. Set display rotation for both tft and LVGL to match */
+    tft.setRotation(2);
+    lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     InitializeTouch();
 
-    create_image_button_from_sd();
+    create_image_button_from_sd(0);
 /*
  for (int x = 0; x < NUMIMGS; x++)
     {
@@ -54,20 +55,7 @@ void setup()
 */
 
 
-    /*
-    
-
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_text_color(&style, lv_palette_main(LV_PALETTE_BLUE));
-    lv_style_set_text_letter_space(&style, 5);
-
-    lv_obj_t *label = lv_label_create(lv_screen_active());
-    lv_obj_add_style(label, &style, 0);
-    lv_label_set_text(label, "Hello LVGL with\nimages and styles!");
-    lv_obj_align(label, LV_ALIGN_CENTER, 0, 100);
-    lv_obj_align_to(label, imgarr, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
-*/
+   
 }
 
 void loop()
