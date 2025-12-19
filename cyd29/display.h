@@ -36,6 +36,58 @@ int arrypos[12] = { 0, 110, 220, 0, 110, 220, 0, 110, 220, 0, 110, 220 };
 const uint8_t NUMIMGS = 10;
 const char * filenames[NUMIMGS] = { "A:/horn01.jpg", "A:/horn02.jpg", "/horn03.jpg", "/horn04.jpg", "/horn05.jpg", "/horn06.jpg", "/horn07.jpg", "/horn08.jpg", "/horn09.jpg", "/settings.jpg" };
 
+
+// Image button callback function
+void button_event_callback(lv_event_t *e)
+{
+    // Handle button click here
+    logit("Image button clicked!");
+}
+
+void create_image_button_from_sd()
+{
+    enterfunction("create_image_button_from_sd");
+    // Time recorded for test purposes
+    uint32_t t = millis();
+
+#if DEBUGMODE
+    // Test to make sure we can read the image.
+    File jpegFile = SD.open("/horn06.jpg", FILE_READ);  // or, file handle reference for SD library
+    if (!jpegFile)
+    {
+        Serial.print("ERROR: File \"");
+        Serial.print("/horn06.jpg");
+        Serial.println("\" not found!");
+        return;
+    }
+    jpegFile.close();
+#endif
+
+    // 1. Create the image button object and align it
+    lv_obj_t *imgbtnsdcard = lv_imagebutton_create(lv_screen_active());
+    lv_image_set_src(imgbtnsdcard, "A:/horn01.jpg");
+    lv_obj_center(imgbtnsdcard);
+
+    //  lv_obj_set_size(imgbtn, 100, 100); // Set size if using all three src parts
+    //
+
+
+    // 2. Set the image sources for different states
+    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, "A:/horn07.jpg", NULL);
+    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/horn08.jpg", NULL);
+    // ... set for other states like DISABLED, CHECKED, etc.
+
+
+    // 3. Optional: Add a callback function for button press event
+    lv_obj_add_event_cb(imgbtnsdcard, button_event_callback, LV_EVENT_CLICKED, NULL);
+
+    // How much time did rendering take
+    t = millis() - t;
+    logit("Rendered in %d ms.", t);
+
+    exitfunction("create_image_button_from_sd");
+}
+
 /*
 void create_image_button_from_sd_xx()
 {
@@ -123,3 +175,4 @@ lv_obj_center(imgbtnsdcard);
     exitfunction("create_image_button_from_sd");
 }
 */
+
