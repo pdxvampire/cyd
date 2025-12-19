@@ -7,9 +7,6 @@
 #include <TFT_eSPI.h>  // Hardware-specific library
 #include <lvgl.h>
 
-#define SCREEN_WIDTH 240
-#define SCREEN_HEIGHT 320
-
 // Prevent stack overflow reboot loops.
 SET_LOOP_TASK_STACK_SIZE(32 * 1024);
 
@@ -18,14 +15,8 @@ TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
 #include "logging.h"
 #include "sdcard.h"
 #include "touchinput.h"
+#include "display.h"
 #include "code.h"
-
-/* Draw buffer for LVGL */
-static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
-//static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10];
-// main display object for LVGL
-lv_display_t *disp;
-
 
 // Image button callback function
 void button_event_callback(lv_event_t *e)
