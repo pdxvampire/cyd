@@ -15,12 +15,29 @@ void HandleButtonClick(lv_event_t* e)
         //       if (imageIndex > (MAX_IMAGES - 1)) imageIndex = 0;
         //       displayImage(fileNames[imageIndex]);
 
-lv_obj_t * btn = lv_event_get_target(e); // Get the object that triggered the event
+lv_obj_t * btn = (lv_obj_t*)lv_event_get_target(e); // Get the object that triggered the event
 // Now 'btn' points to the specific button that was clicked
         // You can use 'btn' to identify the button
-const char* button_id = lv_event_get_user_data(e);
+        lv_obj_t * user_obj = (lv_obj_t*) lv_event_get_user_data(e);
+const char* button_id = (const char*) user_obj;
 
 logit("button id:  %s", button_id);
+
+   /*
+    
+
+    static lv_style_t style;
+    lv_style_init(&style);
+    lv_style_set_text_color(&style, lv_palette_main(LV_PALETTE_BLUE));
+    lv_style_set_text_letter_space(&style, 5);
+
+    lv_obj_t *label = lv_label_create(lv_screen_active());
+    lv_obj_add_style(label, &style, 0);
+    lv_label_set_text(label, "Hello LVGL with\nimages and styles!");
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 100);
+    lv_obj_align_to(label, imgarr, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
+*/
+//lv_style_set_text_font(&my_style, LV_STATE_DEFAULT, &lv_font_montserrat_28);  /*Set a larger font*/
     }
 }
 

@@ -34,7 +34,7 @@ int curimg = 0;
 int arrxpos[12] = { 10, 10, 10, 120, 120, 120, 10, 10, 10, 120, 120, 120 };
 int arrypos[12] = { 0, 110, 220, 0, 110, 220, 0, 110, 220, 0, 110, 220 };
 const uint8_t NUMIMGS = 10;
-const char * filenames[NUMIMGS] = { "/horn01.jpg", "/horn02.jpg", "/horn03.jpg", "/horn04.jpg", "/horn05.jpg", "/horn06.jpg", "/horn07.jpg", "/horn08.jpg", "/horn09.jpg", "/settings.jpg" };
+const char * filenames[NUMIMGS] = { "A:/horn01.jpg", "A:/horn02.jpg", "/horn03.jpg", "/horn04.jpg", "/horn05.jpg", "/horn06.jpg", "/horn07.jpg", "/horn08.jpg", "/horn09.jpg", "/settings.jpg" };
 
 void create_image_button_from_sd(int imgidx)
 {
@@ -68,7 +68,7 @@ void create_image_button_from_sd(int imgidx)
 
     // add a callback function for button press event
     // add the filename as user data to identify the button in the event handler
-    lv_obj_add_event_cb(imgbtnsdcard, HandleButtonClick, LV_EVENT_CLICKED, filenames[imgidx]);
+    lv_obj_add_event_cb(imgbtnsdcard, HandleButtonClick, LV_EVENT_CLICKED, (void*)filenames[imgidx]);
 
     // How much time did rendering take
     t = millis() - t;
