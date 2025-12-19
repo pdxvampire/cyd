@@ -7,8 +7,6 @@
 #include <TFT_eSPI.h>  // Hardware-specific library
 #include <lvgl.h>
 
-// Prevent stack overflow reboot loops.
-SET_LOOP_TASK_STACK_SIZE(32 * 1024);
 
 TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
 
@@ -17,6 +15,9 @@ TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
 #include "touchinput.h"
 #include "display.h"
 #include "code.h"
+
+// Prevent stack overflow reboot loops.
+SET_LOOP_TASK_STACK_SIZE(32 * 1024);
 
 // Image button callback function
 void button_event_callback(lv_event_t *e)
@@ -93,6 +94,13 @@ void setup()
     InitializeTouch();
 
     create_image_button_from_sd();
+/*
+ for (int x = 0; x < NUMIMGS; x++)
+    {
+        create_image_button_from_sd(x);
+    }
+
+*/
 
 
     /*
@@ -114,8 +122,16 @@ void setup()
 void loop()
 {
     //lv_display_flush_ready(disp);
-    lv_timer_handler();
-    lv_tick_inc(5);
+    //lv_timer_handler();
+    //lv_tick_inc(5);
 
-    delay(5);
+    //delay(5);
+ if (millis() - lastLvTick > LVGL_TICK_PERIOD)
+    {
+        lv_tick_inc(LVGL_TICK_PERIOD);  // tell LVGL how much time has passed
+        lastLvTick = millis();
+    }
+
+    lv_task_handler();        // let the GUI do its work
+    delay(LVGL_TICK_PERIOD);  // let this time pass
 }

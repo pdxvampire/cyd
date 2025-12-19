@@ -2,8 +2,6 @@
 CST820 touch(33, 32, 25, 21);  // Touch: SDA, SCL, RST, INT
 uint16_t rawX, rawY;
 
-
-
 // Button event callback
 void HandleButtonClick(lv_event_t* e)
 {
