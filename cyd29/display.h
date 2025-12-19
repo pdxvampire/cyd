@@ -55,9 +55,11 @@ void create_image_button_from_sd(int imgidx)
 
     // create the image button object and align it
     lv_obj_t* imgbtnsdcard = lv_imagebutton_create(lv_screen_active());
-    lv_image_set_src(imgbtnsdcard, imagepath);
+lv_image_set_src(imgbtnsdcard, "A:/horn09.jpg");
+    //lv_image_set_src(imgbtnsdcard, imagepath);
 
-    lv_obj_set_pos(imgbtnsdcard, arrxpos[imgidx], arrypos[imgidx]);
+lv_obj_center(imgbtnsdcard);
+    //lv_obj_set_pos(imgbtnsdcard, arrxpos[imgidx], arrypos[imgidx]);
 
     // darken the button when pressed
     static lv_style_t style_pr;
