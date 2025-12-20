@@ -9,8 +9,6 @@ unsigned long lastLvTick = 0;
 /* Draw buffer for LVGL */
 static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
 
-// main display object for LVGL
-lv_display_t *disp;
 
 /*
     Page 1                  Page 2
@@ -56,7 +54,7 @@ int arrypos[12] = {
 };
 
 // This isn't an oversight, there is room for 12 images but we only have 10.
-const char *filenames[NUMIMAGESUSED] = {
+static const char *filenames[NUMIMAGESUSED] = {
     "A:/horn01.jpg", "A:/horn02.jpg", "A:/horn03.jpg", "A:/horn04.jpg", "A:/horn05.jpg", "A:/horn07.jpg",
     "A:/horn08.jpg", "A:/horn06.jpg", "A:/horn09.jpg", "A:/settings.jpg"
 };
@@ -113,6 +111,69 @@ void create_image_button_from_sd(int imgidx)
     exitfunction("create_image_button_from_sd");
 }
 
+void btn1_event_callback(lv_event_t *e)
+{
+    logit("button 1 clicked!");
+   // CreateScreen2();
+    //lv_screen_load(screen2);
+     lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_LEFT, 200, 0, false);
+ //   lv_obj_del_async(screen1);
+    lv_display_flush_ready(disp);
+}
+
+void btn2_event_callback(lv_event_t *e)
+{
+    logit("button 2 clicked!");
+ //   CreateScreen1();
+    lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 200, 0, false);
+    lv_display_flush_ready(disp);
+}
+
+void CreateScreen1()
+{
+    enterfunction("CreateScreen1");
+
+    screen1 = lv_obj_create(NULL);
+    lv_obj_set_style_bg_color(screen1, lv_color_black(), LV_PART_MAIN);
+
+
+    btn1 = lv_button_create(screen1);
+    label1 = lv_label_create(btn1);
+    lv_label_set_text(label1, "goto screen 2");
+    lv_obj_set_size(btn1, 140, 60);
+    lv_obj_center(label1);
+    lv_obj_center(btn1);
+    lv_obj_add_event_cb(btn1, btn1_event_callback, LV_EVENT_CLICKED, NULL);
+
+    logit("add gesture event handler to screen1");
+    lv_obj_add_event_cb(screen1, HandleGesture, LV_EVENT_GESTURE, NULL);
+    logit("back from add gesture handler");
+
+    exitfunction("CreateScreen1");
+}
+
+void CreateScreen2()
+{
+    enterfunction("CreateScreen2");
+
+    screen2 = lv_obj_create(NULL);
+    lv_obj_set_style_bg_color(screen2, lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
+
+    btn2 = lv_button_create(screen2);
+    label2 = lv_label_create(btn2);
+    lv_label_set_text(label2, "goto screen 1");
+    lv_obj_set_size(btn2, 140, 60);
+    lv_obj_center(label2);
+    lv_obj_center(btn2);
+    lv_obj_add_event_cb(btn2, btn2_event_callback, LV_EVENT_CLICKED, NULL);
+
+    logit("add gesture event handler to screen1");
+    lv_obj_add_event_cb(screen2, HandleGesture, LV_EVENT_GESTURE, NULL);
+    logit("back from add gesture handler");
+
+    exitfunction("CreateScreen2");
+}
+
 void InitializeDisplay()
 {
     enterfunction("InitializeDisplay");
@@ -121,8 +182,9 @@ void InitializeDisplay()
     tft.begin();
     //tft.fillScreen(0x000000); //black
     // Example: fuschia
-uint16_t fuschia = tft.color565(255, 0, 255);
-tft.fillScreen(fuschia);
+    uint16_t fuschia = tft.color565(255, 0, 255);
+
+    //tft.fillScreen(fuschia);
 
     // Initialize LVGL
     lv_init();
@@ -139,12 +201,25 @@ tft.fillScreen(fuschia);
     tft.setRotation(2);
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
+    CreateScreen1();
+    CreateScreen2();
+
+    /*
+lv_memory_buffer[0] = *(lv_obj_create(NULL));
+screen1 = lv_memory_buffer[0];
+lv_memory_buffer[1] = *(lv_obj_create(NULL));
+screen2 = lv_memory_buffer[1];
+*/
+    logit("load screen1");
+    lv_scr_load(screen1);
+    logit("back from load screen1");
+
+
     // fill active screen with amber, useful for seeing image placement
     // for other predefines see https://docs.lvgl.io/8.0/overview/color.html
     // lv_obj_set_style_bg_color(lv_screen_active(), lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
     // fill active screen with black
-    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
-
+    /*
     lv_style_init(&popuplabelstyle);
     lv_style_set_text_color(&popuplabelstyle, lv_palette_main(LV_PALETTE_RED));
     // Set the background color and ensure it's visible
@@ -152,14 +227,14 @@ tft.fillScreen(fuschia);
     lv_style_set_bg_opa(&popuplabelstyle, LV_OPA_COVER);
 
     //lv_style_set_text_letter_space(&popuplabelstyle, 5); // more space between letters
-    lv_style_set_text_font(&popuplabelstyle, &lv_font_montserrat_30); /*Set a larger font*/
+    lv_style_set_text_font(&popuplabelstyle, &lv_font_montserrat_30); // Set a larger font
 
     popuplabel = lv_label_create(lv_screen_active());
     //lv_obj_set_pos(popuplabel, 200,200);
     lv_obj_center(popuplabel);
     lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);  // Hide the object
 
-
+*/
 
     exitfunction("InitializeDisplay");
 }

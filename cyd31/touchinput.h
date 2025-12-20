@@ -4,6 +4,36 @@
 CST820 touch(33, 32, 25, 21);  // Touch: SDA, SCL, RST, INT
 uint16_t rawX, rawY;
 
+void HandleGesture(lv_event_t* e)
+{
+    enterfunction("HandleGesture");
+
+    lv_obj_t* screen = (lv_obj_t*)lv_event_get_current_target(e);
+    lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_active());
+    switch (dir)
+    {
+        case LV_DIR_LEFT:
+            logit("L");
+            lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_LEFT, 200, 0, false);
+ //   lv_obj_del_async(screen1);
+    lv_display_flush_ready(disp);
+            break;
+        case LV_DIR_RIGHT:
+            logit("R");
+            lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 200, 0, false);
+    lv_display_flush_ready(disp);
+            break;
+        case LV_DIR_TOP:
+            logit("T");
+            break;
+        case LV_DIR_BOTTOM:
+            logit("B");
+            break;
+    }
+
+    exitfunction("HandleGesture");
+}
+
 void hide_object_timer_cb(lv_timer_t* timer)
 {
     enterfunction("hide_object_timer_cb");
@@ -70,7 +100,7 @@ void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data)
     uint16_t rawX, rawY;
     if (touch.getTouch(&rawX, &rawY))
     {
-        lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);
+        //lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);
 
         data->state = LV_INDEV_STATE_PRESSED;
 
@@ -107,8 +137,7 @@ void InitializeTouch(void)
     // Gestures
     /* Set the minimum gesture velocity to 10 pixels/second */
     indev->gesture_min_velocity = 5;
-    indev->gesture_limit = 10; // Make it more sensitive (trigger after 30px)
-
+    indev->gesture_limit = 10;  // Make it more sensitive (trigger after 10px)
 
     exitfunction("InitializeTouch");
 }
