@@ -104,5 +104,11 @@ void InitializeTouch(void)
     lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(indev, HandleTouch);
 
+    // Gestures
+    /* Set the minimum gesture velocity to 10 pixels/second */
+    indev->gesture_min_velocity = 5;
+    indev->gesture_limit = 10; // Make it more sensitive (trigger after 30px)
+
+
     exitfunction("InitializeTouch");
 }

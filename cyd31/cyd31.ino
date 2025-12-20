@@ -21,6 +21,13 @@ SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 #include "display.h"
 #include "code.h"
 
+lv_obj_t * tv;
+lv_obj_t * tile1;
+lv_obj_t * tile2;
+lv_obj_t * label1;
+lv_obj_t * label2;
+lv_obj_t * btn1;
+
 void HandleGesture(lv_event_t * e)
 {
     lv_obj_t * screen = (lv_obj_t*)lv_event_get_current_target(e);
@@ -89,18 +96,20 @@ void setup()
 
 
 lv_obj_add_event_cb(lv_screen_active(), HandleGesture, LV_EVENT_GESTURE, NULL);
-/*
-lv_obj_t * tv = lv_tileview_create(lv_screen_active());
 
-    lv_obj_t * tile1 = lv_tileview_add_tile(tv, 0, 1, LV_DIR_TOP);
-    lv_obj_t * label = lv_label_create(tile1);
-    lv_label_set_text(label, "Scroll down");
-    lv_obj_center(label);
+tv = lv_tileview_create(lv_screen_active());
 
-    lv_obj_t * tile2 = lv_tileview_add_tile(tv, 0, 0, (lv_dir_t)(LV_DIR_BOTTOM));
-    lv_obj_t * btn = lv_button_create(tile2);
-    lv_obj_center(btn);
-*/
+    tile1 = lv_tileview_add_tile(tv, 0, 1, LV_DIR_TOP);
+    label1 = lv_label_create(tile1);
+    lv_label_set_text(label1, "Scroll down");
+    lv_obj_center(label1);
+
+    tile2 = lv_tileview_add_tile(tv, 0, 0, (lv_dir_t)(LV_DIR_BOTTOM));
+    btn1 = lv_button_create(tile2);
+    label2 = lv_label_create(btn1);
+    lv_label_set_text(label2, "Swipe right");
+ lv_obj_set_size(btn1, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+    lv_obj_center(btn1);
 
     exitfunction("setup");
 }
