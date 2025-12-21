@@ -3,6 +3,7 @@
 #include <TFT_eSPI.h>  // Hardware-specific library
 #include <lvgl.h>
 #include <array> // for std::array
+#include <vector>
 
 // Globals needed by several of the includes below.
 TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
@@ -32,12 +33,13 @@ struct Horn
     float xcoord;
     float ycoord;
 };
-static std::array<Horn, 13> horns;
+static std::vector<Horn> horns;
 
 // Prevent stack overflow reboot loops.
 SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 
 #include "logging.h"
+#include "prototypes.h"
 #include "physical.h"
 #include "sdcard.h"
 #include "touchinput.h"

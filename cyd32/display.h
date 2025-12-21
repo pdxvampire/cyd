@@ -40,7 +40,7 @@ int curpage = 0;
 // we won't have to take into account that 1=0, 2=1, etc.
 // size 13 because of that
 // currently not using anything in button IDs 11 & 12
-horns = {
+horns.assign({
     NULL,  // array index 0 not used, see above comment
     (struct Horn){ 1, 1, "A:/horn01.jpg", 13, 5 },
     (struct Horn){ 2, 1, "A:/horn02.jpg", 128, 5 },
@@ -54,7 +54,7 @@ horns = {
     (struct Horn){ 10, 2, "A:/settings.jpg", 128, 110 },
     NULL,  //(struct Horn){ 11, 2, "A:/horn11.jpg", 13, 215 },
     NULL   //(struct Horn){ 12, 2, "A:/horn12.jpg", 128, 215 },
-}
+});
 
 void
 create_image_button_from_sd(int id)
