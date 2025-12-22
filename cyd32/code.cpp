@@ -1,6 +1,7 @@
 #include <Arduino.h>  // Automatically included in .ino files
 #include "code.h"
 #include "logging.h"
+#include "display.h"
 
 void InitializeSerialCommunication(const char* title)
 {
