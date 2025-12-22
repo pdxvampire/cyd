@@ -10,6 +10,10 @@ void log_print(lv_log_level_t level, const char* buf)
     Serial.println(buf);
     Serial.flush();
 }
+#else
+void log_print(lv_log_level_t level, const char* buf)
+{
+}
 #endif
 
 #if DEBUGMODE
