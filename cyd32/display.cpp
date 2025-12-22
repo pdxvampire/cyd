@@ -9,6 +9,8 @@
 #include "display.h"
 #include "touchinput.h"
 
+extern TFT_eSPI tft;
+
 void ShowPopupLabelBriefly(const char *msg)
 {
     lv_obj_add_style(popuplabel, &popuplabelstyle, 0);
@@ -161,7 +163,7 @@ void InitializeDisplay()
     lastLvTick = 0;
 
     // Initialise the TFT
-    tft = TFT_eSPI();
+    
     tft.begin();
     //tft.fillScreen(0x000000); //black
     // Example: fuschia

@@ -7,8 +7,6 @@
 #include "touchinput.h"
 #include "physical.h"
 
-TFT_eSPI tft;
-
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320
 

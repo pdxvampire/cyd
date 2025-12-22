@@ -6,6 +6,8 @@
 // Prevent stack overflow reboot loops.
 SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 
+TFT_eSPI tft = TFT_eSPI();
+
 #include "logging.h"
 #include "physical.h"
 #include "sdcard.h"
