@@ -8,10 +8,12 @@
 unsigned long lastLvTick = 0;
 
 /* Draw buffer for LVGL */
-static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
+static <uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
 
 // main display object for LVGL
 static lv_display_t *disp;
+
+int curpage = 0;
 
 void ShowPopupLabelBriefly(const char* msg);
 void ShowSettingsScreen();

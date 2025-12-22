@@ -7,6 +7,8 @@
 #define DEBUGMODE true
 #endif
 
+int loglevel = 0;
+
 #if DEBUGMODE
 
 void logheader(const char* title);

@@ -1,11 +1,12 @@
 #include <vector>
 #include "core/lv_obj_pos.h"
 #include "misc/lv_types.h"
+#include <lvgl.h>
 #include "logging.h"
 #include "layout.h"
 #include "display.h"
 
-
+int curpage = 0;
 void ShowPopupLabelBriefly(const char *msg)
 {
     lv_obj_add_style(popuplabel, &popuplabelstyle, 0);

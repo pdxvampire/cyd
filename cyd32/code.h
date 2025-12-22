@@ -1,7 +1,7 @@
 #ifndef CODE_H
 #define CODE_H
 
-int curpage = 0;
+#include "logging.h"
 
 void InitializeSerialCommunication(const char* title)
 {
