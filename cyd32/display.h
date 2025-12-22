@@ -3,6 +3,8 @@
 
 #include <lvgl.h>
 
+TFT_eSPI tft;
+
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320
 

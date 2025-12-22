@@ -6,6 +6,7 @@
 #include "logging.h"
 #include "layout.h"
 #include "display.h"
+#include "touchinput.h"
 
 void ShowPopupLabelBriefly(const char *msg)
 {
@@ -157,6 +158,8 @@ void InitializeDisplay()
     enterfunction("InitializeDisplay");
 
     // Initialise the TFT
+    tft = TFT_eSPI();
+
     tft.begin();
     //tft.fillScreen(0x000000); //black
     // Example: fuschia
