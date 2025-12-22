@@ -1,7 +1,11 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include <TFT_eSPI.h>
 #include <lvgl.h>
+#include "logging.h"
+#include "touchinput.h"
+#include "physical.h"
 
 TFT_eSPI tft;
 
@@ -9,7 +13,7 @@ TFT_eSPI tft;
 #define SCREEN_HEIGHT 320
 
 #define LVGL_TICK_PERIOD 2
-unsigned long lastLvTick = 0;
+unsigned long lastLvTick;
 
 /* Draw buffer for LVGL */
 static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
@@ -30,7 +34,7 @@ static lv_obj_t *label2;
 static lv_obj_t *label3;
 static lv_obj_t *slider;
 
-int curpage = 0;
+int curpage;
 
 void ShowPopupLabelBriefly(const char *msg);
 void ShowSettingsScreen();

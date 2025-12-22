@@ -1,7 +1,8 @@
 #include <Arduino.h>  // Automatically included in .ino files
 #include <vector>
-#include "core/lv_obj_pos.h"
-#include "misc/lv_types.h"
+//#include "core/lv_obj_pos.h"
+//#include "misc/lv_types.h"
+#include <TFT_eSPI.h>
 #include <lvgl.h>
 #include "logging.h"
 #include "layout.h"
@@ -157,9 +158,10 @@ void InitializeDisplay()
 {
     enterfunction("InitializeDisplay");
 
+    lastLvTick = 0;
+
     // Initialise the TFT
     tft = TFT_eSPI();
-
     tft.begin();
     //tft.fillScreen(0x000000); //black
     // Example: fuschia

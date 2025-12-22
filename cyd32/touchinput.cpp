@@ -2,10 +2,8 @@
 #include <CST820.h>
 #include <lvgl.h>
 #include "touchinput.h"
-#include "display/lv_display.h"
-#include "core/lv_obj_pos.h"
-#include <lvgl.h>
-#include "CST820.h"
+//#include "display/lv_display.h"
+//#include "core/lv_obj_pos.h"
 #include "display.h"
 #include "layout.h"
 
@@ -117,8 +115,6 @@ void HandleButtonClick(lv_event_t* e)
             case 11:
                 DoSomethingButton12();
                 break;
-            default:
-                // NOOP
         }
     }
 

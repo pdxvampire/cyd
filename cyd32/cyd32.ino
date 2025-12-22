@@ -1,6 +1,6 @@
 #include <FS.h>
 #include <SPI.h>
-#include <TFT_eSPI.h>  // Hardware-specific library
+#include <TFT_eSPI.h>
 #include <lvgl.h>
 
 // Prevent stack overflow reboot loops.
@@ -17,12 +17,7 @@ SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 void setup()
 {
     InitializeSerialCommunication("SKETCH CYD31");
-    /*
-if (lv_memory_buffer == NULL)
-{
-    logit("Failed to allocate memory for lv_memory_buffer");
-}
-*/
+
     sdcard_setup();
 
     InitializeDisplay();

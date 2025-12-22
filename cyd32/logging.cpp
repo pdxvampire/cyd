@@ -1,4 +1,5 @@
 #include <Arduino.h>  // Automatically included in .ino files
+#include <lvgl.h>
 #include "logging.h"
 
 /* Serial debugging for LVGL */
