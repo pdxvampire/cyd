@@ -1,3 +1,4 @@
+#include <Arduino.h>  // Automatically included in .ino files
 #include <vector>
 #include "core/lv_obj_pos.h"
 #include "misc/lv_types.h"

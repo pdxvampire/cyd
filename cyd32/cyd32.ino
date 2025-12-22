@@ -2,18 +2,9 @@
 #include <SPI.h>
 #include <TFT_eSPI.h>  // Hardware-specific library
 #include <lvgl.h>
-#include <array> // for std::array
-#include <vector>
 
 // Globals needed by several of the includes below.
 TFT_eSPI tft = TFT_eSPI();  // Invoke custom library
-static lv_style_t popuplabelstyle;
-static lv_obj_t *popuplabel;
-static lv_obj_t *screen1;
-static lv_obj_t *screen2;
-static lv_obj_t *settingsscreen;
-static uint8_t array_size = 10;
-//lv_obj_t *lv_memory_buffer = (lv_obj_t *)heap_caps_malloc(sizeof(lv_obj_t) * array_size, HEAP_CAPS_SPIRAM);
 
 // Prevent stack overflow reboot loops.
 SET_LOOP_TASK_STACK_SIZE(16 * 1024);
@@ -27,12 +18,10 @@ SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 #include "layout.h"
 #include "code.h"
 
-
-
 void setup()
 {
     InitializeSerialCommunication("SKETCH CYD31");
-/*
+    /*
 if (lv_memory_buffer == NULL)
 {
     logit("Failed to allocate memory for lv_memory_buffer");

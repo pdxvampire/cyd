@@ -1,10 +1,9 @@
+#include <Arduino.h>  // Automatically included in .ino files
 #include "logging.h"
-#include <Arduino.h> // Automatically included in .ino files
-#include <cstring>   // Required for strlen()
 
 /* Serial debugging for LVGL */
 #if LV_USE_LOG != 0
-void log_print(lv_log_level_t level, const char *buf)
+void log_print(lv_log_level_t level, const char* buf)
 {
     LV_UNUSED(level);
     Serial.println(buf);
@@ -177,4 +176,4 @@ void showmemstats()
 #define showmemstats()
 #define logheader(x)
 
-#endif // DEBUGMODE
+#endif  // DEBUGMODE

@@ -36,6 +36,6 @@ void showmemstats();
 #define showmemstats()
 #define logheader(x)
 
-#endif // DEBUGMODE
+#endif  // DEBUGMODE
 
-#endif // LOGGING_H
+#endif  // LOGGING_H

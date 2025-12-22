@@ -17,4 +17,4 @@ void HandleButtonClick(lv_event_t* e);
 void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data);
 void InitializeTouch();
 
-#endif // TOUCHINPUT_H
+#endif  // TOUCHINPUT_H

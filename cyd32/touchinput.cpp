@@ -1,5 +1,4 @@
-#include <Arduino.h> // Automatically included in .ino files
-#include <cstring>   // Required for strlen()
+#include <Arduino.h>  // Automatically included in .ino files
 #include <CST820.h>
 #include <lvgl.h>
 #include "touchinput.h"

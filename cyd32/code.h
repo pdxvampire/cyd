@@ -21,4 +21,4 @@ void InitializeSerialCommunication(const char* title)
 }
 
 
-#endif // CODE_H
+#endif  // CODE_H

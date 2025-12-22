@@ -1,4 +1,4 @@
-//#include <vector>
+#include <Arduino.h>  // Automatically included in .ino files
 #include "physical.h"
 #include "layout.h"
 #include "display.h"
