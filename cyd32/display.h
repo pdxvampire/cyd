@@ -32,8 +32,7 @@ static lv_obj_t *label2;
 static lv_obj_t *label3;
 static lv_obj_t *slider;
 
-int curpage;
-
+void hide_object_timer_cb(lv_timer_t* timer);
 void ShowPopupLabelBriefly(const char *msg);
 void ShowSettingsScreen();
 void create_image_button_from_sd(int id);

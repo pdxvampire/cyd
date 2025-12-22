@@ -13,7 +13,6 @@ uint16_t rawX;
 uint16_t rawY;
 
 void HandleGesture(lv_event_t* e);
-void hide_object_timer_cb(lv_timer_t* timer);
 void HandleButtonClick(lv_event_t* e);
 void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data);
 void InitializeTouch();

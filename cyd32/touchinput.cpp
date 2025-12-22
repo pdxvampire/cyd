@@ -37,27 +37,6 @@ void HandleGesture(lv_event_t* e)
     exitfunction("HandleGesture");
 }
 
-void hide_object_timer_cb(lv_timer_t* timer)
-{
-    enterfunction("hide_object_timer_cb");
-
-    lv_obj_t* obj = (lv_obj_t*)timer->user_data;
-    if (obj != NULL)
-    {
-        logit("hide the object");
-        lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);  // Hide the object
-
-        //lv_obj_set_hidden(slider, true);
-        logit("delete the timer");
-        lv_timer_del(timer);  // Optional: delete the timer after it runs once
-    }
-    else
-    {
-        logit("NOOP, object is NULL");
-    }
-
-    exitfunction("hide_object_timer_cb");
-}
 
 // Button event callback
 void HandleButtonClick(lv_event_t* e)

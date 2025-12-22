@@ -14,7 +14,6 @@ TFT_eSPI tft = TFT_eSPI();
 #include "touchinput.h"
 #include "display.h"
 #include "layout.h"
-#include "code.h"
 
 void setup()
 {
@@ -58,4 +57,23 @@ void loop()
 
     lv_task_handler();        // let the GUI do its work
     delay(LVGL_TICK_PERIOD);  // let this time pass
+}
+
+void InitializeSerialCommunication(const char* title)
+{
+    Serial.begin(115200);
+
+    // Wait for the serial port to connect so the Serial Monitor printouts work consistently
+    // This may not be necessary on Windows or Linux but with my Macbook Air M3 (2024) it is.
+    delay(2000);
+
+    loglevel = 0;
+
+    logit("");  // insert a newline after the random garbage that gets printed on connection/powerup
+
+    logheader(title);
+    loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
+
+    logit("####### Done initializing serial communication. ################################");
+    exitfunction("InitializeSerialCommunication");
 }
