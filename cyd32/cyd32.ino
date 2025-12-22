@@ -15,16 +15,6 @@ static lv_obj_t *settingsscreen;
 static uint8_t array_size = 10;
 //lv_obj_t *lv_memory_buffer = (lv_obj_t *)heap_caps_malloc(sizeof(lv_obj_t) * array_size, HEAP_CAPS_SPIRAM);
 
-static lv_obj_t *btn1;
-static lv_obj_t *btn2;
-static lv_obj_t *label1;
-static lv_obj_t *label2;
-static lv_obj_t *label3;
-static lv_obj_t* slider;
-
-// main display object for LVGL
-static lv_display_t *disp;
-
 // Prevent stack overflow reboot loops.
 SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 

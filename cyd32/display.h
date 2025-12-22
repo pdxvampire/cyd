@@ -8,14 +8,25 @@
 unsigned long lastLvTick = 0;
 
 /* Draw buffer for LVGL */
-static <uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
+static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
 
 // main display object for LVGL
 static lv_display_t *disp;
+
+static lv_obj_t *btn1;
+static lv_obj_t *btn2;
+static lv_obj_t *label1;
+static lv_obj_t *label2;
+static lv_obj_t *label3;
+static lv_obj_t* slider;
 
 int curpage = 0;
 
 void ShowPopupLabelBriefly(const char* msg);
 void ShowSettingsScreen();
+void create_image_button_from_sd(int id);
+void CreateScreen1();
+void CreateScreen2();
+void InitializeDisplay();
 
 #endif // DISPLAY_H
