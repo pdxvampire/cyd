@@ -25,25 +25,16 @@ static lv_obj_t* slider;
 // main display object for LVGL
 static lv_display_t *disp;
 
-struct Horn
-{
-    int id;
-    int page;
-    char name[50];
-    float xcoord;
-    float ycoord;
-};
-static std::vector<Horn> horns;
-
 // Prevent stack overflow reboot loops.
 SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 
 #include "logging.h"
-#include "prototypes.h"
+//#include "prototypes.h"
 #include "physical.h"
 #include "sdcard.h"
 #include "touchinput.h"
 #include "display.h"
+#include "layout.h"
 #include "code.h"
 
 

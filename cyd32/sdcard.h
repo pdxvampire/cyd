@@ -1,3 +1,6 @@
+#ifndef SDCARD_H
+#define SDCARD_H
+
 #include "pins_arduino.h"
 /*
  * pin 1 - not used          |  Micro SD card     |
@@ -464,3 +467,5 @@ bool SaveBMP24(fs::FS &fs, const char *path, GFX_TYPE &tft) {
   return true;
 }
 */
+
+#endif // SDCARD_H

@@ -1,8 +1,11 @@
+#ifndef PROTOTYPES_H_
+#define PROTOTYPES_H_
+
 #include <FS.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>  // Hardware-specific library
 #include <lvgl.h>
-#include <array>  // for std::array
+#include <vector>  // for std::vector
 #include "CST820.h"
 
 void InitializeSerialCommunication(const char* title);
@@ -29,3 +32,5 @@ void DoSomethingButton09();
 void DoSomethingButton10();
 void DoSomethingButton11();
 void DoSomethingButton12();
+
+#endif /* PROTOTYPES_H_ */

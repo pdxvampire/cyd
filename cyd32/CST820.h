@@ -67,4 +67,4 @@ private:
   uint8_t _sda, _scl, _rst, _irq;
 };
 
-#endif
+#endif // CST820_H

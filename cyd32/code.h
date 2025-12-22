@@ -1,3 +1,8 @@
+#ifndef CODE_H
+#define CODE_H
+
+int curpage = 0;
+
 void InitializeSerialCommunication(const char* title)
 {
     Serial.begin(115200);
@@ -15,15 +20,5 @@ void InitializeSerialCommunication(const char* title)
     exitfunction("InitializeSerialCommunication");
 }
 
-void ShowPopupLabelBriefly(const char* msg)
-{
-    lv_obj_add_style(popuplabel, &popuplabelstyle, 0);
-    lv_label_set_text(popuplabel, msg);
-    lv_obj_align(popuplabel, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_clear_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_set_parent(popuplabel, lv_screen_active());
-    lv_obj_move_foreground(popuplabel);
 
-    // This creates a timer that runs the callback after 3000 milliseconds (3 seconds).
-    lv_timer_create(hide_object_timer_cb, 1050, popuplabel);
-}
+#endif // CODE_H
