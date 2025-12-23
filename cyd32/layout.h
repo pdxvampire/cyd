@@ -29,8 +29,8 @@ struct Horn
     int id;
     int page;
     char name[50];
-    float xcoord;
-    float ycoord;
+    int xcoord;
+    int ycoord;
 };
 
 
@@ -41,7 +41,7 @@ struct Horn
 // currently not using anything in button IDs 11 & 12
 
 static std::vector<Horn> horns({
-    //    NULL,  // array index 0 not used, see above comment
+    (struct Horn){},  // array index 0 not used, see above comment
     (struct Horn){ 1, 1, "A:/horn01.jpg", 13, 5 },
     (struct Horn){ 2, 1, "A:/horn02.jpg", 128, 5 },
     (struct Horn){ 3, 1, "A:/horn03.jpg", 13, 110 },
@@ -51,9 +51,9 @@ static std::vector<Horn> horns({
     (struct Horn){ 7, 2, "A:/horn07.jpg", 13, 5 },
     (struct Horn){ 8, 2, "A:/horn08.jpg", 128, 5 },
     (struct Horn){ 9, 2, "A:/horn09.jpg", 13, 110 },
-    (struct Horn){ 10, 2, "A:/settings.jpg", 128, 110 }
-    //    NULL,  //(struct Horn){ 11, 2, "A:/horn11.jpg", 13, 215 },
-    //    NULL   //(struct Horn){ 12, 2, "A:/horn12.jpg", 128, 215 },
+    (struct Horn){ 10, 2, "A:/settings.jpg", 128, 110 },
+    (struct Horn){},  //(struct Horn){ 11, 2, "A:/horn11.jpg", 13, 215 },
+    (struct Horn){}   //(struct Horn){ 12, 2, "A:/horn12.jpg", 128, 215 }
 });
 
 #endif  // LAYOUT_H

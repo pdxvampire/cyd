@@ -12,6 +12,7 @@ extern TFT_eSPI tft;
 unsigned long lastLvTick = 0;
 
 lv_style_t popuplabelstyle;
+lv_style_t style_pr;
 
 lv_obj_t *popuplabel;
 lv_obj_t *screen1;
@@ -65,42 +66,49 @@ void ShowPopupLabelBriefly(const char *msg)
 void create_image_button_from_sd(int id)
 {
     enterfunction("create_image_button_from_sd");
+    logit("Creating button %d", id);
 
     const char *imagepath = horns[id].name;
     lv_obj_t *imgbtnsdcard;
+    logit("Image path:  %s", imagepath);
+    logit("Image page:  %d", horns[id].page);
 
     // create the image button object
     switch (horns[id].page)
     {
         case 1:
             imgbtnsdcard = lv_imagebutton_create(screen1);
+            logit("Created on screen 1");
             break;
         case 2:
             imgbtnsdcard = lv_imagebutton_create(screen2);
+            logit("Created on screen 1");
             break;
     }
 
     // set the image sources for different states
     // load the main image from SD card, use NULL for left/right sides because we don't care about those
-
-    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, horns[id].name, NULL);  // horn icons
+    logit("Set image to '%s'", horns[id].name);
+    lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, imagepath, NULL);  // horn icons
 
     // for testing use mona lisa when pressed
     // lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/btn1.jpg", NULL);  // mona lisa
 
     // set the position based on the array defined at the top of this file
-    lv_obj_set_pos(imgbtnsdcard, horns[id].xcoord, horns[id].xcoord);
+    lv_obj_set_pos(imgbtnsdcard, horns[id].xcoord, horns[id].ycoord);
+    logit("Position set to %d,%d", horns[id].xcoord, horns[id].ycoord);
 
     // darken the button when pressed
-    static lv_style_t style_pr;
     lv_style_init(&style_pr);
     lv_style_set_img_recolor_opa(&style_pr, LV_OPA_20);
     lv_style_set_img_recolor(&style_pr, lv_color_black());
     lv_obj_add_style(imgbtnsdcard, &style_pr, LV_STATE_PRESSED);
+    logit("Pressed style added.");
 
     // add a callback function for button press event
     // add the filename as user data to identify the button in the event handler
     lv_obj_add_event_cb(imgbtnsdcard, HandleButtonClick, LV_EVENT_CLICKED, (void *)id);
+    logit("Event callback added.");
 
     exitfunction("create_image_button_from_sd");
 }
@@ -197,7 +205,7 @@ void InitializeDisplay()
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     CreateScreen1();
-    CreateScreen2();
+    // CreateScreen2();
 
     /*
 lv_memory_buffer[0] = *(lv_obj_create(NULL));

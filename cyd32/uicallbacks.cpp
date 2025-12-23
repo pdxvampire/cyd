@@ -44,11 +44,15 @@ void HandleGesture(lv_event_t* e)
         case LV_DIR_LEFT:
             logit("L");
             lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_LEFT, 200, 0, false);
-            //   lv_obj_del_async(screen1);
+            //lv_obj_del_async(screen1);
+            lv_obj_del(screen1);
+            CreateScreen2();
             lv_display_flush_ready(disp);
             break;
         case LV_DIR_RIGHT:
             logit("R");
+            lv_obj_del(screen2);
+            CreateScreen1();
             lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 200, 0, false);
             lv_display_flush_ready(disp);
             break;
