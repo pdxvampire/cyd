@@ -16,7 +16,7 @@ static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)
 // main display object for LVGL
 extern lv_display_t *disp;
 
-extern lv_style_t *popuplabelstyle;
+extern lv_style_t popuplabelstyle;
 extern lv_obj_t *popuplabel;
 extern lv_obj_t *screen1;
 extern lv_obj_t *screen2;

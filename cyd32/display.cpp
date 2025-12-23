@@ -12,6 +12,7 @@ extern TFT_eSPI tft;
 unsigned long lastLvTick = 0;
 
 lv_style_t popuplabelstyle;
+
 lv_obj_t *popuplabel;
 lv_obj_t *screen1;
 lv_obj_t *screen2;
@@ -23,6 +24,8 @@ lv_obj_t *label2;
 lv_obj_t *label3;
 lv_obj_t *slider;
 lv_obj_t *slider_label;
+
+lv_display_t *disp;
 
 void hide_object_timer_cb(lv_timer_t *timer)
 {
