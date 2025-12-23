@@ -2,8 +2,9 @@
 #include <lvgl.h>
 #include "logging.h"
 #include "layout.h"
-#include "physical.h"
+#include "display.h"
 #include "uicallbacks.h"
+#include "physical.h"
 
 extern lv_obj_t* screen1;
 extern lv_obj_t* screen2;
@@ -11,8 +12,6 @@ extern lv_obj_t* slider;
 extern lv_obj_t* slider_label;
 extern lv_display_t* disp;
 
-
-//void HandleBrightnessSlider(lv_obj_t* slider, lv_event_t* e)
 void HandleBrightnessSlider(lv_event_t * e)
 {
     int percentage = lv_slider_get_value(slider);
@@ -38,8 +37,8 @@ void HandleGesture(lv_event_t* e)
 {
     enterfunction("HandleGesture");
 
-    //lv_obj_t* screen = (lv_obj_t*)lv_event_get_current_target(e);
     lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_active());
+
     switch (dir)
     {
         case LV_DIR_LEFT:

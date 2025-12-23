@@ -9,7 +9,7 @@
 #define DEBUGMODE true
 #endif
 
-int loglevel;
+extern int loglevel;
 
 #if DEBUGMODE
 

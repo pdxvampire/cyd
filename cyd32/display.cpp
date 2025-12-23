@@ -9,6 +9,21 @@
 
 extern TFT_eSPI tft;
 
+unsigned long lastLvTick = 0;
+
+lv_style_t popuplabelstyle;
+lv_obj_t *popuplabel;
+lv_obj_t *screen1;
+lv_obj_t *screen2;
+lv_obj_t *settingsscreen;
+lv_obj_t *btn1;
+lv_obj_t *btn2;
+lv_obj_t *label1;
+lv_obj_t *label2;
+lv_obj_t *label3;
+lv_obj_t *slider;
+lv_obj_t *slider_label;
+
 void hide_object_timer_cb(lv_timer_t *timer)
 {
     enterfunction("hide_object_timer_cb");
@@ -153,12 +168,9 @@ void InitializeDisplay()
 {
     enterfunction("InitializeDisplay");
 
-    lastLvTick = 0;
-
     // Initialise the TFT
-
     tft.begin();
-    pinMode(TFT_BL, TFT_BACKLIGHT_ON); // defined in User_Setup.h
+    pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
 
     //tft.fillScreen(0x000000); //black
     // Example: fuschia

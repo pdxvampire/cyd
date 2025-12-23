@@ -46,8 +46,6 @@
 #include "SD.h"
 #include "SPI.h"
 
-
-
 /* Uncomment and set up if you want to use custom pins for the SPI communication
 #define REASSIGN_PINS
 
@@ -58,8 +56,8 @@ int mosi  = CYD_SD_MOSI;  // 23
 int cs    = CYD_SD_SS;    //  5
 //*/
 
-uint8_t cardType;
-uint64_t cardSize;
+extern uint8_t cardType;
+extern uint64_t cardSize;
 
 void listDir(fs::FS &fs, const char *dirname, uint8_t levels);
 void createDir(fs::FS &fs, const char *path);

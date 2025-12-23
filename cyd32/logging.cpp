@@ -2,6 +2,8 @@
 #include <lvgl.h>
 #include "logging.h"
 
+int loglevel = 0;
+
 /* Serial debugging for LVGL */
 #if LV_USE_LOG != 0
 void log_print(lv_log_level_t level, const char* buf)

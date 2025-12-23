@@ -8,12 +8,14 @@ SET_LOOP_TASK_STACK_SIZE(16 * 1024);
 
 TFT_eSPI tft = TFT_eSPI();
 
+//extern unsigned long lastLvTick;
+
 #include "logging.h"
-#include "physical.h"
 #include "sdcard.h"
-#include "touchinput.h"
-#include "display.h"
 #include "layout.h"
+#include "display.h"
+#include "touchinput.h"
+#include "physical.h"
 
 void setup()
 {
@@ -66,8 +68,6 @@ void InitializeSerialCommunication(const char* title)
     // Wait for the serial port to connect so the Serial Monitor printouts work consistently
     // This may not be necessary on Windows or Linux but with my Macbook Air M3 (2024) it is.
     delay(2000);
-
-    loglevel = 0;
 
     logit("");  // insert a newline after the random garbage that gets printed on connection/powerup
 
