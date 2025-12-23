@@ -140,25 +140,11 @@ void CreateScreen1()
     lv_obj_add_event_cb(screen1, HandleGesture, LV_EVENT_GESTURE, NULL);
     logit("back from add gesture handler");
 
-   // for (int x = 1; x <= 3; x++)
-   // {
-   //     create_image_button_from_sd(x);
-   // }
-int id = 2;
-    lv_obj_t *circle = lv_obj_create(screen1); // Create a basic object
-lv_obj_set_size(circle, 100, 100);
-lv_obj_set_pos(circle, horns[id].xcoord+20, horns[id].ycoord+20);
-    logit("Position set to %d,%d", horns[id].xcoord, horns[id].ycoord);
+    for (int x = 1; x <= 3; x++)
+    {
+        create_image_button_from_sd(x);
+    }
 
-
-// For a filled circle:
-lv_obj_set_style_bg_color(circle, (lv_color_t)LV_COLOR_MAKE(255, 0, 255), 0); // Set background color
-lv_obj_set_style_bg_opa(circle, LV_OPA_COVER, 0); // Make it opaque
-lv_obj_set_style_radius(circle, LV_RADIUS_CIRCLE, 0); // Makes it a circle
-
- lv_obj_add_event_cb(circle, HandleButtonClick, LV_EVENT_CLICKED, (void *)id);
-    logit("Event callback added.");
-create_image_button_from_sd(id);
     exitfunction("CreateScreen1");
 }
 
