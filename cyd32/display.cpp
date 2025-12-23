@@ -147,7 +147,7 @@ void CreateScreen1()
 int id = 2;
     lv_obj_t *circle = lv_obj_create(screen1); // Create a basic object
 lv_obj_set_size(circle, 100, 100);
-lv_obj_set_pos(circle, horns[id].xcoord, horns[id].ycoord);
+lv_obj_set_pos(circle, horns[id].xcoord+20, horns[id].ycoord+20);
     logit("Position set to %d,%d", horns[id].xcoord, horns[id].ycoord);
 
 
@@ -156,9 +156,9 @@ lv_obj_set_style_bg_color(circle, (lv_color_t)LV_COLOR_MAKE(255, 0, 255), 0); //
 lv_obj_set_style_bg_opa(circle, LV_OPA_COVER, 0); // Make it opaque
 lv_obj_set_style_radius(circle, LV_RADIUS_CIRCLE, 0); // Makes it a circle
 
- lv_obj_add_event_cb(imgbtnsdcard, HandleButtonClick, LV_EVENT_CLICKED, (void *)id);
+ lv_obj_add_event_cb(circle, HandleButtonClick, LV_EVENT_CLICKED, (void *)id);
     logit("Event callback added.");
-
+create_image_button_from_sd(id);
     exitfunction("CreateScreen1");
 }
 
@@ -231,7 +231,7 @@ void InitializeDisplay()
     disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
 
     // set display rotation for both tft and LVGL to match
-    tft.setRotation(2);
+    //tft.setRotation(2);
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     CreateScreen1();
