@@ -215,7 +215,7 @@ void InitializeDisplay()
 
     //tft.fillScreen(0x000000); //black
     // Example: fuschia
-    uint16_t fuschia = tft.color565(255, 0, 255);
+    // uint16_t fuschia = tft.color565(255, 0, 255);
 
     //tft.fillScreen(fuschia);
 
@@ -237,12 +237,6 @@ void InitializeDisplay()
     CreateScreen1();
     // CreateScreen2();
 
-    /*
-lv_memory_buffer[0] = *(lv_obj_create(NULL));
-screen1 = lv_memory_buffer[0];
-lv_memory_buffer[1] = *(lv_obj_create(NULL));
-screen2 = lv_memory_buffer[1];
-*/
     logit("load screen1");
     lv_scr_load(screen1);
     logit("back from load screen1");

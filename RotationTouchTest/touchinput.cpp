@@ -9,9 +9,10 @@ uint16_t rawX, rawY;
 // Touch input for LVGL
 void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data)
 {
+    //uint16_t rawX, rawY;
     if (touch.getTouch(&rawX, &rawY))
     {
-       data->state = LV_INDEV_STATE_PRESSED;
+        data->state = LV_INDEV_STATE_PRESSED;
 
         ///// without LVGL use this for portrait with USB at top
         /////        data->point.x = 240 - rawX - 1;
@@ -21,8 +22,12 @@ void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data)
         data->point.x = rawX;
         data->point.y = rawY;
 
-        logit("🖐 LVGL Touch at (%d, %d) | Raw: (%d, %d)",
-              data->point.x, data->point.y, rawX, rawY);
+        Serial.printf("🖐 LVGL Touch at ");
+        Serial.printf("%d,", (int)(data->point.x));
+        Serial.printf("%d\n", (int)(data->point.y));
+        Serial.printf("🖐 RAW ");
+        Serial.printf("%d,", rawX);
+        Serial.printf("%d\n", rawY);
     }
     else
     {
@@ -42,11 +47,6 @@ void InitializeTouch()
     lv_indev_t* indev = lv_indev_create();
     lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(indev, HandleTouch);
-
-    // Gestures
-    /* Set the minimum gesture velocity to 10 pixels/second */
-    indev->gesture_min_velocity = 5;
-    indev->gesture_limit = 10;  // Make it more sensitive (trigger after 10px)
 
     exitfunction("InitializeTouch");
 }
