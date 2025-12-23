@@ -76,7 +76,7 @@ void HandleButtonClick(lv_event_t* e)
     {
         logit("✅ Button Clicked!");
 
-        lv_obj_t* btn = (lv_obj_t*)lv_event_get_target(e);  // Get the object that triggered the event
+        //lv_obj_t* btn = (lv_obj_t*)lv_event_get_target(e);  // Get the object that triggered the event
                                                             // Now 'btn' points to the specific button that was clicked
         // You can use 'btn' to identify the button
         lv_obj_t* user_obj = (lv_obj_t*)lv_event_get_user_data(e);
@@ -84,7 +84,7 @@ void HandleButtonClick(lv_event_t* e)
 
         logit("button id:  %s", horns[button_id].name);
 
-        // These are defined in code.h
+        // These are defined in physical.cpp
         switch (button_id)
         {
             case 0:

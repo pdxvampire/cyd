@@ -52,15 +52,31 @@ void hide_object_timer_cb(lv_timer_t *timer)
 
 void ShowPopupLabelBriefly(const char *msg)
 {
+    enterfunction("ShowPopupLabelBriefly");
+
+    logit("add style to popuplable");
     lv_obj_add_style(popuplabel, &popuplabelstyle, 0);
+
+    logit("set label text to '%s'", msg);
     lv_label_set_text(popuplabel, msg);
+
+    logit("center popuplable");
     lv_obj_align(popuplabel, LV_ALIGN_CENTER, 0, 0);
+
+    logit("unhide popuplable");
     lv_obj_clear_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);
+
+    logit("set popuplable parent");
     lv_obj_set_parent(popuplabel, lv_screen_active());
+
+    logit("move popuplable to foreground");
     lv_obj_move_foreground(popuplabel);
 
     // This creates a timer that runs the callback after 3000 milliseconds (3 seconds).
+    logit("add timer to popuplable");
     lv_timer_create(hide_object_timer_cb, 1050, popuplabel);
+
+    exitfunction("ShowPopupLabelBriefly");
 }
 
 void create_image_button_from_sd(int id)
@@ -217,12 +233,12 @@ screen2 = lv_memory_buffer[1];
     lv_scr_load(screen1);
     logit("back from load screen1");
 
-
     // fill active screen with amber, useful for seeing image placement
     // for other predefines see https://docs.lvgl.io/8.0/overview/color.html
     // lv_obj_set_style_bg_color(lv_screen_active(), lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
     // fill active screen with black
-    /*
+
+    logit("initialize popuplabel");
     lv_style_init(&popuplabelstyle);
     lv_style_set_text_color(&popuplabelstyle, lv_palette_main(LV_PALETTE_RED));
     // Set the background color and ensure it's visible
@@ -230,14 +246,12 @@ screen2 = lv_memory_buffer[1];
     lv_style_set_bg_opa(&popuplabelstyle, LV_OPA_COVER);
 
     //lv_style_set_text_letter_space(&popuplabelstyle, 5); // more space between letters
-    lv_style_set_text_font(&popuplabelstyle, &lv_font_montserrat_30); // Set a larger font
+    lv_style_set_text_font(&popuplabelstyle, &lv_font_montserrat_30);  // Set a larger font
 
     popuplabel = lv_label_create(lv_screen_active());
     //lv_obj_set_pos(popuplabel, 200,200);
     lv_obj_center(popuplabel);
     lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);  // Hide the object
-
-*/
 
     exitfunction("InitializeDisplay");
 }
