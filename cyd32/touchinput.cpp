@@ -11,12 +11,12 @@ void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data)
     if (touch.getTouch(&rawX, &rawY))
     {
         data->state = LV_INDEV_STATE_PRESSED;
-        //data->point.x = rawY;
+        data->point.x = rawY;
         //data->point.y = 240 - rawX;
-        //data->point.x = rawY;
-        data->point.x = 240 - rawX - 1;
+        data->point.x = rawY;
+        ////data->point.x = 240 - rawX - 1;
         //data->point.y = 240 - tmp - 1;
-        data->point.y = 320 - rawY - 1;
+        ////data->point.y = 320 - rawY - 1;
 
         logit("🖐 LVGL Touch at (%d, %d) | Raw: (%d, %d)",
               data->point.x, data->point.y, rawX, rawY);

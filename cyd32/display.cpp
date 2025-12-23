@@ -231,7 +231,7 @@ void InitializeDisplay()
     disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
 
     // set display rotation for both tft and LVGL to match
-    //tft.setRotation(2);
+    tft.setRotation(0);
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     CreateScreen1();
