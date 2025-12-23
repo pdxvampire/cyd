@@ -4,8 +4,6 @@
 #include <TFT_eSPI.h>
 #include <lvgl.h>
 #include "logging.h"
-#include "touchinput.h"
-#include "physical.h"
 
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320

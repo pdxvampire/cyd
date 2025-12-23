@@ -3,9 +3,13 @@
 #include "layout.h"
 #include "display.h"
 
+extern TFT_eSPI tft;
+extern std::vector<Horn> horns;
+
 void DoSomethingButton01()
 {
     ShowPopupLabelBriefly(horns[0].name);
+    tft.setBrightness(255);
 }
 
 void DoSomethingButton02()
