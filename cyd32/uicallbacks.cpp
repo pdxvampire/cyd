@@ -82,45 +82,46 @@ void HandleButtonClick(lv_event_t* e)
         lv_obj_t* user_obj = (lv_obj_t*)lv_event_get_user_data(e);
         int button_id = (int)user_obj;
 
-        logit("button id:  %s", horns[button_id].name);
+        logit("button id:    %d", button_id);
+        logit("button name:  %s", horns[button_id].name);
 
         // These are defined in physical.cpp
         switch (button_id)
         {
-            case 0:
+            case 1:
                 DoSomethingButton01();
                 break;
-            case 1:
+            case 2:
                 DoSomethingButton02();
                 break;
-            case 2:
+            case 3:
                 DoSomethingButton03();
                 break;
-            case 3:
+            case 4:
                 DoSomethingButton04();
                 break;
-            case 4:
+            case 5:
                 DoSomethingButton05();
                 break;
-            case 5:
+            case 6:
                 DoSomethingButton06();
                 break;
-            case 6:
+            case 7:
                 DoSomethingButton07();
                 break;
-            case 7:
+            case 8:
                 DoSomethingButton08();
                 break;
-            case 8:
+            case 9:
                 DoSomethingButton09();
                 break;
-            case 9:
+            case 10:
                 DoSomethingButton10();
                 break;
-            case 10:
+            case 11:
                 DoSomethingButton11();
                 break;
-            case 11:
+            case 12:
                 DoSomethingButton12();
                 break;
         }
