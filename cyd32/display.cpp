@@ -9,11 +9,11 @@
 
 extern TFT_eSPI tft;
 
-void hide_object_timer_cb(lv_timer_t* timer)
+void hide_object_timer_cb(lv_timer_t *timer)
 {
     enterfunction("hide_object_timer_cb");
 
-    lv_obj_t* obj = (lv_obj_t*)timer->user_data;
+    lv_obj_t *obj = (lv_obj_t *)timer->user_data;
     if (obj != NULL)
     {
         logit("hide the object");
@@ -86,25 +86,7 @@ void create_image_button_from_sd(int id)
 
     exitfunction("create_image_button_from_sd");
 }
-/*
-void btn1_event_callback(lv_event_t *e)
-{
-    logit("button 1 clicked!");
-    // CreateScreen2();
-    //lv_screen_load(screen2);
-    lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_LEFT, 200, 0, false);
-    //   lv_obj_del_async(screen1);
-    lv_display_flush_ready(disp);
-}
 
-void btn2_event_callback(lv_event_t *e)
-{
-    logit("button 2 clicked!");
-    //   CreateScreen1();
-    lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 200, 0, false);
-    lv_display_flush_ready(disp);
-}
-*/
 void CreateScreen1()
 {
     enterfunction("CreateScreen1");
@@ -148,32 +130,23 @@ void ShowSettingsScreen()
     settingsscreen = lv_obj_create(NULL);
 
     // Set background color (light gray)
-    lv_obj_set_style_bg_color(settingsscreen, lv_color_hex(0xDDDDDD), LV_PART_MAIN);
-
+    //lv_obj_set_style_bg_color(settingsscreen, lv_color_hex(0xDDDDDD), LV_PART_MAIN);
     lv_obj_set_style_bg_color(settingsscreen, lv_palette_main(LV_PALETTE_GREEN), LV_PART_MAIN);
 
     label3 = lv_label_create(settingsscreen);
     lv_label_set_text(label3, "Brightness");
     lv_obj_set_size(label3, 140, 60);
-    lv_obj_center(label3);
+    lv_obj_align(label3, LV_ALIGN_TOP_MID, 0, 10);
 
     slider = lv_slider_create(settingsscreen);
+    lv_obj_set_width(slider, 180);
+    lv_obj_align(slider, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_add_event_cb(slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
     lv_slider_set_range(slider, 10, 100);
-    lv_obj_set_width(slider, 200);                                    // Width of the slider
-    lv_obj_align_to(slider, label3, LV_ALIGN_OUT_BOTTOM_MID, 0, 20);  // Position under button
 
-    // Slider release event
-    lv_obj_add_event_cb(
-        slider, [](lv_event_t *e)
-        {
-            if (lv_event_get_code(e) == LV_EVENT_RELEASED)
-            {
-                lv_obj_t *slider = (lv_obj_t *)lv_event_get_target(e);  // Cast required in LVGL v9
-                int val = lv_slider_get_value(slider);
-                Serial.printf("🎚 Slider released, value: %d\n", val);
-            }
-        },
-        LV_EVENT_ALL, NULL);
+    slider_label = lv_label_create(settingsscreen);
+    lv_label_set_text(slider_label, "0");
+    lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 20);
 }
 
 void InitializeDisplay()
@@ -183,8 +156,10 @@ void InitializeDisplay()
     lastLvTick = 0;
 
     // Initialise the TFT
-    
+
     tft.begin();
+    pinMode(TFT_BL, TFT_BACKLIGHT_ON); // defined in User_Setup.h
+
     //tft.fillScreen(0x000000); //black
     // Example: fuschia
     uint16_t fuschia = tft.color565(255, 0, 255);

@@ -9,7 +9,6 @@ extern std::vector<Horn> horns;
 void DoSomethingButton01()
 {
     ShowPopupLabelBriefly(horns[0].name);
-    tft.setBrightness(255);
 }
 
 void DoSomethingButton02()

@@ -29,6 +29,7 @@ static lv_obj_t *label1;
 static lv_obj_t *label2;
 static lv_obj_t *label3;
 static lv_obj_t *slider;
+static lv_obj_t *slider_label;
 
 void hide_object_timer_cb(lv_timer_t* timer);
 void ShowPopupLabelBriefly(const char *msg);

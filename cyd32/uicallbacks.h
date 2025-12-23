@@ -3,6 +3,7 @@
 
 #include "Arduino.h"
 
+void HandleBrightnessSlider(lv_obj_t* slider, lv_event_t* e);
 void HandleGesture(lv_event_t* e);
 void HandleButtonClick(lv_event_t* e);
 
