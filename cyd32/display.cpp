@@ -32,12 +32,7 @@ lv_obj_t *slider_label;
 
 lv_display_t *disp;
 
-const byte NUMBER_OF_RECORDS = 4;
-char recordArray[NUMBER_OF_RECORDS][40];
-char *parameterArray[NUMBER_OF_RECORDS];
-char aRecord[30];
-byte recordNum;
-byte charNum;
+uint brightness = 255;
 
 void hide_object_timer_cb(lv_timer_t *timer)
 {
@@ -228,12 +223,17 @@ void CreateSettingsScreen()
     lv_obj_set_width(slider, 160);
     lv_obj_align(slider, LV_ALIGN_LEFT_MID, 10, 0);
     lv_obj_add_event_cb(slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    lv_slider_set_range(slider, 10, 100);
-    lv_slider_set_value(slider, 100, LV_ANIM_OFF);
+    lv_slider_set_range(slider, 10, 100); // don't allow turning completely off or there is no way to turn it back on
+    // Saved value is the real 10..255, convert here to % for the slider.
+    int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
+    logit("############################################### %d",percentage);
+    lv_slider_set_value(slider, percentage, LV_ANIM_OFF);
 
     logit("create slider label");
     slider_label = lv_label_create(settingsscreen);
-    lv_label_set_text(slider_label, "100");
+    const char* pct = String(percentage).c_str();
+    logit("############################################### %s",pct);
+    lv_label_set_text(slider_label, pct);
     lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 15, 0);
 
     logit("create close button");
@@ -264,30 +264,6 @@ void CreateSettingsScreen()
     exitfunction("CreateSettingsScreen");
 }
 
-
-void parseRecordArray()  //split the parameters from each record
-{
-    for (int index = 0; index < NUMBER_OF_RECORDS; index++)
-    {
-        char *ptr;                              //pointer to current data
-        ptr = strtok(recordArray[index], "=");  //find the "="
-        ptr = strtok(NULL, "");                 //get remainder of text
-        parameterArray[index] = ptr + 1;        //remove space and save to array
-    }
-}
-
-void printParameterArray()
-{
-    Serial.println("\nparameter values from the array");
-    for (int index = 0; index < NUMBER_OF_RECORDS; index++)
-    {
-        Serial.print("parameterArray[");
-        Serial.print(index);
-        Serial.print("] = ");
-        Serial.println(parameterArray[index]);
-    }
-}
-
 void InitializeDisplay()
 {
     enterfunction("InitializeDisplay");
@@ -297,61 +273,8 @@ void InitializeDisplay()
     tft.fillScreen(0x000000);           //black
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
 
-
-
-
-    int brightness = 255;
-    File configFile = SD.open("settings.txt");
-    if (configFile)
-    {
-        while (configFile.available())
-        {
-            char inChar = configFile.read();  //get a character
-            if (inChar == '\n')               //if it is a newline
-            {
-                strcpy(recordArray[recordNum], aRecord);  //copy the record to the array
-                recordNum++;                              //increment the record array index
-                if (recordNum > NUMBER_OF_RECORDS)
-                {
-                    Serial.println("record count exceeded");
-                    while (true)
-                        ;
-                }
-                charNum = 0;  //start again at the beginning of the array record
-            }
-            else
-            {
-                aRecord[charNum] = inChar;  //add character to record
-                charNum++;                  //increment character index
-                aRecord[charNum] = '\0';    //terminate the record
-            }
-        }
-        //String line = configFile.readStringUntil('\n');
-        //line.trim();  // Remove leading/trailing whitespace including carriage return
-        configFile.close();
-        parseRecordArray();
-        printParameterArray();
-        logit(recordArray[0]);
-        String line = String(recordArray[0]);
-        line.trim();
-        char *key;
-        char *value;
-        key = strtok(line, "=");
-        value = strtok(NULL, "");
-        line = String(value);
-        line.trim();
-        int tmpint = line.toInt();
-        if (tmpint > 9)
-        {
-            brightness = tmpint;
-            logit("brightness is now %d",brightness);
-        }
-    }
+    brightness = GetBrightness();
     analogWrite(27, brightness);  // backlight pin is 27, range is 0..255
-
-
-
-
 
     // Example: fuschia
     // uint16_t fuschia = tft.color565(255, 0, 255);
@@ -383,7 +306,6 @@ void InitializeDisplay()
     // fill active screen with amber, useful for seeing image placement
     // for other predefines see https://docs.lvgl.io/8.0/overview/color.html
     // lv_obj_set_style_bg_color(lv_screen_active(), lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
-    // fill active screen with black
 
     logit("initialize popuplabel");
     lv_style_init(&popuplabelstyle);
@@ -399,17 +321,6 @@ void InitializeDisplay()
     //lv_obj_set_pos(popuplabel, 200,200);
     lv_obj_center(popuplabel);
     lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);  // Hide the object
-
-
-    if (screen2 != NULL)
-    {
-        logit("end of dispinit:  scr2 not null");
-        // ... use display
-    }
-    else
-    {
-        logit("end of dispinit:  scr2 null");
-    }
 
     exitfunction("InitializeDisplay");
 }

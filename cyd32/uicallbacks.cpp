@@ -5,8 +5,7 @@
 #include "display.h"
 #include "uicallbacks.h"
 #include "physical.h"
-#include <SD.h>
-#include <FS.h>
+#include "settings.h"
 
 extern lv_obj_t* screen1;
 extern lv_obj_t* screen2;
@@ -36,13 +35,7 @@ void HandleBrightnessSlider(lv_event_t* e)
         case LV_EVENT_RELEASED:
             logit("🎚 Slider released, value: %d, pct: %d", val, percentage);
             analogWrite(27, val);  // backlight pin is 27
-            File configFile = SD.open("settings.txt", FILE_WRITE);
-            if (configFile)
-            {
-                configFile.print("brightness=");
-                configFile.println(val);
-                configFile.close();
-            }
+            SetBrightness(val);
             break;
     }
 }
@@ -84,6 +77,9 @@ void HandleGesture(lv_event_t* e)
             logit("B");
             break;
     }
+
+    // Tell the input device to wait for release before processing more events
+    lv_indev_wait_release(lv_indev_get_act());
 
     exitfunction("HandleGesture");
 }
