@@ -17,7 +17,7 @@ TFT_eSPI tft = TFT_eSPI();
 
 void setup()
 {
-    InitializeSerialCommunication("SKETCH CYD31");
+    InitializeSerialCommunication("SKETCH CYD32");
 
     sdcard_setup();
 

@@ -14,9 +14,6 @@ extern lv_display_t* disp;
 
 void close_button_event_cb(lv_event_t* e)
 {
-    // lv_obj_t *obj = lv_event_get_target(e);
-    // lv_obj_t *parent = lv_obj_get_parent(obj); // Get the parent (e.g., window)
-    // lv_obj_del_async(parent); // Asynchronously delete the parent object
     ExitSettingsScreen();
 }
 
@@ -37,6 +34,13 @@ void HandleBrightnessSlider(lv_event_t* e)
         case LV_EVENT_RELEASED:
             logit("🎚 Slider released, value: %d, pct: %d", val, percentage);
             analogWrite(27, val);  // backlight pin is 27
+            File configFile = SD.open("settings.txt", FILE_WRITE);
+            if (configFile)
+            {
+                configFile.print("brightness=");
+                configFile.println(val);
+                configFile.close()
+            }
             break;
     }
 }
@@ -51,10 +55,11 @@ void HandleGesture(lv_event_t* e)
     {
         case LV_DIR_LEFT:
             logit("L");
-            logit("call CreateScreen2");
-            CreateScreen2();
+            //logit("call CreateScreen2");
+            //CreateScreen2();
             logit("call load anim for screen 2");
-            lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_TOP, 25, 0, true);
+            lv_screen_load_anim(screen2, LV_SCR_LOAD_ANIM_FADE_IN, 15, 0, false);
+            ////lv_screen_load(screen2);
             //lv_obj_del_async(screen1);
             //lv_obj_del(screen1);
             logit("flush display");
@@ -63,9 +68,10 @@ void HandleGesture(lv_event_t* e)
         case LV_DIR_RIGHT:
             logit("R");
             logit("call CreateScreen1");
-            CreateScreen1();
+            //CreateScreen1();
             logit("call load anim for screen 1");
-            lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_BOTTOM, 30, 0, true);
+            lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 29, 0, false);
+            //lv_obj_del_async(screen2);
             logit("flush display");
             lv_display_flush_ready(disp);
             break;
@@ -86,8 +92,8 @@ void ExitSettingsScreen()
     CreateScreen2();
     logit("call load anim for screen 2");
     lv_screen_load(screen2);
-    //lv_obj_del_async(screen1);
-    lv_obj_del(settingsscreen);
+    lv_obj_del_async(settingsscreen);
+    //lv_obj_del(settingsscreen);
     logit("flush display");
     lv_display_flush_ready(disp);
 }
