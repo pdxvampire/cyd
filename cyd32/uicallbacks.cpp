@@ -5,6 +5,8 @@
 #include "display.h"
 #include "uicallbacks.h"
 #include "physical.h"
+#include <SD.h>
+#include <FS.h>
 
 extern lv_obj_t* screen1;
 extern lv_obj_t* screen2;
@@ -39,7 +41,7 @@ void HandleBrightnessSlider(lv_event_t* e)
             {
                 configFile.print("brightness=");
                 configFile.println(val);
-                configFile.close()
+                configFile.close();
             }
             break;
     }

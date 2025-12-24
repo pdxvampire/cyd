@@ -10,6 +10,7 @@
 #include "layout.h"
 #include "display.h"
 #include "uicallbacks.h"
+#include "settings.h"
 
 extern TFT_eSPI tft;
 
@@ -30,6 +31,13 @@ lv_obj_t *slider;
 lv_obj_t *slider_label;
 
 lv_display_t *disp;
+
+const byte NUMBER_OF_RECORDS = 4;
+char recordArray[NUMBER_OF_RECORDS][40];
+char *parameterArray[NUMBER_OF_RECORDS];
+char aRecord[30];
+byte recordNum;
+byte charNum;
 
 void hide_object_timer_cb(lv_timer_t *timer)
 {
@@ -147,7 +155,7 @@ void CreateScreen1()
     {
         create_image_button_from_sd(x);
     }
-
+lv_obj_set_style_anim_duration(screen1, 30, LV_PART_MAIN);
     exitfunction("CreateScreen1");
 }
 
@@ -286,7 +294,7 @@ void InitializeDisplay()
 
     // Initialise the TFT
     tft.begin();
-    tft.fillScreen(0x000000); //black
+    tft.fillScreen(0x000000);           //black
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
 
 
@@ -323,14 +331,28 @@ void InitializeDisplay()
         configFile.close();
         parseRecordArray();
         printParameterArray();
-        brightness = parameterArray[0];
+        logit(recordArray[0]);
+        String line = String(recordArray[0]);
+        line.trim();
+        char *key;
+        char *value;
+        key = strtok(line, "=");
+        value = strtok(NULL, "");
+        line = String(value);
+        line.trim();
+        int tmpint = line.toInt();
+        if (tmpint > 9)
+        {
+            brightness = tmpint;
+            logit("brightness is now %d",brightness);
+        }
     }
-        analogWrite(27, brightness);  // backlight pin is 27, range is 0..255
-    
+    analogWrite(27, brightness);  // backlight pin is 27, range is 0..255
 
 
 
-    
+
+
     // Example: fuschia
     // uint16_t fuschia = tft.color565(255, 0, 255);
 
