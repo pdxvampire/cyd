@@ -197,12 +197,12 @@ void CreateSettingsScreen()
     lv_label_set_text(slider_label, "100");
     lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 20);
 
-    lv_obj_t *close_btn = lv_button_create(settingsscreen);
-    lv_obj_t *labelX = lv_label_create(close_btn);
+   lv_obj_t *close_btn = lv_button_create(settingsscreen);
+ lv_obj_t *labelX = lv_label_create(close_btn);
     lv_label_set_text(labelX, LV_SYMBOL_CLOSE);
     lv_obj_center(labelX);  // Center the 'X' symbol within the button
     lv_obj_add_event_cb(close_btn, close_button_event_cb, LV_EVENT_CLICKED, NULL);
-    lv_obj_align(label3, LV_ALIGN_TOP_RIGHT, 0, 0);
+    lv_obj_align(labelX, LV_ALIGN_TOP_RIGHT, 0, 0);
 
     exitfunction("CreateSettingsScreen");
 }
