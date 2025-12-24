@@ -31,7 +31,7 @@ extern lv_obj_t *slider_label;
 
 void hide_object_timer_cb(lv_timer_t *timer);
 void ShowPopupLabelBriefly(const char *msg);
-void ShowSettingsScreen();
+void CreateSettingsScreen();
 void create_image_button_from_sd(int id);
 void CreateScreen1();
 void CreateScreen2();

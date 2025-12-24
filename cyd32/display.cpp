@@ -140,7 +140,7 @@ void CreateScreen1()
     lv_obj_add_event_cb(screen1, HandleGesture, LV_EVENT_GESTURE, NULL);
     logit("back from add gesture handler");
 
-    for (int x = 1; x <= 3; x++)
+    for (int x = 1; x <= 6; x++)
     {
         create_image_button_from_sd(x);
     }
@@ -153,13 +153,13 @@ void CreateScreen2()
     enterfunction("CreateScreen2");
 
     screen2 = lv_obj_create(NULL);
-    lv_obj_set_style_bg_color(screen2, lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(screen2, lv_color_black(), LV_PART_MAIN);
 
     logit("add gesture event handler to screen1");
     lv_obj_add_event_cb(screen2, HandleGesture, LV_EVENT_GESTURE, NULL);
     logit("back from add gesture handler");
 
-    for (int x = 7; x <= 12; x++)
+    for (int x = 7; x <= 10; x++)
     {
         create_image_button_from_sd(x);
     }
@@ -167,28 +167,44 @@ void CreateScreen2()
     exitfunction("CreateScreen2");
 }
 
-void ShowSettingsScreen()
+void CreateSettingsScreen()
 {
+    enterfunction("CreateSettingsScreen");
+
+    logit("create settingsscreen");
     settingsscreen = lv_obj_create(NULL);
 
+    logit("set bgcolor");
     // Set background color (light gray)
     //lv_obj_set_style_bg_color(settingsscreen, lv_color_hex(0xDDDDDD), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(settingsscreen, lv_palette_main(LV_PALETTE_GREEN), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(settingsscreen, lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
 
+    logit("create label3");
     label3 = lv_label_create(settingsscreen);
-    lv_label_set_text(label3, "Brightness");
-    lv_obj_set_size(label3, 140, 60);
-    lv_obj_align(label3, LV_ALIGN_TOP_MID, 0, 10);
+    lv_label_set_text(label3, "BRIGHTNESS");
+    lv_obj_align(label3, LV_ALIGN_TOP_MID, 0, 60);
 
+    logit("create slider");
     slider = lv_slider_create(settingsscreen);
     lv_obj_set_width(slider, 180);
     lv_obj_align(slider, LV_ALIGN_CENTER, 0, 0);
     lv_obj_add_event_cb(slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
     lv_slider_set_range(slider, 10, 100);
+    lv_slider_set_value(slider, 100, LV_ANIM_OFF);
 
+    logit("create slider label");
     slider_label = lv_label_create(settingsscreen);
-    lv_label_set_text(slider_label, "0");
+    lv_label_set_text(slider_label, "100");
     lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 20);
+
+    lv_obj_t *close_btn = lv_button_create(settingsscreen);
+    lv_obj_t *labelX = lv_label_create(close_btn);
+    lv_label_set_text(labelX, LV_SYMBOL_CLOSE);
+    lv_obj_center(labelX);  // Center the 'X' symbol within the button
+    lv_obj_add_event_cb(close_btn, close_button_event_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_align(label3, LV_ALIGN_TOP_RIGHT, 0, 0);
+
+    exitfunction("CreateSettingsScreen");
 }
 
 void InitializeDisplay()

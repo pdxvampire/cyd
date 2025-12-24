@@ -92,7 +92,14 @@ void DoSomethingButton10()
 {
     enterfunction("DoSomethingButton10");
 
-    ShowSettingsScreen();
+    logit("call CreateSettingsScreen");
+    CreateSettingsScreen();
+    logit("call load anim for settings screen");
+    lv_screen_load_anim(settingsscreen, LV_SCREEN_LOAD_ANIM_MOVE_TOP, 30, 0, true);
+    //lv_obj_del_async(screen1);
+    //lv_obj_del(screen1);
+    logit("flush display");
+    lv_display_flush_ready(disp);
 
     enterfunction("DoSomethingButton10");
 }

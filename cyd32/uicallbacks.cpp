@@ -12,7 +12,15 @@ extern lv_obj_t* slider;
 extern lv_obj_t* slider_label;
 extern lv_display_t* disp;
 
-void HandleBrightnessSlider(lv_event_t * e)
+void close_button_event_cb(lv_event_t* e)
+{
+    // lv_obj_t *obj = lv_event_get_target(e);
+    // lv_obj_t *parent = lv_obj_get_parent(obj); // Get the parent (e.g., window)
+    // lv_obj_del_async(parent); // Asynchronously delete the parent object
+    ExitSettingsScreen();
+}
+
+void HandleBrightnessSlider(lv_event_t* e)
 {
     int percentage = lv_slider_get_value(slider);
     int val = (int)map(percentage, 0, 100, 0, 255);  // brightness is 0..255, show user-friendly percentage 0..100
@@ -43,17 +51,22 @@ void HandleGesture(lv_event_t* e)
     {
         case LV_DIR_LEFT:
             logit("L");
-            lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_LEFT, 200, 0, false);
-            //lv_obj_del_async(screen1);
-            lv_obj_del(screen1);
+            logit("call CreateScreen2");
             CreateScreen2();
+            logit("call load anim for screen 2");
+            lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_LEFT, 30, 0, true);
+            //lv_obj_del_async(screen1);
+            //lv_obj_del(screen1);
+            logit("flush display");
             lv_display_flush_ready(disp);
             break;
         case LV_DIR_RIGHT:
             logit("R");
-            lv_obj_del(screen2);
+            logit("call CreateScreen1");
             CreateScreen1();
-            lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 200, 0, false);
+            logit("call load anim for screen 1");
+            lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 20, 0, true);
+            logit("flush display");
             lv_display_flush_ready(disp);
             break;
         case LV_DIR_TOP:
@@ -67,6 +80,18 @@ void HandleGesture(lv_event_t* e)
     exitfunction("HandleGesture");
 }
 
+void ExitSettingsScreen()
+{
+    logit("call CreateScreen2");
+    CreateScreen2();
+    logit("call load anim for screen 2");
+    lv_screen_load(screen2);
+    //lv_obj_del_async(screen1);
+    lv_obj_del(settingsscreen);
+    logit("flush display");
+    lv_display_flush_ready(disp);
+}
+
 // Button event callback
 void HandleButtonClick(lv_event_t* e)
 {
@@ -77,7 +102,7 @@ void HandleButtonClick(lv_event_t* e)
         logit("✅ Button Clicked!");
 
         //lv_obj_t* btn = (lv_obj_t*)lv_event_get_target(e);  // Get the object that triggered the event
-                                                            // Now 'btn' points to the specific button that was clicked
+        // Now 'btn' points to the specific button that was clicked
         // You can use 'btn' to identify the button
         lv_obj_t* user_obj = (lv_obj_t*)lv_event_get_user_data(e);
         int button_id = (int)user_obj;
@@ -123,6 +148,9 @@ void HandleButtonClick(lv_event_t* e)
                 break;
             case 12:
                 DoSomethingButton12();
+                break;
+            case 13:
+                ExitSettingsScreen();
                 break;
         }
     }

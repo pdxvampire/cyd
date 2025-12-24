@@ -6,5 +6,7 @@
 void HandleBrightnessSlider(lv_event_t* e);
 void HandleGesture(lv_event_t* e);
 void HandleButtonClick(lv_event_t* e);
+void ExitSettingsScreen();
+void close_button_event_cb(lv_event_t* e);
 
 #endif // UICALLBACKS_H

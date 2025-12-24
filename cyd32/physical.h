@@ -13,5 +13,6 @@ void DoSomethingButton09();
 void DoSomethingButton10();
 void DoSomethingButton11();
 void DoSomethingButton12();
+void DoSomethingButton13();
 
 #endif  // PHYSICAL_H
