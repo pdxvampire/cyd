@@ -166,6 +166,33 @@ void CreateScreen2()
 
     exitfunction("CreateScreen2");
 }
+#define MASK_WIDTH 150
+#define MASK_HEIGHT 60
+
+static void generate_mask(lv_draw_buf_t *mask, int32_t w, int32_t h, const char *txt)
+{
+    /*Create a "8 bit alpha" canvas and clear it*/
+    lv_obj_t *canvas = lv_canvas_create(lv_screen_active());
+    lv_canvas_set_draw_buf(canvas, mask);
+    lv_canvas_fill_bg(canvas, lv_color_black(), LV_OPA_TRANSP);
+
+    lv_layer_t layer;
+    lv_canvas_init_layer(canvas, &layer);
+
+    /*Draw a label to the canvas. The result "image" will be used as mask*/
+    lv_draw_label_dsc_t label_dsc;
+    lv_draw_label_dsc_init(&label_dsc);
+    label_dsc.color = lv_color_white();
+    label_dsc.align = LV_TEXT_ALIGN_CENTER;
+    label_dsc.text = txt;
+    label_dsc.font = &lv_font_montserrat_24;
+    lv_area_t a = { 0, 0, w - 1, h - 1 };
+    lv_draw_label(&layer, &label_dsc, &a);
+
+    lv_canvas_finish_layer(canvas, &layer);
+
+    lv_obj_delete(canvas);
+}
 
 void CreateSettingsScreen()
 {
@@ -181,13 +208,14 @@ void CreateSettingsScreen()
 
     logit("create label3");
     label3 = lv_label_create(settingsscreen);
-    lv_label_set_text(label3, "BRIGHTNESS");
-    lv_obj_align(label3, LV_ALIGN_TOP_MID, 0, 60);
+    lv_label_set_text(label3, "Brightness");
+
+    lv_obj_align(label3, LV_ALIGN_TOP_LEFT, 0, 120);
 
     logit("create slider");
     slider = lv_slider_create(settingsscreen);
-    lv_obj_set_width(slider, 180);
-    lv_obj_align(slider, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_width(slider, 160);
+    lv_obj_align(slider, LV_ALIGN_LEFT_MID, 0, 0);
     lv_obj_add_event_cb(slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
     lv_slider_set_range(slider, 10, 100);
     lv_slider_set_value(slider, 100, LV_ANIM_OFF);
@@ -197,12 +225,46 @@ void CreateSettingsScreen()
     lv_label_set_text(slider_label, "100");
     lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 20);
 
-   lv_obj_t *close_btn = lv_button_create(settingsscreen);
- lv_obj_t *labelX = lv_label_create(close_btn);
+
+    logit("create close button");
+    lv_obj_t *close_btn = lv_button_create(settingsscreen);
+    lv_obj_t *labelX = lv_label_create(close_btn);
     lv_label_set_text(labelX, LV_SYMBOL_CLOSE);
     lv_obj_center(labelX);  // Center the 'X' symbol within the button
     lv_obj_add_event_cb(close_btn, close_button_event_cb, LV_EVENT_CLICKED, NULL);
-    lv_obj_align(labelX, LV_ALIGN_TOP_RIGHT, 0, 0);
+    lv_obj_align(close_btn, LV_ALIGN_TOP_RIGHT, 0, 0);
+
+
+    logit("create title");
+    // 1. Create a style and initialize it
+    static lv_style_t title_style;
+    lv_style_init(&title_style);
+
+    // 2. Set the font for the style (e.g., a large Montserrat)
+    lv_style_set_text_font(&title_style, &lv_font_montserrat_48);  // Use a large size for titles
+
+    // 3. Create a label and apply the style
+    lv_obj_t *title_label = lv_label_create(lv_scr_act());
+    lv_obj_add_style(title_label, &title_style, 0);
+    lv_label_set_text(title_label, "My Awesome App");
+    lv_obj_align(title_label, LV_ALIGN_TOP_MID, 0, 20);  // Position it
+
+
+    /* Create the mask of a text by drawing it to a canvas*/
+    LV_DRAW_BUF_DEFINE_STATIC(mask, MASK_WIDTH, MASK_HEIGHT, LV_COLOR_FORMAT_L8);
+    LV_DRAW_BUF_INIT_STATIC(mask);
+
+    generate_mask(&mask, MASK_WIDTH, MASK_HEIGHT, "SETTINGS");
+
+    /* Create an object from where the text will be masked out.
+     * Now it's a rectangle with a gradient but it could be an image too*/
+    lv_obj_t *grad = lv_obj_create(lv_screen_active());
+    lv_obj_set_size(grad, MASK_WIDTH, MASK_HEIGHT);
+    lv_obj_center(grad);
+    lv_obj_set_style_bg_color(grad, lv_color_hex(0xff0000), 0);
+    lv_obj_set_style_bg_grad_color(grad, lv_color_hex(0x0000ff), 0);
+    lv_obj_set_style_bg_grad_dir(grad, LV_GRAD_DIR_HOR, 0);
+    lv_obj_set_style_bitmap_mask_src(grad, &mask, 0);
 
     exitfunction("CreateSettingsScreen");
 }

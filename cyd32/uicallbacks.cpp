@@ -54,7 +54,7 @@ void HandleGesture(lv_event_t* e)
             logit("call CreateScreen2");
             CreateScreen2();
             logit("call load anim for screen 2");
-            lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_LEFT, 25, 0, true);
+            lv_screen_load_anim(screen2, LV_SCREEN_LOAD_ANIM_MOVE_TOP, 25, 0, true);
             //lv_obj_del_async(screen1);
             //lv_obj_del(screen1);
             logit("flush display");
@@ -65,7 +65,7 @@ void HandleGesture(lv_event_t* e)
             logit("call CreateScreen1");
             CreateScreen1();
             logit("call load anim for screen 1");
-            lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 28, 0, true);
+            lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_BOTTOM, 30, 0, true);
             logit("flush display");
             lv_display_flush_ready(disp);
             break;
