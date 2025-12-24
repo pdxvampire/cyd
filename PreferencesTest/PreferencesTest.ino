@@ -16,13 +16,13 @@ void setup()
     preferences.begin("horns", false);
 
     // if the key does not exist, return a default value of 255 (full)
-    unsigned int brightness = preferences.getUInt("brightness", 255);
-    Serial.printf("Brightness before:  %u\n", brightness);
+    int brightness = preferences.getInt("brightness", 255);
+    Serial.printf("Brightness before:  %d\n", brightness);
 
-    preferences.putUInt("brightness", 42);
+    preferences.putInt("brightness", 66);
 
-    brightness = preferences.getUInt("brightness", 255);
-    Serial.printf("Brightness after:  %u\n", brightness);
+    brightness = preferences.getInt("brightness", 255);
+    Serial.printf("Brightness after:  %d\n", brightness);
 
     preferences.end();
 }
