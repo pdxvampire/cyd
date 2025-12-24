@@ -32,7 +32,7 @@ lv_obj_t *slider_label;
 
 lv_display_t *disp;
 
-uint brightness = 255;
+int brightness = 255;
 
 void hide_object_timer_cb(lv_timer_t *timer)
 {
@@ -226,15 +226,17 @@ void CreateSettingsScreen()
     lv_slider_set_range(slider, 10, 100); // don't allow turning completely off or there is no way to turn it back on
     // Saved value is the real 10..255, convert here to % for the slider.
     int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
-    logit("############################################### %d",percentage);
+    logit("############################################### int percentage: %d",percentage);
     lv_slider_set_value(slider, percentage, LV_ANIM_OFF);
 
     logit("create slider label");
     slider_label = lv_label_create(settingsscreen);
+    String tmpstrpct = String(percentage);
+    logit("############################################### String tmpstrpct: %s",tmpstrpct);
     const char* pct = String(percentage).c_str();
-    logit("############################################### %s",pct);
+    logit("############################################### const char* pct: %s",pct);
     lv_label_set_text(slider_label, pct);
-    lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 15, 0);
+    lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
 
     logit("create close button");
     lv_obj_t *close_btn = lv_button_create(settingsscreen);
@@ -274,6 +276,7 @@ void InitializeDisplay()
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
 
     brightness = GetBrightness();
+    logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d",brightness);
     analogWrite(27, brightness);  // backlight pin is 27, range is 0..255
 
     // Example: fuschia
