@@ -45,8 +45,8 @@ void InitializeTouch()
 
     // Gestures
     /* Set the minimum gesture velocity to 10 pixels/second */
-    indev->gesture_min_velocity = 5;
-    indev->gesture_limit = 10;  // Make it more sensitive (trigger after 10px)
+    indev->gesture_min_velocity = 2;
+    indev->gesture_limit = 4;  // Make it more sensitive (trigger after 10px)
 
     exitfunction("InitializeTouch");
 }

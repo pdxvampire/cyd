@@ -241,10 +241,10 @@ void CreateSettingsScreen()
     lv_style_init(&title_style);
 
     // 2. Set the font for the style (e.g., a large Montserrat)
-    lv_style_set_text_font(&title_style, &lv_font_montserrat_48);  // Use a large size for titles
+    lv_style_set_text_font(&title_style, &lv_font_montserrat_24);  // Use a large size for titles
 
     // 3. Create a label and apply the style
-    lv_obj_t *title_label = lv_label_create(lv_scr_act());
+    lv_obj_t *title_label = lv_label_create(settingsscreen);
     lv_obj_add_style(title_label, &title_style, 0);
     lv_label_set_text(title_label, "My Awesome App");
     lv_obj_align(title_label, LV_ALIGN_TOP_MID, 0, 20);  // Position it
@@ -258,7 +258,7 @@ void CreateSettingsScreen()
 
     /* Create an object from where the text will be masked out.
      * Now it's a rectangle with a gradient but it could be an image too*/
-    lv_obj_t *grad = lv_obj_create(lv_screen_active());
+    lv_obj_t *grad = lv_obj_create(settingsscreen);
     lv_obj_set_size(grad, MASK_WIDTH, MASK_HEIGHT);
     lv_obj_center(grad);
     lv_obj_set_style_bg_color(grad, lv_color_hex(0xff0000), 0);
