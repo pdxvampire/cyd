@@ -147,32 +147,76 @@ void ApplyDarkModeToSettingsScreen()
 
     lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-    //lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
-    //lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
 
     lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
-    //lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
 
-lv_obj_set_style_bg_color(main_container, lv_palette_main(LV_PALETTE_GREEN), LV_PART_MAIN);
-
-    //          lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
-    // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
+    //lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
+    //lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
 }
 
 void ApplyLightModeToSettingsScreen()
 {
     lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-    //lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
-    //lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
 
     lv_obj_clear_state(darkmode_switch, LV_STATE_CHECKED);
-    //lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
 
-lv_obj_set_style_bg_color(main_container, lv_palette_main(LV_PALETTE_RED), LV_PART_MAIN);
+    lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
+    //lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
+    //lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
+}
 
-    // lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
-    //         lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
+void CreateContainers()
+{
+    //
+    // Create main container with COLUMN flex direction
+    // brightness_container
+    // darkmode_container
+    main_container = lv_obj_create(lv_screen_active());
+    lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
+    // Set width and height to 100% of the parent's content area
+    lv_obj_set_size(main_container, LV_PCT(100), LV_PCT(100));
+    // Comment this during testing to see the container border so you know it's what you want.
+    lv_obj_set_style_border_width(main_container, 0, 0);
+
+    //
+    // Create brightness container with COLUMN flex direction
+    // TITLE
+    // brightness_sliderandlabel_container
+    //
+    brightness_container = lv_obj_create(main_container);
+    lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_width(brightness_container, lv_pct(100));
+    lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
+    // Comment this during testing to see the container border so you know it's what you want.
+    lv_obj_set_style_border_width(brightness_container, 0, 0);
+
+    //
+    // Create brightness_sliderandlabel_container with ROW direction
+    // SLIDER | LABEL
+    //
+    brightness_sliderandlabel_container = lv_obj_create(brightness_container);
+    lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
+    lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(100));
+
+
+    //
+    // Create darkmode container with COLUMN direction
+    // TITLE
+    // SWITCH
+    //
+    darkmode_container = lv_obj_create(main_container);
+    lv_obj_set_flex_flow(darkmode_container, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_width(darkmode_container, lv_pct(100));
+    //lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT); // grow/shrink based on content
+    lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
+    // Comment this during testing to see the container border so you know it's what you want.
+    lv_obj_set_style_border_width(darkmode_container, 0, 0);
 }
 
 void setup()
@@ -231,52 +275,7 @@ void setup()
 
     InitializeTouch();
 
-    //
-    // Create main container with COLUMN flex direction
-    // brightness_container
-    // darkmode_container
-    main_container = lv_obj_create(lv_screen_active());
-    lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
-    // Set width and height to 100% of the parent's content area
-    lv_obj_set_size(main_container, LV_PCT(100), LV_PCT(100));
-
-
-    //
-    // Create brightness container with COLUMN flex direction
-    // TITLE
-    // brightness_sliderandlabel_container
-    //
-    brightness_container = lv_obj_create(main_container);
-    lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
-    // set to 80% of main width so can easily see borders for testing
-    lv_obj_set_width(brightness_container, lv_pct(96));
-    lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
-
-    ////lv_obj_set_size(brightness_container, 300, 75);
-
-    //
-    // Create brightness_sliderandlabel_container with ROW direction
-    // SLIDER | LABEL
-    //
-    brightness_sliderandlabel_container = lv_obj_create(brightness_container);
-    lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
-    // set to 80% of main width so can easily see borders for testing
-    lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(96));
-
-
-    //
-    // Create darkmode container with COLUMN direction
-    // TITLE
-    // SWITCH
-    //
-    darkmode_container = lv_obj_create(main_container);
-    lv_obj_set_flex_flow(darkmode_container, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_width(darkmode_container, lv_pct(100));
-    //lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT); // grow/shrink based on content
-    lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
-
-    // Comment this during testing to see the container border so you know it's what you want.
-    //lv_obj_set_style_border_width(main_container, 0, 0);
+    CreateContainers();
 
     // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
     //lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
@@ -309,7 +308,7 @@ void setup()
     ////lv_obj_set_size(darkmode_container, 200, 150);
     //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
 
-    lv_obj_t *darkmode_title = lv_label_create(darkmode_container);
+    darkmode_title = lv_label_create(darkmode_container);
     lv_label_set_text(darkmode_title, "Dark Mode");
 
     darkmode_switch = lv_switch_create(darkmode_container);
@@ -344,7 +343,7 @@ void loop()
         lastLvTick = millis();
     }
 
-    lv_task_handler();  // let the GUI do its work
+    lv_task_handler();        // let the GUI do its work
     delay(LVGL_TICK_PERIOD);  // let this time pass
     //delay(1);
 }
