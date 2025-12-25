@@ -52,17 +52,22 @@ uint16_t rawX, rawY;
 /* Draw buffer for LVGL */
 static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
 
-static void swdarkmode_event_handler(lv_event_t *e)
+void swdarkmode_event_handler(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
 
-    if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
+    if (code == LV_EVENT_VALUE_CHANGED)
     {
-        logit("switch is checked, set dark mode");
-    }
-    else
-    {
-        logit("switch is not checked, set light mode");
+        if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
+        {
+            logit("switch is checked, set dark mode");
+        }
+        else
+        {
+            logit("switch is not checked, set light mode");
+        }
+
+        lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
     }
 }
 
@@ -132,6 +137,33 @@ void HandleBrightnessSlider(lv_event_t *e)
     }
 }
 
+void ApplyDarkModeToSettingsScreen()
+{
+
+    lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+
+    lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
+    //          lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
+    // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
+}
+
+void ApplyLightModeToSettingsScreen()
+{
+    lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+
+    lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
+    lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
+    // lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
+    //         lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -196,6 +228,7 @@ void setup()
     lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
     // Set width and height to 100% of the parent's content area
     lv_obj_set_size(main_container, LV_PCT(100), LV_PCT(100));
+  
 
     //
     // Create brightness container with COLUMN flex direction
@@ -206,7 +239,7 @@ void setup()
     lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
     // set to 80% of main width so can easily see borders for testing
     lv_obj_set_width(brightness_container, lv_pct(96));
-    lv_obj_set_height(brightness_container, LV_SIZE_CONTENT); // grow/shrink based on content
+    lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
 
     ////lv_obj_set_size(brightness_container, 300, 75);
 
@@ -229,12 +262,7 @@ void setup()
     lv_obj_set_flex_flow(darkmode_container, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_width(darkmode_container, lv_pct(100));
     //lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT); // grow/shrink based on content
-    lv_obj_set_flex_grow(darkmode_container, 1); // fill remaining space
-
-    //    lv_obj_set_size(cont_col, 200, 150);
-    //    lv_obj_align_to(cont_col, cont_row, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
-    ////    lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
-    ////lv_obj_set_size(main_container, LV_SIZE_CONTENT,LV_PCT(100)); // fill height to content, width 100%
+    lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
 
     // Comment this during testing to see the container border so you know it's what you want.
     //lv_obj_set_style_border_width(main_container, 0, 0);
@@ -246,18 +274,18 @@ void setup()
 
     ////lv_label_set_text(brightness_title, "Brightness");
 
-    logit("create brightness slider");
-    ////    brightness_slider = lv_slider_create(brightness_container);
+    ////logit("create brightness slider");
+        ////brightness_slider = lv_slider_create(brightness_container);
     //lv_obj_set_width(slider, 150);
     //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
-    ////    lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    ////    lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
+        ////lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
+        ////lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
     // Saved value is the real 10..255, convert here to % for the slider.
     int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
     logit("############################################### int percentage: %d", percentage);
-    ////    lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
-    logit("create slider label");
-    ////    brightness_label = lv_label_create(brightness_container);
+        ////lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
+    ////logit("create slider label");
+        ////brightness_label = lv_label_create(brightness_container);
 
     String tmpstrpct = String(percentage);
     logit("############################################### String tmpstrpct: %s", tmpstrpct);
@@ -267,7 +295,7 @@ void setup()
     //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
 
 
-    lv_obj_set_size(darkmode_container, 200, 150);
+    ////lv_obj_set_size(darkmode_container, 200, 150);
     //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
 
     lv_obj_t *darkmode_title = lv_label_create(darkmode_container);
@@ -276,32 +304,16 @@ void setup()
     darkmode_switch = lv_switch_create(darkmode_container);
 
     //lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
-        lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
 
 
     if (darkmode)
     {
-        lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
-
-          lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
-         lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
-        //          lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
-        // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
+        ////ApplyDarkModeToSettingsScreen();
     }
     else
     {
-        lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
-
-        lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
-        lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
-        // lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
-        //         lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
+        ////ApplyLightModeToSettingsScreen();
     }
 }
 
