@@ -29,6 +29,7 @@ lv_obj_t *label2;
 lv_obj_t *label3;
 lv_obj_t *slider;
 lv_obj_t *slider_label;
+lv_obj_t *swdarkmode;
 
 lv_display_t *disp;
 
@@ -150,7 +151,7 @@ void CreateScreen1()
     {
         create_image_button_from_sd(x);
     }
-lv_obj_set_style_anim_duration(screen1, 30, LV_PART_MAIN);
+    lv_obj_set_style_anim_duration(screen1, 30, LV_PART_MAIN);
     exitfunction("CreateScreen1");
 }
 
@@ -223,18 +224,18 @@ void CreateSettingsScreen()
     lv_obj_set_width(slider, 160);
     lv_obj_align(slider, LV_ALIGN_LEFT_MID, 10, 0);
     lv_obj_add_event_cb(slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    lv_slider_set_range(slider, 10, 100); // don't allow turning completely off or there is no way to turn it back on
+    lv_slider_set_range(slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
     // Saved value is the real 10..255, convert here to % for the slider.
     int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
-    logit("############################################### int percentage: %d",percentage);
+    logit("############################################### int percentage: %d", percentage);
     lv_slider_set_value(slider, percentage, LV_ANIM_OFF);
 
     logit("create slider label");
     slider_label = lv_label_create(settingsscreen);
     String tmpstrpct = String(percentage);
-    logit("############################################### String tmpstrpct: %s",tmpstrpct);
-    const char* pct = String(percentage).c_str();
-    logit("############################################### const char* pct: %s",pct);
+    logit("############################################### String tmpstrpct: %s", tmpstrpct);
+    const char *pct = String(percentage).c_str();
+    logit("############################################### const char* pct: %s", pct);
     lv_label_set_text(slider_label, pct);
     lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
 
@@ -272,16 +273,12 @@ void InitializeDisplay()
 
     // Initialise the TFT
     tft.begin();
-    tft.fillScreen(0x000000);           //black
-    pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
 
-    brightness = GetBrightness();
-    logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d",brightness);
-    analogWrite(27, brightness);  // backlight pin is 27, range is 0..255
-
+    // Clear TFT screen
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+    tft.fillScreen(TFT_BLACK);
     // Example: fuschia
     // uint16_t fuschia = tft.color565(255, 0, 255);
-
     //tft.fillScreen(fuschia);
 
     // Initialize LVGL
@@ -294,6 +291,11 @@ void InitializeDisplay()
 
     // register LVGL display using the built-in TFT_eSPI helper
     disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
+
+    pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
+    brightness = GetBrightness();
+    logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d", brightness);
+    analogWrite(TFT_BL, brightness);  // backlight pin is 27, range is 0..255
 
     // set display rotation for both tft and LVGL to match
     tft.setRotation(0);

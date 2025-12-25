@@ -11,7 +11,7 @@ void DoSomethingButton01()
 {
     enterfunction("DoSomethingButton01");
 
-    ShowPopupLabelBriefly(horns[1].name);
+    ShowPopupLabelBriefly("PLAY HORN 01");
 
     exitfunction("DoSomethingButton01");
 }
@@ -20,7 +20,7 @@ void DoSomethingButton02()
 {
     enterfunction("DoSomethingButton02");
 
-    ShowPopupLabelBriefly(horns[2].name);
+    ShowPopupLabelBriefly("PLAY HORN 02");
 
     exitfunction("DoSomethingButton02");
 }
@@ -29,7 +29,7 @@ void DoSomethingButton03()
 {
     enterfunction("DoSomethingButton03");
 
-    ShowPopupLabelBriefly(horns[3].name);
+    ShowPopupLabelBriefly("PLAY HORN 03");
 
     exitfunction("DoSomethingButton03");
 }
@@ -38,7 +38,7 @@ void DoSomethingButton04()
 {
     enterfunction("DoSomethingButton04");
 
-    ShowPopupLabelBriefly(horns[4].name);
+    ShowPopupLabelBriefly("PLAY HORN 04");
 
     exitfunction("DoSomethingButton04");
 }
@@ -47,7 +47,7 @@ void DoSomethingButton05()
 {
     enterfunction("DoSomethingButton05");
 
-    ShowPopupLabelBriefly(horns[5].name);
+    ShowPopupLabelBriefly("PLAY HORN 05");
 
     exitfunction("DoSomethingButton05");
 }
@@ -56,7 +56,7 @@ void DoSomethingButton06()
 {
     enterfunction("DoSomethingButton06");
 
-    ShowPopupLabelBriefly(horns[6].name);
+    ShowPopupLabelBriefly("PLAY HORN 06");
 
     exitfunction("DoSomethingButton06");
 }
@@ -65,7 +65,7 @@ void DoSomethingButton07()
 {
     enterfunction("DoSomethingButton07");
 
-    ShowPopupLabelBriefly(horns[7].name);
+    ShowPopupLabelBriefly("PLAY HORN 07");
 
     exitfunction("DoSomethingButton07");
 }
@@ -74,7 +74,7 @@ void DoSomethingButton08()
 {
     enterfunction("DoSomethingButton08");
 
-    ShowPopupLabelBriefly(horns[8].name);
+    ShowPopupLabelBriefly("PLAY HORN 08");
 
     enterfunction("DoSomethingButton08");
 }
@@ -83,7 +83,7 @@ void DoSomethingButton09()
 {
     enterfunction("DoSomethingButton09");
 
-    ShowPopupLabelBriefly(horns[9].name);
+    ShowPopupLabelBriefly("PLAY HORN 09");
 
     enterfunction("DoSomethingButton09");
 }

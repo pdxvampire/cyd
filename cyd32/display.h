@@ -28,6 +28,7 @@ extern lv_obj_t *label2;
 extern lv_obj_t *label3;
 extern lv_obj_t *slider;
 extern lv_obj_t *slider_label;
+extern lv_obj_t *swdarkmode;
 
 void hide_object_timer_cb(lv_timer_t *timer);
 void ShowPopupLabelBriefly(const char *msg);
