@@ -67,6 +67,9 @@ void swdarkmode_event_handler(lv_event_t *e)
             logit("switch is not checked, set light mode");
         }
 
+        // force refresh since we toggled the mode
+        lv_refr_now(disp);
+
         lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
     }
 }
@@ -142,11 +145,14 @@ void ApplyDarkModeToSettingsScreen()
 
     lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+    //lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
+    //lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
 
     lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
+    //lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
+
+
+
     //          lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
     // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
 }
@@ -155,11 +161,14 @@ void ApplyLightModeToSettingsScreen()
 {
     lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+    //lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
+    //lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
 
     lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
-    lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
+    //lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
+
+
+
     // lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
     //         lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
 }
@@ -228,7 +237,7 @@ void setup()
     lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
     // Set width and height to 100% of the parent's content area
     lv_obj_set_size(main_container, LV_PCT(100), LV_PCT(100));
-  
+
 
     //
     // Create brightness container with COLUMN flex direction
@@ -275,17 +284,17 @@ void setup()
     ////lv_label_set_text(brightness_title, "Brightness");
 
     ////logit("create brightness slider");
-        ////brightness_slider = lv_slider_create(brightness_container);
+    ////brightness_slider = lv_slider_create(brightness_container);
     //lv_obj_set_width(slider, 150);
     //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
-        ////lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-        ////lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
+    ////lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
+    ////lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
     // Saved value is the real 10..255, convert here to % for the slider.
     int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
     logit("############################################### int percentage: %d", percentage);
-        ////lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
+    ////lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
     ////logit("create slider label");
-        ////brightness_label = lv_label_create(brightness_container);
+    ////brightness_label = lv_label_create(brightness_container);
 
     String tmpstrpct = String(percentage);
     logit("############################################### String tmpstrpct: %s", tmpstrpct);
@@ -309,12 +318,15 @@ void setup()
 
     if (darkmode)
     {
-        ////ApplyDarkModeToSettingsScreen();
+        ApplyDarkModeToSettingsScreen();
     }
     else
     {
-        ////ApplyLightModeToSettingsScreen();
+        ApplyLightModeToSettingsScreen();
     }
+
+    // force refresh since we toggled the mode
+    lv_refr_now(disp);
 }
 
 
@@ -322,12 +334,13 @@ void setup()
 
 void loop()
 {
+    lv_task_handler();  // let the GUI do its work
+
     if (millis() - lastLvTick > LVGL_TICK_PERIOD)
     {
         lv_tick_inc(LVGL_TICK_PERIOD);  // tell LVGL how much time has passed
         lastLvTick = millis();
     }
-
-    lv_task_handler();        // let the GUI do its work
-    delay(LVGL_TICK_PERIOD);  // let this time pass
+    //delay(LVGL_TICK_PERIOD);  // let this time pass
+    delay(1);
 }
