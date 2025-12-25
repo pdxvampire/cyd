@@ -202,7 +202,7 @@ void CreateContainers()
     //lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT); // grow/shrink based on content
     lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
     // Comment this during testing to see the container border so you know it's what you want.
-    lv_obj_set_style_border_width(darkmode_container, 0, 0);
+    // lv_obj_set_style_border_width(darkmode_container, 0, 0);
 
 
     //
@@ -213,7 +213,7 @@ void CreateContainers()
     brightness_container = lv_obj_create(main_container);
     lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN_REVERSE);  // reverse so the title can be created later and still ends up visually on top
     lv_obj_set_width(brightness_container, lv_pct(100));
-    lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
+    ////lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
     // Comment this during testing to see the container border so you know it's what you want.
     //lv_obj_set_style_border_width(brightness_container, 0, 0);
 
@@ -230,17 +230,17 @@ void CreateContainers()
     //lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
 
 
-
     titlebar_container = lv_obj_create(main_container);
     lv_obj_set_flex_flow(titlebar_container, LV_FLEX_FLOW_ROW);
     lv_obj_set_width(titlebar_container, lv_pct(100));
+    lv_obj_set_height(titlebar_container, LV_SIZE_CONTENT);  // grow/shrink based on content
 
     main_title = lv_label_create(titlebar_container);
     lv_label_set_text(main_title, "SETTINGS");
-    lv_obj_set_style_text_color(main_title, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_flex_grow(main_title, 1);
+
     close_button = lv_label_create(titlebar_container);
     lv_label_set_text(close_button, "X");
-    lv_obj_set_style_text_color(close_button, lv_color_white(), LV_PART_MAIN);
 }
 
 void CreateBrightnessContent()
@@ -272,7 +272,7 @@ void CreateBrightnessContent()
     lv_label_set_text(brightness_label, pct);
     //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
 
-    lv_obj_set_flex_grow(brightness_slider, 1);
+    lv_obj_set_flex_grow(brightness_slider, 2);
     lv_obj_set_flex_grow(brightness_label, 1);
 }
 
