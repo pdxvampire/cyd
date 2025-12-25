@@ -219,6 +219,48 @@ void CreateContainers()
     lv_obj_set_style_border_width(darkmode_container, 0, 0);
 }
 
+void CreateDarkModeContent()
+{  ////lv_obj_set_size(darkmode_container, 200, 150);
+    //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+
+    darkmode_title = lv_label_create(darkmode_container);
+    lv_label_set_text(darkmode_title, "Dark Mode");
+
+    darkmode_switch = lv_switch_create(darkmode_container);
+
+    //lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
+    lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
+}
+
+void CreateBrightnessContent()
+{  // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
+    //lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
+
+    ////brightness_title = lv_label_create(brightness_container);
+
+    ////lv_label_set_text(brightness_title, "Brightness");
+
+    ////logit("create brightness slider");
+    ////brightness_slider = lv_slider_create(brightness_container);
+    //lv_obj_set_width(slider, 150);
+    //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
+    ////lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
+    ////lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
+    // Saved value is the real 10..255, convert here to % for the slider.
+    int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
+    logit("############################################### int percentage: %d", percentage);
+    ////lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
+    ////logit("create slider label");
+    ////brightness_label = lv_label_create(brightness_container);
+
+    String tmpstrpct = String(percentage);
+    logit("############################################### String tmpstrpct: %s", tmpstrpct);
+    const char *pct = tmpstrpct.c_str();
+    logit("############################################### const char* pct: %s", pct);
+    ////lv_label_set_text(brightness_label, pct);
+    //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -260,14 +302,6 @@ void setup()
     analogWrite(TFT_BL, brightness);  // backlight pin is 27, range is 0..255
 
     darkmode = GetDarkMode();
-    if (darkmode)
-    {
-        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
-    }
-    else
-    {
-        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_white(), LV_PART_MAIN);
-    }
 
     // set display rotation for both tft and LVGL to match
     tft.setRotation(0);
@@ -276,58 +310,21 @@ void setup()
     InitializeTouch();
 
     CreateContainers();
-
-    // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
-    //lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
-
-    ////brightness_title = lv_label_create(brightness_container);
-
-    ////lv_label_set_text(brightness_title, "Brightness");
-
-    ////logit("create brightness slider");
-    ////brightness_slider = lv_slider_create(brightness_container);
-    //lv_obj_set_width(slider, 150);
-    //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
-    ////lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    ////lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
-    // Saved value is the real 10..255, convert here to % for the slider.
-    int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
-    logit("############################################### int percentage: %d", percentage);
-    ////lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
-    ////logit("create slider label");
-    ////brightness_label = lv_label_create(brightness_container);
-
-    String tmpstrpct = String(percentage);
-    logit("############################################### String tmpstrpct: %s", tmpstrpct);
-    const char *pct = tmpstrpct.c_str();
-    logit("############################################### const char* pct: %s", pct);
-    ////lv_label_set_text(brightness_label, pct);
-    //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
-
-
-    ////lv_obj_set_size(darkmode_container, 200, 150);
-    //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
-
-    darkmode_title = lv_label_create(darkmode_container);
-    lv_label_set_text(darkmode_title, "Dark Mode");
-
-    darkmode_switch = lv_switch_create(darkmode_container);
-
-    //lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
-    lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
-
+    CreateDarkModeContent();
 
     if (darkmode)
     {
+        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
         ApplyDarkModeToSettingsScreen();
     }
     else
     {
+        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_white(), LV_PART_MAIN);
         ApplyLightModeToSettingsScreen();
     }
 
     // force refresh since we toggled the mode
-    lv_refr_now(disp);
+    //lv_refr_now(disp);
 }
 
 
