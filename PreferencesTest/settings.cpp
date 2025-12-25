@@ -37,3 +37,31 @@ void SetBrightness(int brightness)
 
     logit("set brightness:  %d", brightness);
 }
+
+bool GetDarkMode()
+{
+      Preferences preferences;
+    preferences.begin("horns", false);
+
+    // if the key does not exist, default to dark
+    bool darkmode = preferences.getBool("darkmode", true);
+
+    preferences.end();
+
+    logit("got darkmode:  %b", darkmode);
+
+    return darkmode;
+}
+
+void SetDarkMode(bool darkmode)
+{
+    Preferences preferences;
+
+    preferences.begin("horns", false);
+
+    preferences.putBool("darkmode", darkmode);
+
+    preferences.end();
+
+    logit("set darkmode:  %b", darkmode);
+}

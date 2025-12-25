@@ -26,12 +26,19 @@ lv_obj_t *btn2;
 lv_obj_t *label1;
 lv_obj_t *label2;
 lv_obj_t *label3;
-lv_obj_t *slider;
-lv_obj_t *slider_label;
+lv_obj_t *main_container;
+lv_obj_t *brightness_container;
+lv_obj_t *brightness_slider;
+lv_obj_t *brightness_label;
+lv_obj_t *brightness_title;
+lv_obj_t *darkmode_container;
+lv_obj_t *darkmode_switch;
+lv_obj_t *darkmode_title;
 
 lv_display_t *disp;
 
 int brightness = -1;
+bool darkmode = true;
 
 static CST820 touch(33, 32, 25, 21);  // Touch: SDA, SCL, RST, INT
 
@@ -44,6 +51,19 @@ uint16_t rawX, rawY;
 /* Draw buffer for LVGL */
 static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
 
+static void swdarkmode_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+
+    if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
+    {
+        logit("switch is checked, set dark mode");
+    }
+    else
+    {
+        logit("switch is not checked, set light mode");
+    }
+}
 
 void HandleTouch(lv_indev_t *indev, lv_indev_data_t *data)
 {
@@ -91,7 +111,7 @@ void InitializeTouch()
 
 void HandleBrightnessSlider(lv_event_t *e)
 {
-    int percentage = lv_slider_get_value(slider);
+    int percentage = lv_slider_get_value(brightness_slider);
     int val = (int)map(percentage, 0, 100, 0, 255);  // brightness is 0..255, show user-friendly percentage 0..100
 
     switch (lv_event_get_code(e))
@@ -99,7 +119,7 @@ void HandleBrightnessSlider(lv_event_t *e)
         case LV_EVENT_VALUE_CHANGED:
             static char buf[4]; /* max 3 bytes for number plus 1 null terminating byte */
             snprintf(buf, 4, "%u", percentage);
-            lv_label_set_text(slider_label, buf);
+            lv_label_set_text(brightness_label, buf);
             logit("🎚 Slider changed, value: %d, pct: %d", val, percentage);
             break;
 
@@ -123,13 +143,13 @@ void setup()
     logheader("PreferencesTest");
     loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
 
-digitalWrite(TFT_BL, 0); 
+    digitalWrite(TFT_BL, 0);
     // Initialise the TFT
     tft.begin();
 
     // Clear TFT screen
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.fillScreen(TFT_BLACK);
+    //tft.setTextColor(TFT_WHITE, TFT_BLACK);
+    //tft.fillScreen(TFT_BLACK);
     // Example: fuschia
     // uint16_t fuschia = tft.color565(255, 0, 255);
     //tft.fillScreen(fuschia);
@@ -144,45 +164,170 @@ digitalWrite(TFT_BL, 0);
 
     // register LVGL display using the built-in TFT_eSPI helper
     disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
-//lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x003a57), LV_PART_MAIN);
+    //lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x003a57), LV_PART_MAIN);
 
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
     brightness = GetBrightness();
-    logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d",brightness);
+    logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d", brightness);
     analogWrite(TFT_BL, brightness);  // backlight pin is 27, range is 0..255
 
+    darkmode = GetDarkMode();
+    if (darkmode)
+    {
+        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
+    }
+    else
+    {
+        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_white(), LV_PART_MAIN);
+    }
 
     // set display rotation for both tft and LVGL to match
     tft.setRotation(0);
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
-
-
     InitializeTouch();
 
-    logit("create slider");
-    slider = lv_slider_create(lv_screen_active());
-    lv_obj_set_width(slider, 170);
-    lv_obj_align(slider, LV_ALIGN_LEFT_MID, 10, 0);
-    lv_obj_add_event_cb(slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    lv_slider_set_range(slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
+
+
+
+// todo: combine all the dark/light styles into one, turns out they all get calculated before the display gets refreshed so don't have to do them in order
+
+
+
+
+/*Create a container with COLUMN flex direction*/
+    main_container = lv_obj_create(lv_screen_active());
+    if (darkmode)
+    {
+   //     lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
+   //     lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
+   //     lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+    }
+    else
+    {
+    //    lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
+    //            lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
+    //    lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+
+    }
+//    lv_obj_set_size(cont_col, 200, 150);
+//    lv_obj_align_to(cont_col, cont_row, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+    lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
+lv_obj_set_size(main_container, LV_SIZE_CONTENT,LV_PCT(100)); // fill height to content, width 100%
+
+// Comment this during testing to see the container border so you know it's what you want.
+//lv_obj_set_style_border_width(main_container, 0, 0);
+
+
+
+brightness_container = lv_obj_create(lv_screen_active());
+lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_ROW);
+lv_obj_set_size(brightness_container, 300, 75);
+   // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
+//lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
+
+    brightness_title = lv_label_create(brightness_container);
+
+    if (darkmode)
+    {
+        
+    }
+    else
+    {
+        
+    }
+lv_label_set_text(brightness_title, "Brightness");
+
+    logit("create brightness slider");
+    brightness_slider = lv_slider_create(brightness_container);
+    //lv_obj_set_width(slider, 150);
+    //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
+    lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
+    lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
     // Saved value is the real 10..255, convert here to % for the slider.
     int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
     logit("############################################### int percentage: %d", percentage);
-    lv_slider_set_value(slider, percentage, LV_ANIM_OFF);
+    lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
     logit("create slider label");
-    slider_label = lv_label_create(lv_screen_active());
+    brightness_label = lv_label_create(brightness_container);
+    if (darkmode)
+    {
+        // lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
+        // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
+    }
+    else
+    {
+    //     lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
+    //     lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
+     }
+
     String tmpstrpct = String(percentage);
     logit("############################################### String tmpstrpct: %s", tmpstrpct);
     const char *pct = tmpstrpct.c_str();
     logit("############################################### const char* pct: %s", pct);
-    lv_label_set_text(slider_label, pct);
-    lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 30, 0);
+    lv_label_set_text(brightness_label, pct);
+    //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
+
+
+lv_obj_t * darkmode_container = lv_obj_create(main_container);
+lv_obj_set_size(darkmode_container, 200, 150);
+  //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+
+    lv_obj_t *darkmode_title = lv_label_create(darkmode_container);
+    if (darkmode)
+    {
+        //lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
+    }
+    else
+    {
+        //lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
+    }
+lv_label_set_text(darkmode_title, "Dark Mode");
+
+    darkmode_switch = lv_switch_create(darkmode_container);
+
+    if (darkmode)
+    {
+       // lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
+    }
+    else
+    {
+        //lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
+    }
+//lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
+    lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
+
+
+ if (darkmode)
+    {
+        lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+         lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
+         lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
+                 lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
+        lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
+    }
+    else
+    {
+        lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
+                lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
+lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
+lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
+   
+    }
+
 }
+
+
+
 
 void loop()
 {
-     if (millis() - lastLvTick > LVGL_TICK_PERIOD)
+    if (millis() - lastLvTick > LVGL_TICK_PERIOD)
     {
         lv_tick_inc(LVGL_TICK_PERIOD);  // tell LVGL how much time has passed
         lastLvTick = millis();
