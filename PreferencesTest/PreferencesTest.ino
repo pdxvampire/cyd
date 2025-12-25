@@ -61,14 +61,16 @@ void swdarkmode_event_handler(lv_event_t *e)
         if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
         {
             logit("switch is checked, set dark mode");
+            ApplyDarkModeToSettingsScreen();
         }
         else
         {
             logit("switch is not checked, set light mode");
+            ApplyLightModeToSettingsScreen();
         }
 
         // force refresh since we toggled the mode
-        lv_refr_now(disp);
+        // lv_refr_now(disp);
 
         lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
     }
@@ -151,7 +153,7 @@ void ApplyDarkModeToSettingsScreen()
     lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
     //lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
 
-
+lv_obj_set_style_bg_color(main_container, lv_palette_main(LV_PALETTE_GREEN), LV_PART_MAIN);
 
     //          lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
     // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
@@ -164,10 +166,10 @@ void ApplyLightModeToSettingsScreen()
     //lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
     //lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
 
-    lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
+    lv_obj_clear_state(darkmode_switch, LV_STATE_CHECKED);
     //lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
 
-
+lv_obj_set_style_bg_color(main_container, lv_palette_main(LV_PALETTE_RED), LV_PART_MAIN);
 
     // lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
     //         lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
@@ -334,13 +336,15 @@ void setup()
 
 void loop()
 {
-    lv_task_handler();  // let the GUI do its work
+    //lv_task_handler();  // let the GUI do its work
 
     if (millis() - lastLvTick > LVGL_TICK_PERIOD)
     {
         lv_tick_inc(LVGL_TICK_PERIOD);  // tell LVGL how much time has passed
         lastLvTick = millis();
     }
-    //delay(LVGL_TICK_PERIOD);  // let this time pass
-    delay(1);
+
+    lv_task_handler();  // let the GUI do its work
+    delay(LVGL_TICK_PERIOD);  // let this time pass
+    //delay(1);
 }
