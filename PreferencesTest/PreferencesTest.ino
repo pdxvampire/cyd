@@ -204,6 +204,8 @@ void setup()
     //
     brightness_container = lv_obj_create(main_container);
     lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
+    // set to 80% of main width so can easily see borders for testing
+    lv_obj_set_width(brightness_container, lv_pct(80));
 
     ////lv_obj_set_size(brightness_container, 300, 75);
 
@@ -212,7 +214,10 @@ void setup()
     // SLIDER | LABEL
     //
     brightness_sliderandlabel_container = lv_obj_create(brightness_container);
-    lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
+    // set to 80% of main width so can easily see borders for testing
+    lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(80));
+
 
     //
     // Create darkmode container with COLUMN direction
@@ -220,7 +225,10 @@ void setup()
     // SWITCH
     //
     darkmode_container = lv_obj_create(main_container);
-    lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_flow(darkmode_container, LV_FLEX_FLOW_COLUMN);
+    // set to 80% of main width so can easily see borders for testing
+    lv_obj_set_width(darkmode_container, lv_pct(80));
+
 
 
     //    lv_obj_set_size(cont_col, 200, 150);
@@ -273,9 +281,11 @@ void setup()
 
     if (darkmode)
     {
-         lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
-         lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-         lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+
         //  lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
         //  lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
         //          lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
@@ -283,9 +293,11 @@ void setup()
     }
     else
     {
-                 lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
-                         lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-                 lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+
         // lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
         // lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
         // lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
