@@ -28,6 +28,7 @@ lv_obj_t *label2;
 lv_obj_t *label3;
 lv_obj_t *main_container;
 lv_obj_t *brightness_container;
+lv_obj_t *brightness_sliderandlabel_container;
 lv_obj_t *brightness_slider;
 lv_obj_t *brightness_label;
 lv_obj_t *brightness_title;
@@ -187,139 +188,109 @@ void setup()
 
     InitializeTouch();
 
-
-
-
-// todo: combine all the dark/light styles into one, turns out they all get calculated before the display gets refreshed so don't have to do them in order
-
-
-
-
-/*Create a container with COLUMN flex direction*/
+    //
+    // Create main container with COLUMN flex direction
+    // brightness_container
+    // darkmode_container
     main_container = lv_obj_create(lv_screen_active());
-    if (darkmode)
-    {
-   //     lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
-   //     lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-   //     lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
-    }
-    else
-    {
-    //    lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
-    //            lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-    //    lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
-
-    }
-//    lv_obj_set_size(cont_col, 200, 150);
-//    lv_obj_align_to(cont_col, cont_row, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
     lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
-lv_obj_set_size(main_container, LV_SIZE_CONTENT,LV_PCT(100)); // fill height to content, width 100%
+    // Set width and height to 100% of the parent's content area
+    lv_obj_set_size(main_container, LV_PCT(100), LV_PCT(100));
 
-// Comment this during testing to see the container border so you know it's what you want.
-//lv_obj_set_style_border_width(main_container, 0, 0);
+    //
+    // Create brightness container with COLUMN flex direction
+    // TITLE
+    // brightness_sliderandlabel_container
+    //
+    brightness_container = lv_obj_create(main_container);
+    lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
+
+    ////lv_obj_set_size(brightness_container, 300, 75);
+
+    //
+    // Create brightness_sliderandlabel_container with ROW direction
+    // SLIDER | LABEL
+    //
+    brightness_sliderandlabel_container = lv_obj_create(brightness_container);
+    lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_ROW);
+
+    //
+    // Create darkmode container with COLUMN direction
+    // TITLE
+    // SWITCH
+    //
+    darkmode_container = lv_obj_create(main_container);
+    lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
 
 
+    //    lv_obj_set_size(cont_col, 200, 150);
+    //    lv_obj_align_to(cont_col, cont_row, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+    ////    lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);
+    ////lv_obj_set_size(main_container, LV_SIZE_CONTENT,LV_PCT(100)); // fill height to content, width 100%
 
-brightness_container = lv_obj_create(lv_screen_active());
-lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_ROW);
-lv_obj_set_size(brightness_container, 300, 75);
-   // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
-//lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
+    // Comment this during testing to see the container border so you know it's what you want.
+    //lv_obj_set_style_border_width(main_container, 0, 0);
 
-    brightness_title = lv_label_create(brightness_container);
+    // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
+    //lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
 
-    if (darkmode)
-    {
-        
-    }
-    else
-    {
-        
-    }
-lv_label_set_text(brightness_title, "Brightness");
+    ////brightness_title = lv_label_create(brightness_container);
+
+    ////lv_label_set_text(brightness_title, "Brightness");
 
     logit("create brightness slider");
-    brightness_slider = lv_slider_create(brightness_container);
+    ////    brightness_slider = lv_slider_create(brightness_container);
     //lv_obj_set_width(slider, 150);
     //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
-    lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
+    ////    lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
+    ////    lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
     // Saved value is the real 10..255, convert here to % for the slider.
     int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
     logit("############################################### int percentage: %d", percentage);
-    lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
+    ////    lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
     logit("create slider label");
-    brightness_label = lv_label_create(brightness_container);
-    if (darkmode)
-    {
-        // lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
-        // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
-    }
-    else
-    {
-    //     lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
-    //     lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
-     }
+    ////    brightness_label = lv_label_create(brightness_container);
 
     String tmpstrpct = String(percentage);
     logit("############################################### String tmpstrpct: %s", tmpstrpct);
     const char *pct = tmpstrpct.c_str();
     logit("############################################### const char* pct: %s", pct);
-    lv_label_set_text(brightness_label, pct);
+    ////lv_label_set_text(brightness_label, pct);
     //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
 
 
-lv_obj_t * darkmode_container = lv_obj_create(main_container);
-lv_obj_set_size(darkmode_container, 200, 150);
-  //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+    ////lv_obj_set_size(darkmode_container, 200, 150);
+    //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
 
-    lv_obj_t *darkmode_title = lv_label_create(darkmode_container);
-    if (darkmode)
-    {
-        //lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
-    }
-    else
-    {
-        //lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
-    }
-lv_label_set_text(darkmode_title, "Dark Mode");
+    ////lv_obj_t *darkmode_title = lv_label_create(darkmode_container);
+    ////lv_label_set_text(darkmode_title, "Dark Mode");
 
-    darkmode_switch = lv_switch_create(darkmode_container);
+    ////darkmode_switch = lv_switch_create(darkmode_container);
+
+    //lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
+    ////    lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
+
 
     if (darkmode)
     {
-       // lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
+         lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
+         lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
+         lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
+        //  lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
+        //  lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
+        //          lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
+        // lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
     }
     else
     {
-        //lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
+                 lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
+                         lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
+                 lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
+        // lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
+        // lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
+        // lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
+        //         lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
     }
-//lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
-    lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
-
-
- if (darkmode)
-    {
-        lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
-         lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
-         lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
-                 lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
-        lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
-    }
-    else
-    {
-        lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
-                lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
-lv_obj_add_state(darkmode_switch, LV_STATE_DISABLED);
-lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
-lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
-        lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
-   
-    }
-
 }
 
 
