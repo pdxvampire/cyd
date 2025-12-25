@@ -10,8 +10,8 @@ TFT_eSPI tft = TFT_eSPI();
 
 #include "logging.h"
 #include "settings.h"
-
-//LEFTOFF = ADD THE GUI SLIDER TO SAVE/LOAD/SETBRIGHTNESSONLOAD, GET THAT WORKING AS A UNIT TEST
+#include "uicallbacks.h"
+#include "touch.h"
 
 unsigned long lastLvTick = 0;
 
@@ -47,6 +47,8 @@ lv_display_t *disp;
 
 int brightness = -1;
 bool darkmode = true;
+int percentage;
+const char *pct;
 
 static CST820 touch(33, 32, 25, 21);  // Touch: SDA, SCL, RST, INT
 
@@ -59,137 +61,8 @@ uint16_t rawX, rawY;
 /* Draw buffer for LVGL */
 static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
 
-void swdarkmode_event_handler(lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
 
-    if (code == LV_EVENT_VALUE_CHANGED)
-    {
-        if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
-        {
-            logit("switch is checked, set dark mode");
-            ApplyDarkModeToSettingsScreen();
-        }
-        else
-        {
-            logit("switch is not checked, set light mode");
-            ApplyLightModeToSettingsScreen();
-        }
 
-        // force refresh since we toggled the mode
-        // lv_refr_now(disp);
-
-        lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
-    }
-}
-
-void HandleTouch(lv_indev_t *indev, lv_indev_data_t *data)
-{
-    if (touch.getTouch(&rawX, &rawY))
-    {
-        data->state = LV_INDEV_STATE_PRESSED;
-
-        ///// without LVGL use this for portrait with USB at top
-        /////        data->point.x = 240 - rawX - 1;
-        /////        data->point.y = 320 - rawY - 1;
-
-        ///// with LVGL the raw coords are correct
-        data->point.x = rawX;
-        data->point.y = rawY;
-
-        logit("🖐 LVGL Touch at (%d, %d) | Raw: (%d, %d)",
-              data->point.x, data->point.y, rawX, rawY);
-    }
-    else
-    {
-        data->state = LV_INDEV_STATE_RELEASED;
-    }
-}
-
-void InitializeTouch()
-{
-    enterfunction("InitializeTouch");
-
-    // Initialize touchscreen
-    touch.begin();
-    logit("🔍 Touch Chip ID: 0x%02X", touch.readChipID());
-
-    // LVGL Input device (touch)
-    lv_indev_t *indev = lv_indev_create();
-    lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
-    lv_indev_set_read_cb(indev, HandleTouch);
-
-    // Gestures
-    /* Set the minimum gesture velocity to 10 pixels/second */
-    indev->gesture_min_velocity = 2;
-    indev->gesture_limit = 4;  // Make it more sensitive (trigger after 10px)
-
-    exitfunction("InitializeTouch");
-}
-
-void HandleBrightnessSlider(lv_event_t *e)
-{
-    int percentage = lv_slider_get_value(brightness_slider);
-    int val = (int)map(percentage, 0, 100, 0, 255);  // brightness is 0..255, show user-friendly percentage 0..100
-
-    switch (lv_event_get_code(e))
-    {
-        case LV_EVENT_VALUE_CHANGED:
-            static char buf[4]; /* max 3 bytes for number plus 1 null terminating byte */
-            snprintf(buf, 4, "%u", percentage);
-            lv_label_set_text(brightness_label, buf);
-            logit("🎚 Slider changed, value: %d, pct: %d", val, percentage);
-            break;
-
-        case LV_EVENT_RELEASED:
-            logit("🎚 Slider released, value: %d, pct: %d", val, percentage);
-            analogWrite(TFT_BL, val);  // backlight pin is 27
-            SetBrightness(val);
-            break;
-    }
-}
-
-void ApplyDarkModeToSettingsScreen()
-{
-    lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
-    //////////  lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-    ////////// lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(titlebar_container, lv_color_black(), LV_PART_MAIN);
-
-    lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
-
-    lv_obj_set_style_text_color(main_title, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(close_button, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
-    ////////// lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
-    ////////// lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
-
-    lv_obj_set_style_bg_color(test_container, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(test_title, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(test_button, lv_color_white(), LV_PART_MAIN);
-}
-
-void ApplyLightModeToSettingsScreen()
-{
-    lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
-    //////////lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-    //////////lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(titlebar_container, lv_color_white(), LV_PART_MAIN);
-
-    lv_obj_clear_state(darkmode_switch, LV_STATE_CHECKED);
-
-    lv_obj_set_style_text_color(main_title, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(close_button, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
-    //////////lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
-    //////////lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
-
-    lv_obj_set_style_bg_color(test_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(test_title, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(test_button, lv_color_black(), LV_PART_MAIN);
-}
 
 
 void CreateMainContainer()
@@ -256,18 +129,13 @@ void CreateBrightness()
     brightness_container = lv_obj_create(main_container);
     lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_width(brightness_container, lv_pct(100));
-    //lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT); // grow/shrink based on content
+    lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT); // grow/shrink based on content
     //////lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
     // Comment this during testing to see the container border so you know it's what you want.
     
-    // Saved value is the real 10..255, convert here to % for the slider.
-    int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
-    logit("############################################### int percentage: %d", percentage);
-    String tmpstrpct = String(percentage);
-    logit("############################################### String tmpstrpct: %s", tmpstrpct);
-    const char *pct = tmpstrpct.c_str();
-    logit("############################################### const char* pct: %s", pct);
-
+brightness_title = lv_label_create(brightness_container);
+    lv_label_set_text(brightness_title, "Brightness");
+    
     brightness_sliderandlabel_container = lv_obj_create(brightness_container);
     lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
     lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(100));
@@ -286,8 +154,6 @@ lv_obj_set_flex_grow(brightness_label, 1);
     // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
     //lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
 
-    //////////brightness_title = lv_label_create(brightness_container);
-    //////////lv_label_set_text(brightness_title, "Brightness");
     //lv_obj_set_flex_grow(brightness_title, 1);
 
     //////////logit("create brightness slider");
@@ -396,12 +262,21 @@ void setup()
 
     InitializeTouch();
 
+    // Saved value is the real 10..255, convert here to % for the slider.
+    percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
+    logit("############################################### int percentage: %d", percentage);
+    String tmpstrpct = String(percentage);
+    logit("############################################### String tmpstrpct: %s", tmpstrpct);
+    pct = tmpstrpct.c_str();
+    logit("############################################### const char* pct: %s", pct);
+
+
     //CreateContainers();
     CreateMainContainer();
     CreateTitleBar();
     CreateBrightness();
     CreateDarkMode();
-    CreateTest();
+    //CreateTest();
     
     if (darkmode)
     {
