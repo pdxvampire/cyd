@@ -1,4 +1,5 @@
 #include "foo.h"
+#include "bar.h"
 
 // In C++, a const variable has internal linkage by default, unlike C.
 // So the following will generate a linker error:
@@ -39,10 +40,14 @@ void setup()
 
     Serial.println("");
 
-    Serial.printf("[ExternTest.ino] - This is the value of 'const char* bar' that is defined in the included 'foo.h':  %s\n", bar);
+    Serial.printf("[ExternTest.ino] - This is the value of 'const char* bar_in_foo' that is defined in the included 'foo.h':  %s\n", bar_in_foo);
     Serial.printf("[ExternTest.ino] - Sum of 5 and my_global_int is %d\n", sum(5, my_global_int));
+    
+    barfunction();
 
     functioninfoo();
+
+    Serial.printf("[ExternTest.ino] - This is the value of 'int baz' that is declared AND DEFINED in the included 'bar.h', and in this case called from the .ino:  %d\n", baz);
 }
 
 void loop()
