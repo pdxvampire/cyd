@@ -12,5 +12,6 @@ void LoadSettings();
 extern int brightness;
 extern const char *pct;
 extern bool darkmode;
+extern int percentage;
 
 #endif  //SETTINGS_H

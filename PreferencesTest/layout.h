@@ -6,6 +6,7 @@ void CreateTitleBar();
 void CreateBrightness();
 void CreateTest();
 void CreateDarkMode();
+void CreateZiploc();
 
 // Style for horn buttons when pressed
 extern lv_style_t style_pr;

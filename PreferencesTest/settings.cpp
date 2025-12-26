@@ -7,14 +7,15 @@
 int brightness = -1;
 const char* pct = "";
 bool darkmode = true;
+int percentage = -1;
 
 void LoadSettings()
 {
     darkmode = GetDarkMode();
     brightness = GetBrightness();
-    
+
     // Saved value is the real 10..255, convert here to % for the slider.
-    int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
+    percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
     logit("############################################### int percentage: %d", percentage);
     String tmpstrpct = String(percentage);
     logit("############################################### String tmpstrpct: %s", tmpstrpct);

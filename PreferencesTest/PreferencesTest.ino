@@ -78,6 +78,7 @@ void setup()
     CreateMainContainer();
     CreateTitleBar();
     CreateBrightness();
+    CreateZiploc();
     CreateDarkMode();
     CreateTest();
 

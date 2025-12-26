@@ -26,6 +26,7 @@ lv_obj_t *brightness_container;
 lv_obj_t *brightness_sliderandlabel_container;
 lv_obj_t *darkmode_container;
 lv_obj_t *titlebar_container;
+lv_obj_t *ziploc_container;
 lv_obj_t *test_container;
 
 // Brightness slider, printed value, and title
@@ -40,6 +41,9 @@ lv_obj_t *darkmode_title;
 // Titlebar title and close button
 lv_obj_t *main_title;
 lv_obj_t *close_button;
+
+lv_obj_t *ziploc_left;
+lv_obj_t *ziploc_right;
 
 // Test title and close button
 lv_obj_t *test_title;
@@ -113,6 +117,24 @@ void CreateTitleBar()
     lv_obj_set_style_border_width(titlebar_container, 0, 0);
 }
 
+void CreateZiploc()
+{
+    ziploc_container = lv_obj_create(main_container);
+    lv_obj_set_flex_flow(ziploc_container, LV_FLEX_FLOW_ROW);
+    lv_obj_set_width(ziploc_container, lv_pct(100));
+    lv_obj_set_height(ziploc_container, LV_SIZE_CONTENT);  // grow/shrink based on content
+
+    ziploc_left = lv_label_create(ziploc_container);
+    lv_label_set_text(ziploc_left, "ziploc_left");
+    lv_obj_set_flex_grow(ziploc_left, 1);
+
+    ziploc_right = lv_label_create(ziploc_container);
+    lv_label_set_text(ziploc_right, "ziploc_right");
+
+    // Comment this during testing to see the container border so you know it's what you want.
+    lv_obj_set_style_border_width(ziploc_container, 0, 0);
+}
+
 void CreateBrightness()
 {
     enterfunction("CreateBrightness");
@@ -132,20 +154,20 @@ void CreateBrightness()
     brightness_title = lv_label_create(brightness_container);
     lv_label_set_text(brightness_title, "Brightness");
 
-    brightness_sliderandlabel_container = lv_obj_create(brightness_container);
-    lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
-    lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(100));
-    lv_obj_set_height(brightness_sliderandlabel_container, LV_SIZE_CONTENT);  // grow/shrink based on content
+    // brightness_sliderandlabel_container = lv_obj_create(brightness_container);
+    // lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
+    // lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(100));
+    // lv_obj_set_height(brightness_sliderandlabel_container, LV_SIZE_CONTENT);  // grow/shrink based on content
 
-    brightness_slider = lv_slider_create(brightness_sliderandlabel_container);
-    lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
-    lv_obj_set_flex_grow(brightness_slider, 1);
-    //////////lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
+    // brightness_slider = lv_slider_create(brightness_sliderandlabel_container);
+    // lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
+    // lv_obj_set_flex_grow(brightness_slider, 1);
+    // lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
 
-    logit("create slider label");
-    brightness_label = lv_label_create(brightness_sliderandlabel_container);
-    lv_label_set_text(brightness_label, pct);
-    ////lv_obj_set_flex_grow(brightness_label, 1);
+    // logit("create slider label");
+    // brightness_label = lv_label_create(brightness_sliderandlabel_container);
+    // lv_label_set_text(brightness_label, pct);
+    // ////lv_obj_set_flex_grow(brightness_label, 1);
 
     // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
     //lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
@@ -154,16 +176,16 @@ void CreateBrightness()
 
     //lv_obj_set_width(slider, 150);
     //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
-    //////////lv_obj_add_event_cb(brightness_slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    //////////lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
-    //////////lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
+    
+    // lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
+    // lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
 
     //////////
     //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
 
     //////////lv_obj_set_flex_grow(brightness_slider, 3);
     //////////lv_obj_set_flex_grow(brightness_label, 1);
-    //////////lv_obj_set_style_pad_gap(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
+    ////////lv_obj_set_style_pad_gap(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
 }
 
 
@@ -173,13 +195,17 @@ void CreateTest()
     lv_obj_set_flex_flow(test_container, LV_FLEX_FLOW_ROW);
     lv_obj_set_width(test_container, lv_pct(100));
     lv_obj_set_height(test_container, LV_SIZE_CONTENT);  // grow/shrink based on content
-
+/*
     test_title = lv_label_create(test_container);
     lv_label_set_text(test_title, "FOO BAR BAZ");
     lv_obj_set_flex_grow(test_title, 1);
 
     test_button = lv_label_create(test_container);
     lv_label_set_text(test_button, "X");
+    */
+    brightness_slider = lv_slider_create(test_container);
+    brightness_label = lv_label_create(test_container);
+    lv_label_set_text(brightness_label, pct);
 }
 
 void CreateDarkMode()
