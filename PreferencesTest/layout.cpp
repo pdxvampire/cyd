@@ -1,6 +1,53 @@
 #include <Arduino.h>
+#include <lvgl.h>
 #include "layout.h"
 #include "logging.h"
+#include "settings.h"
+#include "uicallbacks.h"
+
+// Style for horn buttons when pressed
+ lv_style_t style_pr;
+
+// Screens
+ lv_obj_t *screen1;
+ lv_obj_t *screen2;
+ lv_obj_t *settingsscreen;
+
+// These need better names or to be gotten rid of if they aren't needed
+ lv_obj_t *btn1;
+ lv_obj_t *btn2;
+ lv_obj_t *label1;
+ lv_obj_t *label2;
+ lv_obj_t *label3;
+
+// Flex containers
+ lv_obj_t *main_container;
+ lv_obj_t *brightness_container;
+ lv_obj_t *brightness_sliderandlabel_container;
+ lv_obj_t *darkmode_container;
+ lv_obj_t *titlebar_container;
+ lv_obj_t *test_container;
+
+// Brightness slider, printed value, and title
+ lv_obj_t *brightness_slider;
+ lv_obj_t *brightness_label;
+ lv_obj_t *brightness_title;
+
+// Dark mode switch and title
+ lv_obj_t *darkmode_switch;
+ lv_obj_t *darkmode_title;
+
+// Titlebar title and close button
+ lv_obj_t *main_title;
+ lv_obj_t *close_button;
+
+// Test title and close button
+ lv_obj_t *test_title;
+ lv_obj_t *test_button;
+
+// Popup label for button testing
+ lv_obj_t *popuplabel;
+ lv_style_t popuplabelstyle;
 
 void CreateMainContainer()
 {
@@ -8,6 +55,8 @@ void CreateMainContainer()
     // Create main container with COLUMN flex direction
     // brightness_container
     // darkmode_container
+    //
+
     main_container = lv_obj_create(lv_screen_active());
     lv_obj_set_layout(main_container, LV_LAYOUT_FLEX);
 
@@ -45,7 +94,7 @@ void CreateContainers()
     ///    lv_obj_set_flex_grow(brightness_sliderandlabel_container, 1);
     ///    //lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
 }
-/*
+
 void CreateTitleBar()
 {
     titlebar_container = lv_obj_create(main_container);
@@ -60,7 +109,7 @@ void CreateTitleBar()
     close_button = lv_label_create(titlebar_container);
     lv_label_set_text(close_button, "X");
 }
-
+/*
 void CreateBrightness()
 {
     brightness_container = lv_obj_create(main_container);
@@ -124,7 +173,7 @@ void CreateTest()
     test_button = lv_label_create(test_container);
     lv_label_set_text(test_button, "X");
 }
-/*
+
 void CreateDarkMode()
 {
     //
@@ -151,4 +200,3 @@ void CreateDarkMode()
     //lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
     lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
 }
-*/

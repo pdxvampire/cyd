@@ -19,14 +19,10 @@ unsigned long lastLvTick = 0;
 
 lv_display_t *disp;
 
-int brightness = -1;
-bool darkmode = true;
-
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320
 
 #define LVGL_TICK_PERIOD 2
-uint16_t rawX, rawY;
 
 /* Draw buffer for LVGL */
 static uint8_t draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)];
@@ -42,6 +38,8 @@ void setup()
 
     logheader("PreferencesTest");
     loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
+
+    LoadSettings();
 
     digitalWrite(TFT_BL, 0);
     // Initialise the TFT
@@ -67,11 +65,8 @@ void setup()
     //lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x003a57), LV_PART_MAIN);
 
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
-    brightness = GetBrightness();
     logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d", brightness);
     analogWrite(TFT_BL, brightness);  // backlight pin is 27, range is 0..255
-
-    darkmode = GetDarkMode();
 
     // set display rotation for both tft and LVGL to match
     tft.setRotation(0);
@@ -79,22 +74,13 @@ void setup()
 
     InitializeTouch();
 
-    // Saved value is the real 10..255, convert here to % for the slider.
-    percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
-    logit("############################################### int percentage: %d", percentage);
-    String tmpstrpct = String(percentage);
-    logit("############################################### String tmpstrpct: %s", tmpstrpct);
-    pct = tmpstrpct.c_str();
-    logit("############################################### const char* pct: %s", pct);
-
-
     //CreateContainers();
     CreateMainContainer();
-    //CreateTitleBar();
+    CreateTitleBar();
     //CreateBrightness();
-    //CreateDarkMode();
+    CreateDarkMode();
     CreateTest();
-    
+
     if (darkmode)
     {
         lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);

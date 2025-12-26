@@ -1,8 +1,26 @@
 // https://randomnerdtutorials.com/esp32-save-data-permanently-preferences/
-
+#include <Arduino.h>
 #include <Preferences.h>
 #include "settings.h"
 #include "logging.h"
+
+int brightness = -1;
+const char* pct = "";
+bool darkmode = true;
+
+void LoadSettings()
+{
+    darkmode = GetDarkMode();
+    brightness = GetBrightness();
+    
+    // Saved value is the real 10..255, convert here to % for the slider.
+    int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
+    logit("############################################### int percentage: %d", percentage);
+    String tmpstrpct = String(percentage);
+    logit("############################################### String tmpstrpct: %s", tmpstrpct);
+    pct = tmpstrpct.c_str();
+    logit("############################################### const char* pct: %s", pct);
+}
 
 int GetBrightness()
 {
@@ -10,58 +28,58 @@ int GetBrightness()
     preferences.begin("horns", false);
 
     // if the key does not exist, return a default value of -1 so we know that it was bad (full)
-    int brightness = preferences.getInt("brightness", -1);
+    int val = preferences.getInt("brightness", -1);
 
     preferences.end();
 
-    logit("got brightness:  %d", brightness);
+    logit("got brightness:  %d", val);
 
-    if (brightness < 10)
+    if (val < 10)
     {
         logit("brightness invalid, setting to 255");
-        brightness = 255;
+        val = 255;
     }
 
-    return brightness;
+    return val;
 }
 
-void SetBrightness(int brightness)
+void SetBrightness(int val)
 {
     Preferences preferences;
 
     preferences.begin("horns", false);
 
-    preferences.putInt("brightness", brightness);
+    preferences.putInt("brightness", val);
 
     preferences.end();
 
-    logit("set brightness:  %d", brightness);
+    logit("set brightness:  %d", val);
 }
 
 bool GetDarkMode()
 {
-      Preferences preferences;
+    Preferences preferences;
     preferences.begin("horns", false);
 
     // if the key does not exist, default to dark
-    bool darkmode = preferences.getBool("darkmode", true);
+    bool val = preferences.getBool("darkmode", true);
 
     preferences.end();
 
-    logit("got darkmode:  %b", darkmode);
+    logit("got darkmode:  %b", val);
 
-    return darkmode;
+    return val;
 }
 
-void SetDarkMode(bool darkmode)
+void SetDarkMode(bool val)
 {
     Preferences preferences;
 
     preferences.begin("horns", false);
 
-    preferences.putBool("darkmode", darkmode);
+    preferences.putBool("darkmode", val);
 
     preferences.end();
 
-    logit("set darkmode:  %b", darkmode);
+    logit("set darkmode:  %b", val);
 }

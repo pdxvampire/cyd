@@ -3,7 +3,7 @@
 
 #include <lvgl.h>
 
-void swdarkmode_event_handler(lv_event_t *e);
-void HandleTouch(lv_indev_t *indev, lv_indev_data_t *data);
+void swdarkmode_event_handler(lv_event_t *);
+void HandleTouch(lv_indev_t *, lv_indev_data_t *);
 
 #endif
