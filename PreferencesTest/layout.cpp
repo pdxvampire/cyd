@@ -115,11 +115,16 @@ void CreateTitleBar()
 
 void CreateBrightness()
 {
-    brightness_container = lv_obj_create(main_container);
+    enterfunction("CreateBrightness");
 
+    logit("Create brightness_container");
+    brightness_container = lv_obj_create(main_container);
+    logit("set brightness_container flex flow to column");
     lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN);
+    logit("set brightness_container width");
     lv_obj_set_width(brightness_container, lv_pct(100));
-    lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT);  // grow/shrink based on content
+    logit("set brightness_container height");
+    lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
 
     //////lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
     // Comment this during testing to see the container border so you know it's what you want.
