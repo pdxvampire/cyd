@@ -28,12 +28,12 @@ logit(">>>>> apply dark to darkmode_title");
      lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
     ////////// lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
     ////////// lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
-logit(">>>>> apply dark to test_container");
-    lv_obj_set_style_bg_color(test_container, lv_color_black(), LV_PART_MAIN);
-logit(">>>>> apply dark to test_title");
-    lv_obj_set_style_text_color(test_title, lv_color_white(), LV_PART_MAIN);
-logit(">>>>> apply dark to test_button");
-    lv_obj_set_style_text_color(test_button, lv_color_white(), LV_PART_MAIN);
+// logit(">>>>> apply dark to test_container");
+//     lv_obj_set_style_bg_color(test_container, lv_color_black(), LV_PART_MAIN);
+// logit(">>>>> apply dark to test_title");
+//     lv_obj_set_style_text_color(test_title, lv_color_white(), LV_PART_MAIN);
+// logit(">>>>> apply dark to test_button");
+//     lv_obj_set_style_text_color(test_button, lv_color_white(), LV_PART_MAIN);
 
     exitfunction("ApplyDarkModeToSettingsScreen");
 }
@@ -56,9 +56,9 @@ void ApplyLightModeToSettingsScreen()
     //////////lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
     //////////lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
 
-    lv_obj_set_style_bg_color(test_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(test_title, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(test_button, lv_color_black(), LV_PART_MAIN);
+    // lv_obj_set_style_bg_color(test_container, lv_color_white(), LV_PART_MAIN);
+    // lv_obj_set_style_text_color(test_title, lv_color_black(), LV_PART_MAIN);
+    // lv_obj_set_style_text_color(test_button, lv_color_black(), LV_PART_MAIN);
 
     exitfunction("ApplyLightModeToSettingsScreen");
 }

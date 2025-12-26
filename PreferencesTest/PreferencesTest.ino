@@ -77,7 +77,7 @@ void setup()
     //CreateContainers();
     CreateMainContainer();
     CreateTitleBar();
-    //CreateBrightness();
+    CreateBrightness();
     CreateDarkMode();
     CreateTest();
 
