@@ -3,8 +3,9 @@
 #include "CST820.h"
 #include "touch.h"
 #include "logging.h"
+#include "uicallbacks.h"
 
-extern CST820 touch;
+CST820 touch(33, 32, 25, 21);  // Touch: SDA, SCL, RST, INT
 
 void InitializeTouch()
 {

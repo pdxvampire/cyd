@@ -2,6 +2,7 @@
 #include <lvgl.h>
 #include "uicallbacks.h"
 #include "logging.h"
+#include "theme.h"
 
 extern lv_obj_t *brightness_container;
 extern lv_obj_t *brightness_sliderandlabel_container;
@@ -20,9 +21,12 @@ extern lv_obj_t *titlebar_container;
 extern lv_obj_t *main_title;
 extern lv_obj_t *close_button;
 
+extern CST820 touch;
 
 void swdarkmode_event_handler(lv_event_t *e)
 {
+    enterfunction("swdarkmode_event_handler");
+
     lv_event_code_t code = lv_event_get_code(e);
 
     if (code == LV_EVENT_VALUE_CHANGED)
@@ -43,6 +47,8 @@ void swdarkmode_event_handler(lv_event_t *e)
 
         lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
     }
+
+    exitfunction("swdarkmode_event_handler");
 }
 
 void HandleTouch(lv_indev_t *indev, lv_indev_data_t *data)

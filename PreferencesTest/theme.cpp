@@ -2,10 +2,28 @@
 #include "theme.h"
 #include "logging.h"
 
-extern...
+// TODO - remove the ones not being used
+extern lv_obj_t *brightness_container;
+extern lv_obj_t *brightness_sliderandlabel_container;
+extern lv_obj_t *brightness_slider;
+extern lv_obj_t *brightness_label;
+extern lv_obj_t *brightness_title;
+extern lv_obj_t *brightness_container;
+extern lv_obj_t *brightness_sliderandlabel_container;
+extern lv_obj_t *brightness_slider;
+extern lv_obj_t *brightness_label;
+extern lv_obj_t *brightness_title;
+extern lv_obj_t *darkmode_container;
+extern lv_obj_t *darkmode_switch;
+extern lv_obj_t *darkmode_title;
+extern lv_obj_t *titlebar_container;
+extern lv_obj_t *main_title;
+extern lv_obj_t *close_button;
 
 void ApplyDarkModeToSettingsScreen()
 {
+    enterfunction("ApplyDarkModeToSettingsScreen");
+
     lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
     //////////  lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
     ////////// lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
@@ -23,10 +41,14 @@ void ApplyDarkModeToSettingsScreen()
     lv_obj_set_style_bg_color(test_container, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_text_color(test_title, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_text_color(test_button, lv_color_white(), LV_PART_MAIN);
+
+    exitfunction("ApplyDarkModeToSettingsScreen");
 }
 
 void ApplyLightModeToSettingsScreen()
 {
+    enterfunction("ApplyLightModeToSettingsScreen");
+
     lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
     //////////lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
     //////////lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
@@ -44,4 +66,6 @@ void ApplyLightModeToSettingsScreen()
     lv_obj_set_style_bg_color(test_container, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_text_color(test_title, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_text_color(test_button, lv_color_black(), LV_PART_MAIN);
+
+    exitfunction("ApplyLightModeToSettingsScreen");
 }
