@@ -70,6 +70,8 @@ void CreateMainContainer()
 
     // Comment this during testing to see the container border so you know it's what you want.
     lv_obj_set_style_border_width(main_container, 0, 0);
+
+    //lv_obj_set_style_pad_all(brightness_container, 30, LV_PART_MAIN);
 }
 
 void CreateContainers()
@@ -113,6 +115,8 @@ void CreateTitleBar()
 
     close_button = lv_label_create(titlebar_container);
     lv_label_set_text(close_button, "X");
+
+    lv_obj_set_style_pad_bottom(titlebar_container, 40, LV_PART_MAIN);
 
     // Comment this during testing to see the container border so you know it's what you want.
     lv_obj_set_style_border_width(titlebar_container, 0, 0);
@@ -161,20 +165,20 @@ void CreateBrightness()
     lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(100));
     lv_obj_set_height(brightness_sliderandlabel_container, LV_SIZE_CONTENT);  // grow/shrink based on content
 
-//lv_obj_set_style_margin_left(brightness_container, 0, LV_PART_MAIN);
-lv_obj_set_style_margin_right(brightness_container, 0, LV_PART_MAIN);
-//lv_obj_set_style_pad_left(brightness_container, 0, LV_PART_MAIN);
-lv_obj_set_style_pad_right(brightness_container, 0, LV_PART_MAIN);
+    //lv_obj_set_style_margin_left(brightness_container, 0, LV_PART_MAIN);
+    lv_obj_set_style_margin_right(brightness_container, 0, LV_PART_MAIN);
+    //lv_obj_set_style_pad_left(brightness_container, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_right(brightness_container, 0, LV_PART_MAIN);
 
-//lv_obj_set_style_margin_left(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
-//lv_obj_set_style_margin_right(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
-lv_obj_set_style_pad_left(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
-lv_obj_set_style_pad_right(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
+    //lv_obj_set_style_margin_left(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
+    //lv_obj_set_style_margin_right(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_left(brightness_sliderandlabel_container, 15, LV_PART_MAIN);
+    lv_obj_set_style_pad_right(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
 
     //lv_obj_set_style_pad_gap(brightness_container, 0, LV_PART_MAIN);
-   // lv_obj_set_style_pad_all(brightness_container, 0, LV_PART_MAIN);
-   //lv_obj_set_style_margin_all(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
-//lv_obj_set_style_pad_column(brightness_container, 0, LV_PART_MAIN);
+    // lv_obj_set_style_pad_all(brightness_container, 0, LV_PART_MAIN);
+    //lv_obj_set_style_margin_all(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
+    //lv_obj_set_style_pad_column(brightness_container, 0, LV_PART_MAIN);
 
 
     brightness_slider = lv_slider_create(brightness_sliderandlabel_container);
@@ -201,11 +205,11 @@ lv_obj_set_style_pad_right(brightness_sliderandlabel_container, 0, LV_PART_MAIN)
 
     lv_obj_set_flex_grow(brightness_slider, 3);
     lv_obj_set_flex_grow(brightness_label, 1);
-lv_obj_set_style_pad_left(brightness_label, 20, LV_PART_MAIN);
-lv_obj_set_style_pad_right(brightness_label, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_left(brightness_label, 20, LV_PART_MAIN);
+    lv_obj_set_style_pad_right(brightness_label, 0, LV_PART_MAIN);
     // Comment this during testing to see the container border so you know it's what you want.
-    // lv_obj_set_style_border_width(brightness_container, 0, 0);
-    // lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
+    lv_obj_set_style_border_width(brightness_container, 0, 0);
+    lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
 }
 
 

@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <TFT_eSPI.h> // only needed for TFT_BL
+#include <TFT_eSPI.h>  // only needed for TFT_BL
 #include <lvgl.h>
 #include "CST820.h"
 #include "uicallbacks.h"
@@ -11,7 +11,7 @@
 
 void swdarkmode_event_handler(lv_event_t *e)
 {
-   // enterfunction("swdarkmode_event_handler");
+    // enterfunction("swdarkmode_event_handler");
 
     lv_event_code_t code = lv_event_get_code(e);
 
@@ -34,12 +34,15 @@ void swdarkmode_event_handler(lv_event_t *e)
         lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
     }
 
-   // exitfunction("swdarkmode_event_handler");
+    // exitfunction("swdarkmode_event_handler");
 }
 
 void HandleBrightnessSlider(lv_event_t *e)
 {
     int slidercurrent = lv_slider_get_value(brightness_slider);
+
+    if (slidercurrent < 10) slidercurrent = 10;
+
     int val = (int)map(slidercurrent, 0, 100, 0, 255);  // brightness is 0..255, show user-friendly percentage 0..100
 
     switch (lv_event_get_code(e))
