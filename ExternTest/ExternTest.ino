@@ -30,6 +30,8 @@
 //        #include "library.h"
 //        Serial.printf("Sum of 5 and my_global_int is %d\n", sum(5, my_global_int));
 
+extern int var_to_be_set_only_in_a_function;
+
 void setup()
 {
     Serial.begin(115200);
@@ -44,6 +46,10 @@ void setup()
     Serial.printf("[ExternTest.ino] - Sum of 5 and my_global_int is %d\n", sum(5, my_global_int));
     
     barfunction();
+
+    Serial.printf("[ExternTest.ino] - BEFORE var_to_be_set_only_in_a_function %d\n", var_to_be_set_only_in_a_function);
+    define_the_var_var_to_be_set_only_in_a_function();
+    Serial.printf("[ExternTest.ino] - AFTER var_to_be_set_only_in_a_function %d\n", var_to_be_set_only_in_a_function);
 
     functioninfoo();
 

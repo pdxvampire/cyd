@@ -18,9 +18,15 @@ int baz = 333;
 //            varname = 666;
 int varname = 666;
 
+void define_the_var_var_to_be_set_only_in_a_function()
+{
+    var_to_be_set_only_in_a_function = 42;
+}
+
 void barfunction()
 {
     Serial.printf("[bar.cpp] - This is the value of 'int my_global_int_two' that is declared in the included 'bar.h', defined in bar.cpp and in this case called from the .ino:  %d\n", my_global_int_two);
     Serial.printf("[bar.cpp] - This is the value of 'int baz' that is declared AND DEFINED in the included 'bar.h', used in bar.cpp and called from the .ino:  %d\n", baz);
     Serial.printf("[bar.cpp] - This is the value of 'varname', from barfunction(): %d\n", varname);
+    Serial.printf("[bar.cpp] - var_to_be_set_only_in_a_function %d\n", var_to_be_set_only_in_a_function);
 }

@@ -13,6 +13,9 @@ extern int baz;
 // this works
 extern int varname;
 
+extern int var_to_be_set_only_in_a_function;
+
+void define_the_var_var_to_be_set_only_in_a_function();
 void barfunction();
 
 #endif
