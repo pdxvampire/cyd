@@ -67,8 +67,9 @@ void CreateMainContainer()
     lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);  // reverse so the title can be created later and still ends up visually on top
     // Set width and height to 100% of the parent's content area
     lv_obj_set_size(main_container, LV_PCT(100), LV_PCT(100));
+
     // Comment this during testing to see the container border so you know it's what you want.
-    ////lv_obj_set_style_border_width(main_container, 0, 0);
+    lv_obj_set_style_border_width(main_container, 0, 0);
 }
 
 void CreateContainers()
@@ -131,7 +132,7 @@ void CreateZiploc()
 
     ziploc_right = lv_label_create(ziploc_container);
     lv_label_set_text(ziploc_right, "ziploc_right");
-    logit("#################################################%s",pct);
+    logit("#################################################%s", pct);
     lv_label_set_text(ziploc_right, pct.c_str());
 
     // Comment this during testing to see the container border so you know it's what you want.
@@ -151,16 +152,25 @@ void CreateBrightness()
     logit("set brightness_container height");
     lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
 
-    //////lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
-    // Comment this during testing to see the container border so you know it's what you want.
-
     brightness_title = lv_label_create(brightness_container);
     lv_label_set_text(brightness_title, "Brightness");
 
     brightness_sliderandlabel_container = lv_obj_create(brightness_container);
+    lv_obj_set_layout(brightness_sliderandlabel_container, LV_LAYOUT_FLEX);
     lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
     lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(100));
     lv_obj_set_height(brightness_sliderandlabel_container, LV_SIZE_CONTENT);  // grow/shrink based on content
+
+lv_obj_set_style_margin_left(brightness_sliderandlabel_container, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+lv_obj_set_style_margin_right(brightness_sliderandlabel_container, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+lv_obj_set_style_pad_left(brightness_sliderandlabel_container, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+lv_obj_set_style_pad_right(brightness_sliderandlabel_container, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    //lv_obj_set_style_pad_gap(brightness_container, 0, LV_PART_MAIN);
+   // lv_obj_set_style_pad_all(brightness_container, 0, LV_PART_MAIN);
+   //lv_obj_set_style_margin_all(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
+//lv_obj_set_style_pad_column(brightness_container, 0, LV_PART_MAIN);
+
 
     brightness_slider = lv_slider_create(brightness_sliderandlabel_container);
     lv_slider_set_range(brightness_slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
@@ -173,20 +183,23 @@ void CreateBrightness()
     ////lv_obj_set_flex_grow(brightness_label, 1);
 
     // lv_obj_align(brightness_container, LV_ALIGN_TOP_MID, 0, 5);
-    //lv_obj_set_size(brightness_container, LV_PCT(100),LV_SIZE_CONTENT); // fill wid to content, width 100%
+
 
     //lv_obj_set_flex_grow(brightness_title, 1);
 
     //lv_obj_set_width(slider, 150);
     //lv_obj_align(slider, LV_ALIGN_LEFT_MID, 20, 0);
-    
-     lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
+
+    lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
 
     //lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
 
-    //////////lv_obj_set_flex_grow(brightness_slider, 3);
-    //////////lv_obj_set_flex_grow(brightness_label, 1);
-    ////////lv_obj_set_style_pad_gap(brightness_sliderandlabel_container, 0, LV_PART_MAIN);
+    lv_obj_set_flex_grow(brightness_slider, 2);
+    lv_obj_set_flex_grow(brightness_label, 1);
+
+    // Comment this during testing to see the container border so you know it's what you want.
+    // lv_obj_set_style_border_width(brightness_container, 0, 0);
+    // lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
 }
 
 
@@ -196,7 +209,7 @@ void CreateTest()
     lv_obj_set_flex_flow(test_container, LV_FLEX_FLOW_ROW);
     lv_obj_set_width(test_container, lv_pct(100));
     lv_obj_set_height(test_container, LV_SIZE_CONTENT);  // grow/shrink based on content
-/*
+                                                         /*
     test_title = lv_label_create(test_container);
     lv_label_set_text(test_title, "FOO BAR BAZ");
     lv_obj_set_flex_grow(test_title, 1);
@@ -222,7 +235,7 @@ void CreateDarkMode()
     //lv_obj_set_height(darkmode_container, LV_SIZE_CONTENT); // grow/shrink based on content
     lv_obj_set_flex_grow(darkmode_container, 1);  // fill remaining space
     // Comment this during testing to see the container border so you know it's what you want.
-    // lv_obj_set_style_border_width(darkmode_container, 0, 0);
+    lv_obj_set_style_border_width(darkmode_container, 0, 0);
 
     //lv_obj_set_size(darkmode_container, 200, 150);
     //  lv_obj_align_to(darkmode_container, brightness_container, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
