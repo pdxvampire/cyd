@@ -124,12 +124,15 @@ void CreateZiploc()
     lv_obj_set_width(ziploc_container, lv_pct(100));
     lv_obj_set_height(ziploc_container, LV_SIZE_CONTENT);  // grow/shrink based on content
 
-    ziploc_left = lv_label_create(ziploc_container);
-    lv_label_set_text(ziploc_left, "ziploc_left");
+    //ziploc_left = lv_label_create(ziploc_container);
+    //lv_label_set_text(ziploc_left, "ziploc_left");
+    ziploc_left = lv_slider_create(ziploc_container);
     lv_obj_set_flex_grow(ziploc_left, 1);
 
     ziploc_right = lv_label_create(ziploc_container);
     lv_label_set_text(ziploc_right, "ziploc_right");
+    logit("#################################################%s",pct);
+    lv_label_set_text(ziploc_right, pct.c_str());
 
     // Comment this during testing to see the container border so you know it's what you want.
     lv_obj_set_style_border_width(ziploc_container, 0, 0);
@@ -205,7 +208,7 @@ void CreateTest()
     */
     brightness_slider = lv_slider_create(test_container);
     brightness_label = lv_label_create(test_container);
-    lv_label_set_text(brightness_label, pct);
+    lv_label_set_text(brightness_label, pct.c_str());
 }
 
 void CreateDarkMode()

@@ -10,7 +10,7 @@ void SetDarkMode(bool);
 void LoadSettings();
 
 extern int brightness;
-extern const char *pct;
+extern String pct;
 extern bool darkmode;
 extern int percentage;
 

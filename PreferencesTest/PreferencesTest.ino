@@ -38,8 +38,13 @@ void setup()
 
     logheader("PreferencesTest");
     loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
+pct="666";
+logit("################# just B4 LS ############################## const char* pct: %s", pct);
 
     LoadSettings();
+
+logit("################# just after LS ############################## const char* pct: %s", pct);
+
 
     digitalWrite(TFT_BL, 0);
     // Initialise the TFT
@@ -66,6 +71,9 @@ void setup()
 
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
     logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d", brightness);
+
+logit("################# afyter aw ############################ const char* pct: %s", pct);
+
     analogWrite(TFT_BL, brightness);  // backlight pin is 27, range is 0..255
 
     // set display rotation for both tft and LVGL to match
@@ -73,6 +81,7 @@ void setup()
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     InitializeTouch();
+logit("################# just before create gui ############################## const char* pct: %s", pct);
 
     //CreateContainers();
     CreateMainContainer();

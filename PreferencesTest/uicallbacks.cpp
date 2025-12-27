@@ -11,7 +11,7 @@
 
 void swdarkmode_event_handler(lv_event_t *e)
 {
-    enterfunction("swdarkmode_event_handler");
+   // enterfunction("swdarkmode_event_handler");
 
     lv_event_code_t code = lv_event_get_code(e);
 
@@ -34,7 +34,7 @@ void swdarkmode_event_handler(lv_event_t *e)
         lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
     }
 
-    exitfunction("swdarkmode_event_handler");
+   // exitfunction("swdarkmode_event_handler");
 }
 
 void HandleBrightnessSlider(lv_event_t *e)
