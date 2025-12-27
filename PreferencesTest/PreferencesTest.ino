@@ -87,9 +87,9 @@ logit("################# just before create gui ############################## c
     CreateMainContainer();
     CreateTitleBar();
     CreateBrightness();
-    CreateZiploc();
+    //CreateZiploc();
     CreateDarkMode();
-    CreateTest();
+    //CreateTest();
 
     if (darkmode)
     {
