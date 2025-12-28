@@ -21,7 +21,7 @@ logit(">>>>> set the dark mode switch to checked");
     lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
 
 logit(">>>>> apply dark to main_title");
-    lv_obj_set_style_text_color(main_title, lv_color_white(), LV_PART_MAIN);
+ //   lv_obj_set_style_text_color(main_title, lv_color_white(), LV_PART_MAIN);
 logit(">>>>> apply dark to close_button");
     lv_obj_set_style_text_color(close_button, lv_color_white(), LV_PART_MAIN);
 logit(">>>>> apply dark to darkmode_title");
@@ -50,7 +50,7 @@ void ApplyLightModeToSettingsScreen()
 
     lv_obj_clear_state(darkmode_switch, LV_STATE_CHECKED);
 
-    lv_obj_set_style_text_color(main_title, lv_color_black(), LV_PART_MAIN);
+//    lv_obj_set_style_text_color(main_title, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_text_color(close_button, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);

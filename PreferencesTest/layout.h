@@ -43,6 +43,7 @@ extern lv_obj_t *darkmode_title;
 // Titlebar title and close button
 extern lv_obj_t *main_title;
 extern lv_obj_t *close_button;
+extern lv_obj_t *labelX;
 
 // Test title and close button
 extern lv_obj_t *test_title;
@@ -51,5 +52,10 @@ extern lv_obj_t *test_button;
 // Popup label for button testing
 extern lv_obj_t *popuplabel;
 extern lv_style_t popuplabelstyle;
+
+#define MASK_WIDTH 150
+#define MASK_HEIGHT 30
+
+void generate_mask(lv_draw_buf_t *mask, int32_t w, int32_t h, const char *txt);
 
 #endif
