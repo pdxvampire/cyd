@@ -42,6 +42,8 @@ lv_obj_t *darkmode_title;
 lv_obj_t *main_title;
 lv_obj_t *close_button;
 lv_obj_t *labelX;
+lv_obj_t *titlebar_leftside;
+lv_obj_t *titlebar_rightside;
 
 // Test title and close button
 lv_obj_t *test_title;
@@ -52,9 +54,6 @@ lv_obj_t *ziploc_right;
 // Popup label for button testing
 lv_obj_t *popuplabel;
 lv_style_t popuplabelstyle;
-
-// Title gradient
-lv_obj_t *title_gradient;
 
 void generate_mask(lv_draw_buf_t *mask, int32_t w, int32_t h, const char *txt)
 {
@@ -97,94 +96,87 @@ void CreateMainContainer()
     lv_obj_set_size(main_container, LV_PCT(100), LV_PCT(100));
 
     // Comment this during testing to see the container border so you know it's what you want.
-    lv_obj_set_style_border_width(main_container, 0, 0);
+    //lv_obj_set_style_border_width(main_container, 0, 0);
 
-    //lv_obj_set_style_pad_all(brightness_container, 30, LV_PART_MAIN);
-}
-
-void CreateContainers()
-{
-    //
-    // Create brightness container with COLUMN flex direction
-    // TITLE
-    // brightness_sliderandlabel_container
-    //
-    //////////
-    //////////lv_obj_set_flex_flow(brightness_container, LV_FLEX_FLOW_COLUMN_REVERSE);  // reverse so the title can be created later and still ends up visually on top
-    //////////lv_obj_set_width(brightness_container, lv_pct(100));
-    //////////lv_obj_set_flex_grow(brightness_container, 1);  // fill remaining space
-    ////lv_obj_set_height(brightness_container, LV_SIZE_CONTENT);  // grow/shrink based on content
-    // Comment this during testing to see the container border so you know it's what you want.
-    //lv_obj_set_style_border_width(brightness_container, 0, 0);
-
-
-    //
-    // Create brightness_sliderandlabel_container with ROW direction
-    // SLIDER | LABEL
-    //
-    ////////// brightness_sliderandlabel_container = lv_obj_create(main_container);
-    ////////// lv_obj_set_flex_flow(brightness_sliderandlabel_container, LV_FLEX_FLOW_ROW);
-    ////////// lv_obj_set_width(brightness_sliderandlabel_container, lv_pct(100));
-    //////////lv_obj_set_width(brightness_sliderandlabel_container, LV_SIZE_CONTENT);
-    ///    lv_obj_set_flex_grow(brightness_sliderandlabel_container, 1);
-    ///    //lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
+    lv_obj_set_style_pad_all(main_container, 0, LV_PART_MAIN);
+    lv_obj_set_style_margin_all(main_container, 0, LV_PART_MAIN);
 }
 
 void CreateTitleBar()
 {
+    lv_obj_t* foo = lv_obj_create(NULL);
     titlebar_container = lv_obj_create(main_container);
     lv_obj_set_flex_flow(titlebar_container, LV_FLEX_FLOW_ROW);
     lv_obj_set_width(titlebar_container, lv_pct(100));
     lv_obj_set_height(titlebar_container, LV_SIZE_CONTENT);  // grow/shrink based on content
-    lv_obj_set_style_pad_bottom(titlebar_container, 20, LV_PART_MAIN);
 
-    /* 
-    main_title = lv_label_create(titlebar_container);
-    lv_label_set_text(main_title, "SETTINGS");
-    lv_obj_set_flex_grow(main_title, 1);
-    */
+lv_obj_set_style_pad_all(titlebar_container, 0, LV_PART_MAIN);
+        lv_obj_set_style_margin_all(titlebar_container, 0, LV_PART_MAIN);
+lv_obj_set_style_margin_bottom(titlebar_container, 20, LV_PART_MAIN);
+
+ titlebar_leftside = lv_obj_create(titlebar_container);
+titlebar_rightside = lv_obj_create(titlebar_container);
+
+// I could not get things to line up until I put an extra
+    // container layer in, titlebar_leftside & titlebar_rightside.
+    // LVGL's flexbox isn't quite the same as HTML/CSS's despite what
+    // the documentation says because I've done this layout many
+    // times in HTML/CSS without the extra layer.
+
+
+lv_obj_set_height(titlebar_leftside, LV_SIZE_CONTENT);
+    lv_obj_set_height(titlebar_rightside, LV_SIZE_CONTENT);
+
+    lv_obj_set_style_pad_all(titlebar_leftside, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(titlebar_rightside, 0, LV_PART_MAIN);
+    lv_obj_set_style_margin_all(titlebar_leftside, 0, LV_PART_MAIN);
+    lv_obj_set_style_margin_all(titlebar_rightside, 0, LV_PART_MAIN);
+
+    lv_obj_set_width(titlebar_leftside, LV_SIZE_CONTENT);
+    lv_obj_set_width(titlebar_rightside, LV_SIZE_CONTENT);
+    
+    lv_obj_set_flex_grow(titlebar_leftside, 1);
+
+
+
 
     logit("create title");
-    /* Create the mask of a text by drawing it to a canvas*/
+    // Create the mask of a text by drawing it to a canvas
     LV_DRAW_BUF_DEFINE_STATIC(mask, MASK_WIDTH, MASK_HEIGHT, LV_COLOR_FORMAT_L8);
     LV_DRAW_BUF_INIT_STATIC(mask);
 
     generate_mask(&mask, MASK_WIDTH, MASK_HEIGHT, "SETTINGS");
 
-    /* Create an object from where the text will be masked out.
-     * Now it's a rectangle with a gradient but it could be an image too*/
-     lv_obj_t *leftside = lv_obj_create(titlebar_container);
+    // Create an object from where the text will be masked out.
+    // Now it's a rectangle with a gradient but it could be an image too
 
-    title_gradient = lv_obj_create(leftside);
-    lv_obj_set_size(title_gradient, MASK_WIDTH, MASK_HEIGHT);
-    lv_obj_set_style_bg_color(title_gradient, lv_color_hex(0xff0000), 0);
-    lv_obj_set_style_bg_grad_color(title_gradient, lv_color_hex(0x0000ff), 0);
-    lv_obj_set_style_bg_grad_dir(title_gradient, LV_GRAD_DIR_HOR, 0);
-    lv_obj_set_style_bitmap_mask_src(title_gradient, &mask, 0);
-    lv_obj_align(title_gradient, LV_ALIGN_TOP_MID, 0, 60);
+   
+    main_title = lv_obj_create(foo);
+    lv_obj_set_size(main_title, MASK_WIDTH, MASK_HEIGHT);
+    lv_obj_set_style_bg_color(main_title, lv_color_hex(0xff0000), 0);
+    lv_obj_set_style_bg_grad_color(main_title, lv_color_hex(0x0000ff), 0);
+    lv_obj_set_style_bg_grad_dir(main_title, LV_GRAD_DIR_HOR, 0);
+    lv_obj_set_style_bitmap_mask_src(main_title, &mask, 0);
+    lv_obj_align(main_title, LV_ALIGN_TOP_MID, 0, 60);
 
-lv_obj_t *rightside = lv_obj_create(titlebar_container);
-
-    close_button = lv_button_create(rightside);
+    
+    close_button = lv_button_create(titlebar_rightside);
     labelX = lv_label_create(close_button);
     lv_label_set_text(labelX, LV_SYMBOL_CLOSE);
     lv_obj_center(labelX);  // Center the 'X' symbol within the button
     //lv_obj_set_style_pad_left(close_button, 4, LV_PART_MAIN);
     //lv_obj_set_style_pad_left(close_button, 0, LV_PART_MAIN);
     lv_obj_set_style_margin_right(close_button, 0, LV_PART_MAIN);
+    //lv_obj_set_style_pad_right(close_button, 0, LV_PART_MAIN);
 
     // Comment this during testing to see the container border so you know it's what you want.
     //lv_obj_set_style_border_width(titlebar_container, 0, 0);
 
-         lv_obj_set_height(leftside, LV_SIZE_CONTENT);  // gr
-lv_obj_set_height(rightside, LV_SIZE_CONTENT);  // gr
-lv_obj_set_style_pad_all(rightside, 0, LV_PART_MAIN);
-lv_obj_set_style_pad_all(leftside, 0, LV_PART_MAIN);
-lv_obj_set_width(rightside, LV_SIZE_CONTENT);
-lv_obj_set_width(leftside, LV_SIZE_CONTENT);
-lv_obj_set_style_pad_all(titlebar_container, 0, LV_PART_MAIN);
-lv_obj_set_style_margin_all(titlebar_container, 0, LV_PART_MAIN);
-
+    
+   lv_obj_set_height(main_title, LV_SIZE_CONTENT);
+    
+    
+    
 }
 
 void CreateZiploc()
@@ -264,7 +256,7 @@ void CreateBrightness()
     lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
 
     // Comment this during testing to see the container border so you know it's what you want.
-    lv_obj_set_style_border_width(brightness_container, 0, 0);
+    //lv_obj_set_style_border_width(brightness_container, 0, 0);
     lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
 }
 
