@@ -16,6 +16,8 @@ logit(">>>>> apply dark to darkmode_container");
     lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
 logit(">>>>> apply dark to titlebar_container");
     lv_obj_set_style_bg_color(titlebar_container, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(titlebar_leftside, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(titlebar_rightside, lv_color_black(), LV_PART_MAIN);
 
 logit(">>>>> set the dark mode switch to checked");
     lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
@@ -47,6 +49,8 @@ void ApplyLightModeToSettingsScreen()
     lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_bg_color(titlebar_container, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(titlebar_leftside, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(titlebar_rightside, lv_color_white(), LV_PART_MAIN);
 
     lv_obj_clear_state(darkmode_switch, LV_STATE_CHECKED);
 

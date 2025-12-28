@@ -44,6 +44,8 @@ extern lv_obj_t *darkmode_title;
 extern lv_obj_t *main_title;
 extern lv_obj_t *close_button;
 extern lv_obj_t *labelX;
+extern lv_obj_t *titlebar_leftside;
+extern lv_obj_t *titlebar_rightside;
 
 // Test title and close button
 extern lv_obj_t *test_title;
