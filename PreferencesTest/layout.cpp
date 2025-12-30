@@ -237,7 +237,7 @@ void CreateBrightness()
     //lv_obj_set_style_pad_left(brightness_slider, 0, LV_PART_MAIN);
 
     // make the knob and detected touch area larger so it's easier to slide
-    lv_obj_set_ext_click_area(brightness_slider, 50);
+    lv_obj_set_ext_click_area(brightness_slider, 20);
     //lv_obj_set_style_pad_left(brightness_slider, 10, LV_PART_KNOB);
     //lv_obj_set_style_pad_right(brightness_slider, 6, LV_PART_KNOB);
     //lv_obj_set_style_pad_top(brightness_slider, 6, LV_PART_KNOB);
@@ -260,8 +260,8 @@ void CreateBrightness()
     lv_slider_set_value(brightness_slider, percentage, LV_ANIM_OFF);
 
     // Comment this during testing to see the container border so you know it's what you want.
-    //lv_obj_set_style_border_width(brightness_container, 0, 0);
-    //lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
+    lv_obj_set_style_border_width(brightness_container, 0, 0);
+    lv_obj_set_style_border_width(brightness_sliderandlabel_container, 0, 0);
 }
 
 
