@@ -1,7 +1,9 @@
 #include <FS.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>
+#include <CST820.h>
 #include <lvgl.h>
+#include <Preferences.h>
 
 // Prevent stack overflow reboot loops.
 SET_LOOP_TASK_STACK_SIZE(16 * 1024);
@@ -14,10 +16,15 @@ TFT_eSPI tft = TFT_eSPI();
 #include "display.h"
 #include "touchinput.h"
 #include "physical.h"
+#include "settings.h"
+#include "uicallbacks.h"
+#include "theme.h"
 
 void setup()
 {
     InitializeSerialCommunication("SKETCH CYD32");
+
+    LoadSettings();
 
     sdcard_setup();
 
@@ -26,11 +33,15 @@ void setup()
     InitializeTouch();
 
     exitfunction("setup");
+
+
+listDir(SD, "/darkmode", 0);
+
 }
 
 void loop()
 {
-    //lv_display_flush_ready(disp);
+    lv_display_flush_ready(disp);
     //lv_timer_handler();
     //lv_tick_inc(5);
 
@@ -55,7 +66,7 @@ void InitializeSerialCommunication(const char* title)
     logit("");  // insert a newline after the random garbage that gets printed on connection/powerup
 
     logheader(title);
-    loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
+    loglevel += 2;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
 
     logit("####### Done initializing serial communication. ################################");
     exitfunction("InitializeSerialCommunication");

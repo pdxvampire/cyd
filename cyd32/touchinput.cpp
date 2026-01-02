@@ -4,7 +4,9 @@
 #include "logging.h"
 #include "touchinput.h"
 
+CST820 touch(33, 32, 25, 21);  // Touch: SDA, SCL, RST, INT
 uint16_t rawX, rawY;
+lv_indev_t *indev;
 
 // Touch input for LVGL
 void HandleTouch(lv_indev_t* indev, lv_indev_data_t* data)

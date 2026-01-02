@@ -1,40 +1,71 @@
-#include <Arduino.h>  // Automatically included in .ino files
+#include <Arduino.h>   // Automatically included in .ino files
+#include <TFT_eSPI.h>  // only needed for TFT_BL
 #include <lvgl.h>
+#include "CST820.h"
 #include "logging.h"
 #include "layout.h"
 #include "display.h"
 #include "uicallbacks.h"
 #include "physical.h"
 #include "settings.h"
-
-extern lv_obj_t* screen1;
-extern lv_obj_t* screen2;
-extern lv_obj_t* slider;
-extern lv_obj_t* slider_label;
-extern lv_display_t* disp;
+#include "theme.h"
+#include "touchinput.h"
 
 void close_button_event_cb(lv_event_t* e)
 {
     ExitSettingsScreen();
 }
 
+void swdarkmode_event_handler(lv_event_t* e)
+{
+    // enterfunction("swdarkmode_event_handler");
+
+    lv_event_code_t code = lv_event_get_code(e);
+
+    if (code == LV_EVENT_VALUE_CHANGED)
+    {
+        if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
+        {
+            logit("switch is checked, set dark mode");
+            ApplyDarkModeToSettingsScreen();
+            SetDarkMode(true);
+        }
+        else
+        {
+            logit("switch is not checked, set light mode");
+            ApplyLightModeToSettingsScreen();
+            SetDarkMode(false);
+        }
+
+        // force refresh since we toggled the mode
+        // lv_refr_now(disp);
+
+        lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
+    }
+
+    // exitfunction("swdarkmode_event_handler");
+}
+
 void HandleBrightnessSlider(lv_event_t* e)
 {
-    int percentage = lv_slider_get_value(slider);
-    int val = (int)map(percentage, 0, 100, 0, 255);  // brightness is 0..255, show user-friendly percentage 0..100
+    int slidercurrent = lv_slider_get_value(brightness_slider);
+
+    if (slidercurrent < 10) slidercurrent = 10;
+
+    int val = (int)map(slidercurrent, 0, 100, 0, 255);  // brightness is 0..255, show user-friendly percentage 0..100
 
     switch (lv_event_get_code(e))
     {
         case LV_EVENT_VALUE_CHANGED:
             static char buf[4]; /* max 3 bytes for number plus 1 null terminating byte */
-            snprintf(buf, 4, "%u", percentage);
-            lv_label_set_text(slider_label, buf);
-            logit("🎚 Slider changed, value: %d, pct: %d", val, percentage);
+            snprintf(buf, 4, "%u", slidercurrent);
+            lv_label_set_text(brightness_label, buf);
+            logit("🎚 Slider changed, value: %d, pct: %d", val, slidercurrent);
             break;
 
         case LV_EVENT_RELEASED:
-            logit("🎚 Slider released, value: %d, pct: %d", val, percentage);
-            analogWrite(27, val);  // backlight pin is 27
+            logit("🎚 Slider released, value: %d, pct: %d", val, slidercurrent);
+            analogWrite(TFT_BL, val);  // backlight pin is 27
             SetBrightness(val);
             break;
     }
@@ -112,7 +143,14 @@ void HandleButtonClick(lv_event_t* e)
         int button_id = (int)user_obj;
 
         logit("button id:    %d", button_id);
-        logit("button name:  %s", horns[button_id].name);
+        if (darkmode)
+        {
+            logit("button name:  %s", darkhorns[button_id].name);
+        }
+        else
+        {
+            logit("button name:  %s", lighthorns[button_id].name);
+        }
 
         // These are defined in physical.cpp
         switch (button_id)

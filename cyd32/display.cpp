@@ -11,29 +11,11 @@
 #include "display.h"
 #include "uicallbacks.h"
 #include "settings.h"
-
-extern TFT_eSPI tft;
+#include "theme.h"
 
 unsigned long lastLvTick = 0;
 
-lv_style_t popuplabelstyle;
-lv_style_t style_pr;
-lv_obj_t *popuplabel;
-lv_obj_t *screen1;
-lv_obj_t *screen2;
-lv_obj_t *settingsscreen;
-lv_obj_t *btn1;
-lv_obj_t *btn2;
-lv_obj_t *label1;
-lv_obj_t *label2;
-lv_obj_t *label3;
-lv_obj_t *slider;
-lv_obj_t *slider_label;
-lv_obj_t *swdarkmode;
-
 lv_display_t *disp;
-
-int brightness = 255;
 
 void hide_object_timer_cb(lv_timer_t *timer)
 {
@@ -91,13 +73,23 @@ void create_image_button_from_sd(int id)
     enterfunction("create_image_button_from_sd");
     logit("Creating button %d", id);
 
-    const char *imagepath = horns[id].name;
+    Horn horn;
+    if (darkmode)
+    {
+        horn = darkhorns[id];
+    }
+    else
+    {
+        horn = lighthorns[id];
+    }
+
+    const char *imagepath = horn.name;
     lv_obj_t *imgbtnsdcard;
     logit("Image path:  %s", imagepath);
-    logit("Image page:  %d", horns[id].page);
+    logit("Image page:  %d", horn.page);
 
     // create the image button object
-    switch (horns[id].page)
+    switch (horn.page)
     {
         case 1:
             imgbtnsdcard = lv_imagebutton_create(screen1);
@@ -111,19 +103,19 @@ void create_image_button_from_sd(int id)
 
     // set the image sources for different states
     // load the main image from SD card, use NULL for left/right sides because we don't care about those
-    logit("Set image to '%s'", horns[id].name);
+    logit("Set image to '%s'", horn.name);
     lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_RELEASED, NULL, imagepath, NULL);  // horn icons
 
     // for testing use mona lisa when pressed
     // lv_imagebutton_set_src(imgbtnsdcard, LV_IMAGEBUTTON_STATE_PRESSED, NULL, "A:/btn1.jpg", NULL);  // mona lisa
 
     // set the position based on the array defined at the top of this file
-    lv_obj_set_pos(imgbtnsdcard, horns[id].xcoord, horns[id].ycoord);
-    logit("Position set to %d,%d", horns[id].xcoord, horns[id].ycoord);
+    lv_obj_set_pos(imgbtnsdcard, horn.xcoord, horn.ycoord);
+    logit("Position set to %d,%d", horn.xcoord, horn.ycoord);
 
     // darken the button when pressed
     lv_style_init(&style_pr);
-    lv_style_set_img_recolor_opa(&style_pr, LV_OPA_20);
+    lv_style_set_img_recolor_opa(&style_pr, LV_OPA_50);
     lv_style_set_img_recolor(&style_pr, lv_color_black());
     lv_obj_add_style(imgbtnsdcard, &style_pr, LV_STATE_PRESSED);
     logit("Pressed style added.");
@@ -141,8 +133,14 @@ void CreateScreen1()
     enterfunction("CreateScreen1");
 
     screen1 = lv_obj_create(NULL);
-    lv_obj_set_style_bg_color(screen1, lv_color_black(), LV_PART_MAIN);
-
+    if (darkmode)
+    {
+        lv_obj_set_style_bg_color(screen1, lv_color_black(), LV_PART_MAIN);
+    }
+    else
+    {
+        lv_obj_set_style_bg_color(screen1, lv_color_white(), LV_PART_MAIN);
+    }
     logit("add gesture event handler to screen1");
     lv_obj_add_event_cb(screen1, HandleGesture, LV_EVENT_GESTURE, NULL);
     logit("back from add gesture handler");
@@ -160,7 +158,14 @@ void CreateScreen2()
     enterfunction("CreateScreen2");
 
     screen2 = lv_obj_create(NULL);
-    lv_obj_set_style_bg_color(screen2, lv_color_black(), LV_PART_MAIN);
+    if (darkmode)
+    {
+        lv_obj_set_style_bg_color(screen2, lv_color_black(), LV_PART_MAIN);
+    }
+    else
+    {
+        lv_obj_set_style_bg_color(screen2, lv_color_white(), LV_PART_MAIN);
+    }
 
     logit("add gesture event handler to screen1");
     lv_obj_add_event_cb(screen2, HandleGesture, LV_EVENT_GESTURE, NULL);
@@ -172,34 +177,6 @@ void CreateScreen2()
     }
 
     exitfunction("CreateScreen2");
-}
-
-#define MASK_WIDTH 150
-#define MASK_HEIGHT 60
-
-static void generate_mask(lv_draw_buf_t *mask, int32_t w, int32_t h, const char *txt)
-{
-    /*Create a "8 bit alpha" canvas and clear it*/
-    lv_obj_t *canvas = lv_canvas_create(lv_screen_active());
-    lv_canvas_set_draw_buf(canvas, mask);
-    lv_canvas_fill_bg(canvas, lv_color_black(), LV_OPA_TRANSP);
-
-    lv_layer_t layer;
-    lv_canvas_init_layer(canvas, &layer);
-
-    /*Draw a label to the canvas. The result "image" will be used as mask*/
-    lv_draw_label_dsc_t label_dsc;
-    lv_draw_label_dsc_init(&label_dsc);
-    label_dsc.color = lv_color_white();
-    label_dsc.align = LV_TEXT_ALIGN_CENTER;
-    label_dsc.text = txt;
-    label_dsc.font = &lv_font_montserrat_24;
-    lv_area_t a = { 0, 0, w - 1, h - 1 };
-    lv_draw_label(&layer, &label_dsc, &a);
-
-    lv_canvas_finish_layer(canvas, &layer);
-
-    lv_obj_delete(canvas);
 }
 
 void CreateSettingsScreen()
@@ -214,38 +191,21 @@ void CreateSettingsScreen()
     //lv_obj_set_style_bg_color(settingsscreen, lv_color_hex(0xDDDDDD), LV_PART_MAIN);
     lv_obj_set_style_bg_color(settingsscreen, lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
 
-    logit("create label3");
-    label3 = lv_label_create(settingsscreen);
-    lv_label_set_text(label3, "Brightness");
-    lv_obj_align(label3, LV_ALIGN_TOP_LEFT, 10, 120);
+    CreateMainContainer();
+    CreateTitleBar();
+    CreateBrightness();
+    CreateDarkMode();
 
-    logit("create slider");
-    slider = lv_slider_create(settingsscreen);
-    lv_obj_set_width(slider, 160);
-    lv_obj_align(slider, LV_ALIGN_LEFT_MID, 10, 0);
-    lv_obj_add_event_cb(slider, HandleBrightnessSlider, LV_EVENT_ALL, NULL);
-    lv_slider_set_range(slider, 10, 100);  // don't allow turning completely off or there is no way to turn it back on
-    // Saved value is the real 10..255, convert here to % for the slider.
-    int percentage = (int)map(GetBrightness(), 0, 255, 0, 100);
-    logit("############################################### int percentage: %d", percentage);
-    lv_slider_set_value(slider, percentage, LV_ANIM_OFF);
-
-    logit("create slider label");
-    slider_label = lv_label_create(settingsscreen);
-    String tmpstrpct = String(percentage);
-    logit("############################################### String tmpstrpct: %s", tmpstrpct);
-    const char *pct = String(percentage).c_str();
-    logit("############################################### const char* pct: %s", pct);
-    lv_label_set_text(slider_label, pct);
-    lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_RIGHT_TOP, 20, 0);
-
-    logit("create close button");
-    lv_obj_t *close_btn = lv_button_create(settingsscreen);
-    lv_obj_t *labelX = lv_label_create(close_btn);
-    lv_label_set_text(labelX, LV_SYMBOL_CLOSE);
-    lv_obj_center(labelX);  // Center the 'X' symbol within the button
-    lv_obj_add_event_cb(close_btn, close_button_event_cb, LV_EVENT_CLICKED, NULL);
-    lv_obj_align(close_btn, LV_ALIGN_TOP_RIGHT, -10, 10);
+    if (darkmode)
+    {
+        lv_obj_set_style_bg_color(settingsscreen, lv_color_black(), LV_PART_MAIN);
+        ApplyDarkModeToSettingsScreen();
+    }
+    else
+    {
+        lv_obj_set_style_bg_color(settingsscreen, lv_color_white(), LV_PART_MAIN);
+        ApplyLightModeToSettingsScreen();
+    }
 
     logit("create title");
     /* Create the mask of a text by drawing it to a canvas*/
@@ -293,7 +253,7 @@ void InitializeDisplay()
     disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
 
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
-    brightness = GetBrightness();
+
     logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d", brightness);
     analogWrite(TFT_BL, brightness);  // backlight pin is 27, range is 0..255
 
@@ -302,7 +262,15 @@ void InitializeDisplay()
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     CreateScreen1();
-    CreateScreen2();
+
+    if (darkmode)
+    {
+        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
+    }
+    else
+    {
+        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_white(), LV_PART_MAIN);
+    }
 
     logit("load screen1");
     lv_scr_load(screen1);
