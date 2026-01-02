@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include <Arduino.h>   // Automatically included in .ino files
 #include <TFT_eSPI.h>  // only needed for TFT_BL
 #include <lvgl.h>
 #include "CST820.h"

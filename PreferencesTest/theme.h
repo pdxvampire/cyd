@@ -4,4 +4,4 @@
 void ApplyDarkModeToSettingsScreen();
 void ApplyLightModeToSettingsScreen();
 
-#endif
+#endif  // THEME_H

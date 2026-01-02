@@ -5,7 +5,7 @@
 #include "logging.h"
 
 int brightness = -1;
-  String pct = "";
+String pct = "";
 bool darkmode = true;
 int percentage = -1;
 
@@ -19,7 +19,7 @@ void LoadSettings()
     // Saved value is the real 10..255, convert here to % for the slider.
     percentage = (int)map(brightness, 0, 255, 0, 100);
     if (percentage < 10) percentage = 10;
-    
+
     logit("############################################### int percentage: %d", percentage);
     pct = String(percentage);
     logit("################## JUST BEFORE EXITING LOADSETTINGS ############################# String pct: %s", pct);
