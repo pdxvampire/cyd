@@ -38,12 +38,20 @@ void setup()
 
     logheader("PreferencesTest");
     loglevel++;  // would normally be part of the call to enterfunction for InitializeSerialCommunication()
-pct="666";
-logit("################# just B4 LS ############################## const char* pct: %s", pct);
+    pct = "666";
+    logit("################# just B4 LS ############################## const char* pct: %s", pct);
 
     LoadSettings();
+    if (darkmode)
+    {
+        logit("#### darkmode");
+    }
+    else
+    {
+        logit("#### lightmode");
+    }
 
-logit("################# just after LS ############################## const char* pct: %s", pct);
+    logit("################# just after LS ############################## const char* pct: %s", pct);
 
 
     digitalWrite(TFT_BL, 0);
@@ -72,7 +80,7 @@ logit("################# just after LS ############################## const char
     pinMode(TFT_BL, TFT_BACKLIGHT_ON);  // defined in User_Setup.h
     logit("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analogwrite: %d", brightness);
 
-logit("################# afyter aw ############################ const char* pct: %s", pct);
+    logit("################# afyter aw ############################ const char* pct: %s", pct);
 
     analogWrite(TFT_BL, brightness);  // backlight pin is 27, range is 0..255
 
@@ -81,7 +89,7 @@ logit("################# afyter aw ############################ const char* pct:
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     InitializeTouch();
-logit("################# just before create gui ############################## const char* pct: %s", pct);
+    logit("################# just before create gui ############################## const char* pct: %s", pct);
 
     //CreateContainers();
     CreateMainContainer();

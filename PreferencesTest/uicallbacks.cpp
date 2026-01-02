@@ -21,11 +21,13 @@ void swdarkmode_event_handler(lv_event_t *e)
         {
             logit("switch is checked, set dark mode");
             ApplyDarkModeToSettingsScreen();
+            SetDarkMode(true);
         }
         else
         {
             logit("switch is not checked, set light mode");
             ApplyLightModeToSettingsScreen();
+            SetDarkMode(false);
         }
 
         // force refresh since we toggled the mode
