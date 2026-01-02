@@ -3,64 +3,61 @@
 #include "logging.h"
 #include "layout.h"
 
-void ApplyDarkModeToSettingsScreen()
+void ApplyThemeToSettingsScreen(bool usedarkmode)
 {
-    enterfunction("ApplyDarkModeToSettingsScreen");
-logit(">>>>> apply dark to main_container");
-    lv_obj_set_style_bg_color(main_container, lv_color_black(), LV_PART_MAIN);
-logit(">>>>> apply dark to brightness_container");
-     lv_obj_set_style_bg_color(brightness_container, lv_color_black(), LV_PART_MAIN);
-logit(">>>>> apply dark to brightness_sliderandlabel_container");
-    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_black(), LV_PART_MAIN);
-logit(">>>>> apply dark to darkmode_container");
-    lv_obj_set_style_bg_color(darkmode_container, lv_color_black(), LV_PART_MAIN);
-logit(">>>>> apply dark to titlebar_container");
-    lv_obj_set_style_bg_color(titlebar_container, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(titlebar_leftside, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(titlebar_rightside, lv_color_black(), LV_PART_MAIN);
+    enterfunction("ApplyThemeToSettingsScreen");
 
-logit(">>>>> set the dark mode switch to checked");
-    lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
+    lv_color_t bgcolor;
+    lv_color_t txtcolor;
 
-logit(">>>>> apply dark to close_button");
-    lv_obj_set_style_text_color(close_button, lv_color_white(), LV_PART_MAIN);
-logit(">>>>> apply dark to darkmode_title");
-     lv_obj_set_style_text_color(darkmode_title, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(brightness_title, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(brightness_label, lv_color_white(), LV_PART_MAIN);
-// logit(">>>>> apply dark to test_container");
-//     lv_obj_set_style_bg_color(test_container, lv_color_black(), LV_PART_MAIN);
-// logit(">>>>> apply dark to test_title");
-//     lv_obj_set_style_text_color(test_title, lv_color_white(), LV_PART_MAIN);
-// logit(">>>>> apply dark to test_button");
-//     lv_obj_set_style_text_color(test_button, lv_color_white(), LV_PART_MAIN);
+    if (usedarkmode)
+    {
+        logit("Dark mode is selected.");
 
-    exitfunction("ApplyDarkModeToSettingsScreen");
-}
+        logit(">>>>> set the background color to black");
+        bgcolor = lv_color_black();
 
-void ApplyLightModeToSettingsScreen()
-{
-    enterfunction("ApplyLightModeToSettingsScreen");
+        logit(">>>>> set the text color to white");
+        txtcolor = lv_color_white();
+    }
+    else
+    {
+        logit("Light mode is selected.");
 
-    lv_obj_set_style_bg_color(main_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(brightness_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(darkmode_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(titlebar_container, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(titlebar_leftside, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(titlebar_rightside, lv_color_white(), LV_PART_MAIN);
+        logit(">>>>> set the background color to white");
+        bgcolor = lv_color_white();
 
-    lv_obj_clear_state(darkmode_switch, LV_STATE_CHECKED);
+        logit(">>>>> set the text color to black");
+        txtcolor = lv_color_black();
+    }
 
-//    lv_obj_set_style_text_color(main_title, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(close_button, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(darkmode_title, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(brightness_title, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_text_color(brightness_label, lv_color_black(), LV_PART_MAIN);
+    logit(">>>>> apply to window");
+    lv_obj_set_style_bg_color(lv_screen_active(), bgcolor, LV_PART_MAIN);
 
-    // lv_obj_set_style_bg_color(test_container, lv_color_white(), LV_PART_MAIN);
-    // lv_obj_set_style_text_color(test_title, lv_color_black(), LV_PART_MAIN);
-    // lv_obj_set_style_text_color(test_button, lv_color_black(), LV_PART_MAIN);
+    logit(">>>>> apply to main_container");
+    lv_obj_set_style_bg_color(main_container, bgcolor, LV_PART_MAIN);
 
-    exitfunction("ApplyLightModeToSettingsScreen");
+    logit(">>>>> apply to brightness_container");
+    lv_obj_set_style_bg_color(brightness_container, bgcolor, LV_PART_MAIN);
+
+    logit(">>>>> apply to brightness_sliderandlabel_container");
+    lv_obj_set_style_bg_color(brightness_sliderandlabel_container, bgcolor, LV_PART_MAIN);
+
+    logit(">>>>> apply to darkmode_container");
+    lv_obj_set_style_bg_color(darkmode_container, bgcolor, LV_PART_MAIN);
+
+    logit(">>>>> apply to titlebar_container");
+    lv_obj_set_style_bg_color(titlebar_container, bgcolor, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(titlebar_leftside, bgcolor, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(titlebar_rightside, bgcolor, LV_PART_MAIN);
+
+    logit(">>>>> apply dark to close_button");
+    lv_obj_set_style_text_color(close_button, txtcolor, LV_PART_MAIN);
+
+    logit(">>>>> apply dark to darkmode_title");
+    lv_obj_set_style_text_color(darkmode_title, txtcolor, LV_PART_MAIN);
+    lv_obj_set_style_text_color(brightness_title, txtcolor, LV_PART_MAIN);
+    lv_obj_set_style_text_color(brightness_label, txtcolor, LV_PART_MAIN);
+
+    exitfunction("ApplyThemeToSettingsScreen");
 }

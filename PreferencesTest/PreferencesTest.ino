@@ -42,6 +42,7 @@ void setup()
     logit("################# just B4 LS ############################## const char* pct: %s", pct);
 
     LoadSettings();
+
     if (darkmode)
     {
         logit("#### darkmode");
@@ -99,16 +100,7 @@ void setup()
     CreateDarkMode();
     //CreateTest();
 
-    if (darkmode)
-    {
-        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
-        ApplyDarkModeToSettingsScreen();
-    }
-    else
-    {
-        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_white(), LV_PART_MAIN);
-        ApplyLightModeToSettingsScreen();
-    }
+    ApplyThemeToSettingsScreen(darkmode);
 }
 
 void loop()

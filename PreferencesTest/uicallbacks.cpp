@@ -20,20 +20,18 @@ void swdarkmode_event_handler(lv_event_t *e)
         if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
         {
             logit("switch is checked, set dark mode");
-            ApplyDarkModeToSettingsScreen();
             SetDarkMode(true);
+            ApplyThemeToSettingsScreen(true);
         }
         else
         {
             logit("switch is not checked, set light mode");
-            ApplyLightModeToSettingsScreen();
             SetDarkMode(false);
+            ApplyThemeToSettingsScreen(false);
         }
 
-        // force refresh since we toggled the mode
-        // lv_refr_now(disp);
-
-        lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
+        // avoid repeated events if long press
+        lv_indev_wait_release(lv_indev_get_act());
     }
 
     // exitfunction("swdarkmode_event_handler");

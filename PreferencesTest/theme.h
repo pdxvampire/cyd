@@ -1,7 +1,6 @@
 #ifndef THEME_H
 #define THEME_H
 
-void ApplyDarkModeToSettingsScreen();
-void ApplyLightModeToSettingsScreen();
+void ApplyThemeToSettingsScreen(bool);
 
 #endif  // THEME_H

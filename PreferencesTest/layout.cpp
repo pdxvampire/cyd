@@ -167,7 +167,6 @@ void CreateTitleBar()
     lv_obj_set_style_border_width(titlebar_container, 0, 0);
     lv_obj_set_style_border_width(titlebar_leftside, 0, 0);
     lv_obj_set_style_border_width(titlebar_rightside, 0, 0);
-    
 }
 
 void CreateZiploc()
@@ -304,6 +303,17 @@ void CreateDarkMode()
 
     darkmode_switch = lv_switch_create(darkmode_container);
     lv_obj_set_style_margin_left(darkmode_switch, 15, LV_PART_MAIN);
+
+    if (darkmode)
+    {
+        logit(">>>>> set the dark mode switch to checked");
+        lv_obj_add_state(darkmode_switch, LV_STATE_CHECKED);
+    }
+    else
+    {
+        logit(">>>>> set the dark mode switch to unchecked");
+        lv_obj_clear_state(darkmode_switch, LV_STATE_CHECKED);
+    }
 
     //lv_obj_align_to(swdarkmode, slider, LV_ALIGN_BOTTOM_MID, 0, 80);
     lv_obj_add_event_cb(darkmode_switch, swdarkmode_event_handler, LV_EVENT_ALL, NULL);
