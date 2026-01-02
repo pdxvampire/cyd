@@ -1,3 +1,4 @@
+#include "display/lv_display.h"
 #include "core/lv_obj_pos.h"
 #include <Arduino.h>  // Automatically included in .ino files
 #include <vector>
@@ -43,6 +44,9 @@ void ShowPopupLabelBriefly(const char *msg)
 {
     enterfunction("ShowPopupLabelBriefly");
 
+    logit("set popuplable parent");
+    lv_obj_set_parent(popuplabel, lv_screen_active());
+
     logit("add style to popuplable");
     lv_obj_add_style(popuplabel, &popuplabelstyle, 0);
 
@@ -54,9 +58,6 @@ void ShowPopupLabelBriefly(const char *msg)
 
     logit("unhide popuplable");
     lv_obj_clear_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);
-
-    logit("set popuplable parent");
-    lv_obj_set_parent(popuplabel, lv_screen_active());
 
     logit("move popuplable to foreground");
     lv_obj_move_foreground(popuplabel);
@@ -74,18 +75,22 @@ void create_image_button_from_sd(int id)
     logit("Creating button %d", id);
 
     Horn horn;
+    const char *imagepath;
+
     if (darkmode)
     {
         horn = darkhorns[id];
+        imagepath = horn.name;
+        logit("dark mode, use %s", imagepath);
     }
     else
     {
         horn = lighthorns[id];
+        imagepath = horn.name;
+        logit("light mode, use %s", imagepath);
     }
 
-    const char *imagepath = horn.name;
     lv_obj_t *imgbtnsdcard;
-    logit("Image path:  %s", imagepath);
     logit("Image page:  %d", horn.page);
 
     // create the image button object
@@ -132,24 +137,32 @@ void CreateScreen1()
 {
     enterfunction("CreateScreen1");
 
+    logit("create screen1 object");
     screen1 = lv_obj_create(NULL);
+
     if (darkmode)
     {
+        logit("dark mode, set background of screen1 to black");
         lv_obj_set_style_bg_color(screen1, lv_color_black(), LV_PART_MAIN);
     }
     else
     {
+        logit("light mode, set background of screen1 to white");
         lv_obj_set_style_bg_color(screen1, lv_color_white(), LV_PART_MAIN);
     }
+
     logit("add gesture event handler to screen1");
     lv_obj_add_event_cb(screen1, HandleGesture, LV_EVENT_GESTURE, NULL);
     logit("back from add gesture handler");
 
+    logit("create horn buttons for screen1");
+    incrementindent();
     for (int x = 1; x <= 6; x++)
     {
         create_image_button_from_sd(x);
     }
-    lv_obj_set_style_anim_duration(screen1, 30, LV_PART_MAIN);
+    decrementindent();
+
     exitfunction("CreateScreen1");
 }
 
@@ -157,20 +170,25 @@ void CreateScreen2()
 {
     enterfunction("CreateScreen2");
 
+    logit("create screen1 object");
     screen2 = lv_obj_create(NULL);
+
     if (darkmode)
     {
+        logit("dark mode, set background of screen2 to black");
         lv_obj_set_style_bg_color(screen2, lv_color_black(), LV_PART_MAIN);
     }
     else
     {
+        logit("light mode, set background of screen2 to white");
         lv_obj_set_style_bg_color(screen2, lv_color_white(), LV_PART_MAIN);
     }
 
-    logit("add gesture event handler to screen1");
+    logit("add gesture event handler to screen2");
     lv_obj_add_event_cb(screen2, HandleGesture, LV_EVENT_GESTURE, NULL);
     logit("back from add gesture handler");
 
+    logit("create horn buttons for screen1");
     for (int x = 7; x <= 10; x++)
     {
         create_image_button_from_sd(x);

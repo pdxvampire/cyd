@@ -51,10 +51,10 @@ void ApplyThemeToSettingsScreen(bool usedarkmode)
     lv_obj_set_style_bg_color(titlebar_leftside, bgcolor, LV_PART_MAIN);
     lv_obj_set_style_bg_color(titlebar_rightside, bgcolor, LV_PART_MAIN);
 
-    logit(">>>>> apply dark to close_button");
+    logit(">>>>> apply to close_button");
     lv_obj_set_style_text_color(close_button, txtcolor, LV_PART_MAIN);
 
-    logit(">>>>> apply dark to darkmode_title");
+    logit(">>>>> apply to darkmode_title");
     lv_obj_set_style_text_color(darkmode_title, txtcolor, LV_PART_MAIN);
     lv_obj_set_style_text_color(brightness_title, txtcolor, LV_PART_MAIN);
     lv_obj_set_style_text_color(brightness_label, txtcolor, LV_PART_MAIN);

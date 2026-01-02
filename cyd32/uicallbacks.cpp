@@ -28,12 +28,14 @@ void swdarkmode_event_handler(lv_event_t* e)
         {
             logit("switch is checked, set dark mode");
             SetDarkMode(true);
+            darkmode = true;
             ApplyThemeToSettingsScreen(true);
         }
         else
         {
             logit("switch is not checked, set light mode");
             SetDarkMode(false);
+            darkmode = false;
             ApplyThemeToSettingsScreen(false);
         }
 
@@ -107,10 +109,13 @@ void HandleGesture(lv_event_t* e)
 
 void ExitSettingsScreen()
 {
-    logit("delete and recreate screen 1 and 2 in case dark mode changed");
+    logit("delete screen 1");
     lv_obj_del(screen1);
+    logit("delete screen 2");
     lv_obj_del(screen2);
+    logit("recreate screen 1 in case dark mode changed");
     CreateScreen1();
+    logit("recreate screen 2 in case dark mode changed");
     CreateScreen2();
 
     logit("call load anim for screen 2");
