@@ -186,11 +186,6 @@ void CreateSettingsScreen()
     logit("create settingsscreen");
     settingsscreen = lv_obj_create(NULL);
 
-    logit("set bgcolor");
-    // Set background color (light gray)
-    //lv_obj_set_style_bg_color(settingsscreen, lv_color_hex(0xDDDDDD), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(settingsscreen, lv_palette_main(LV_PALETTE_AMBER), LV_PART_MAIN);
-
     CreateMainContainer();
     CreateTitleBar();
     CreateBrightness();
@@ -198,31 +193,12 @@ void CreateSettingsScreen()
 
     if (darkmode)
     {
-        lv_obj_set_style_bg_color(settingsscreen, lv_color_black(), LV_PART_MAIN);
-        ApplyDarkModeToSettingsScreen();
+        ApplyThemeToSettingsScreen(true);
     }
     else
     {
-        lv_obj_set_style_bg_color(settingsscreen, lv_color_white(), LV_PART_MAIN);
-        ApplyLightModeToSettingsScreen();
+        ApplyThemeToSettingsScreen(false);
     }
-
-    logit("create title");
-    /* Create the mask of a text by drawing it to a canvas*/
-    LV_DRAW_BUF_DEFINE_STATIC(mask, MASK_WIDTH, MASK_HEIGHT, LV_COLOR_FORMAT_L8);
-    LV_DRAW_BUF_INIT_STATIC(mask);
-
-    generate_mask(&mask, MASK_WIDTH, MASK_HEIGHT, "SETTINGS");
-
-    /* Create an object from where the text will be masked out.
-     * Now it's a rectangle with a gradient but it could be an image too*/
-    lv_obj_t *grad = lv_obj_create(settingsscreen);
-    lv_obj_set_size(grad, MASK_WIDTH, MASK_HEIGHT);
-    lv_obj_set_style_bg_color(grad, lv_color_hex(0xff0000), 0);
-    lv_obj_set_style_bg_grad_color(grad, lv_color_hex(0x0000ff), 0);
-    lv_obj_set_style_bg_grad_dir(grad, LV_GRAD_DIR_HOR, 0);
-    lv_obj_set_style_bitmap_mask_src(grad, &mask, 0);
-    lv_obj_align(grad, LV_ALIGN_TOP_MID, 0, 60);
 
     exitfunction("CreateSettingsScreen");
 }
@@ -262,15 +238,8 @@ void InitializeDisplay()
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_180);
 
     CreateScreen1();
-
-    if (darkmode)
-    {
-        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), LV_PART_MAIN);
-    }
-    else
-    {
-        lv_obj_set_style_bg_color(lv_screen_active(), lv_color_white(), LV_PART_MAIN);
-    }
+    CreateScreen2();
+    CreateSettingsScreen();
 
     logit("load screen1");
     lv_scr_load(screen1);

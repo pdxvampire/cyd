@@ -76,7 +76,7 @@ void DoSomethingButton08()
 
     ShowPopupLabelBriefly("PLAY HORN 08");
 
-    enterfunction("DoSomethingButton08");
+    exitfunction("DoSomethingButton08");
 }
 
 void DoSomethingButton09()
@@ -85,23 +85,20 @@ void DoSomethingButton09()
 
     ShowPopupLabelBriefly("PLAY HORN 09");
 
-    enterfunction("DoSomethingButton09");
+    exitfunction("DoSomethingButton09");
 }
 
 void DoSomethingButton10()
 {
     enterfunction("DoSomethingButton10");
 
-    logit("call CreateSettingsScreen");
-    CreateSettingsScreen();
     logit("call load anim for settings screen");
     lv_screen_load_anim(settingsscreen, LV_SCREEN_LOAD_ANIM_MOVE_TOP, 30, 0, false);
-    //lv_obj_del_async(screen1);
-    //lv_obj_del(screen1);
+
     logit("flush display");
     lv_display_flush_ready(disp);
 
-    enterfunction("DoSomethingButton10");
+    exitfunction("DoSomethingButton10");
 }
 
 void DoSomethingButton11()
@@ -110,7 +107,7 @@ void DoSomethingButton11()
 
     // NOOP
 
-    enterfunction("DoSomethingButton11");
+    exitfunction("DoSomethingButton11");
 }
 
 void DoSomethingButton12()

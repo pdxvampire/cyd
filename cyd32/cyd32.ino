@@ -33,17 +33,11 @@ void setup()
     InitializeTouch();
 
     exitfunction("setup");
-
-
-listDir(SD, "/darkmode", 0);
-
 }
 
 void loop()
 {
     lv_display_flush_ready(disp);
-    //lv_timer_handler();
-    //lv_tick_inc(5);
 
     if (millis() - lastLvTick > LVGL_TICK_PERIOD)
     {

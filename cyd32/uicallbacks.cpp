@@ -27,20 +27,18 @@ void swdarkmode_event_handler(lv_event_t* e)
         if (lv_obj_has_state(darkmode_switch, LV_STATE_CHECKED))
         {
             logit("switch is checked, set dark mode");
-            ApplyDarkModeToSettingsScreen();
             SetDarkMode(true);
+            ApplyThemeToSettingsScreen(true);
         }
         else
         {
             logit("switch is not checked, set light mode");
-            ApplyLightModeToSettingsScreen();
             SetDarkMode(false);
+            ApplyThemeToSettingsScreen(false);
         }
 
-        // force refresh since we toggled the mode
-        // lv_refr_now(disp);
-
-        lv_indev_wait_release(lv_indev_get_act());  // avoid repeated events if long press
+        // avoid repeated events if long press
+        lv_indev_wait_release(lv_indev_get_act());
     }
 
     // exitfunction("swdarkmode_event_handler");
@@ -80,32 +78,24 @@ void HandleGesture(lv_event_t* e)
     switch (dir)
     {
         case LV_DIR_LEFT:
-            logit("L");
-            //logit("call CreateScreen2");
-            //CreateScreen2();
+            logit("SWIPE L");
             logit("call load anim for screen 2");
             lv_screen_load_anim(screen2, LV_SCR_LOAD_ANIM_FADE_IN, 15, 0, false);
-            ////lv_screen_load(screen2);
-            //lv_obj_del_async(screen1);
-            //lv_obj_del(screen1);
             logit("flush display");
             lv_display_flush_ready(disp);
             break;
         case LV_DIR_RIGHT:
-            logit("R");
-            logit("call CreateScreen1");
-            //CreateScreen1();
+            logit("SWIPE R");
             logit("call load anim for screen 1");
             lv_screen_load_anim(screen1, LV_SCREEN_LOAD_ANIM_MOVE_RIGHT, 29, 0, false);
-            //lv_obj_del_async(screen2);
             logit("flush display");
             lv_display_flush_ready(disp);
             break;
         case LV_DIR_TOP:
-            logit("T");
+            logit("SWIPE UP");
             break;
         case LV_DIR_BOTTOM:
-            logit("B");
+            logit("SWIPE DOWN");
             break;
     }
 
@@ -117,12 +107,8 @@ void HandleGesture(lv_event_t* e)
 
 void ExitSettingsScreen()
 {
-    logit("call CreateScreen2");
-    CreateScreen2();
     logit("call load anim for screen 2");
     lv_screen_load(screen2);
-    lv_obj_del_async(settingsscreen);
-    //lv_obj_del(settingsscreen);
     logit("flush display");
     lv_display_flush_ready(disp);
 }

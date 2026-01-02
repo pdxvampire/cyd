@@ -82,7 +82,7 @@ void CreateMainContainer()
     // darkmode_container
     //
 
-    main_container = lv_obj_create(lv_screen_active());
+    main_container = lv_obj_create(settingsscreen);
     lv_obj_set_layout(main_container, LV_LAYOUT_FLEX);
 
     lv_obj_set_flex_flow(main_container, LV_FLEX_FLOW_COLUMN);  // reverse so the title can be created later and still ends up visually on top
@@ -161,6 +161,9 @@ void CreateTitleBar()
     lv_obj_set_style_border_width(titlebar_container, 0, 0);
     lv_obj_set_style_border_width(titlebar_leftside, 0, 0);
     lv_obj_set_style_border_width(titlebar_rightside, 0, 0);
+
+int closeid = 13;
+    lv_obj_add_event_cb(close_button, HandleButtonClick, LV_EVENT_CLICKED, (void *)closeid); // 13 is the ID that I assigned it in physical.cpp, it has no specific meaning other than that
 }
 
 void CreateBrightness()

@@ -78,7 +78,7 @@ struct Horn
 {
     int id;
     int page;
-    const char *name; // I tried String/std::string/char[] and none would work with the image src function
+    const char *name;  // I tried String/std::string/char[] and none would work with the image src function
     int xcoord;
     int ycoord;
 };
