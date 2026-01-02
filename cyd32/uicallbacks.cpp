@@ -107,8 +107,15 @@ void HandleGesture(lv_event_t* e)
 
 void ExitSettingsScreen()
 {
+    logit("delete and recreate screen 1 and 2 in case dark mode changed");
+    lv_obj_del(screen1);
+    lv_obj_del(screen2);
+    CreateScreen1();
+    CreateScreen2();
+
     logit("call load anim for screen 2");
     lv_screen_load(screen2);
+
     logit("flush display");
     lv_display_flush_ready(disp);
 }
@@ -125,17 +132,21 @@ void HandleButtonClick(lv_event_t* e)
         //lv_obj_t* btn = (lv_obj_t*)lv_event_get_target(e);  // Get the object that triggered the event
         // Now 'btn' points to the specific button that was clicked
         // You can use 'btn' to identify the button
+
         lv_obj_t* user_obj = (lv_obj_t*)lv_event_get_user_data(e);
         int button_id = (int)user_obj;
-
         logit("button id:    %d", button_id);
-        if (darkmode)
+
+        if (button_id != 13)  // 13 is the settings screen close button, not a horn
         {
-            logit("button name:  %s", darkhorns[button_id].name);
-        }
-        else
-        {
-            logit("button name:  %s", lighthorns[button_id].name);
+            if (darkmode)
+            {
+                logit("button name:  %s", darkhorns[button_id].name);
+            }
+            else
+            {
+                logit("button name:  %s", lighthorns[button_id].name);
+            }
         }
 
         // These are defined in physical.cpp
