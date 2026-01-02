@@ -12,6 +12,7 @@ lv_style_t style_pr;
 lv_obj_t *screen1;
 lv_obj_t *screen2;
 lv_obj_t *settingsscreen;
+lv_obj_t *invisiblescreen;
 
 // These need better names or to be gotten rid of if they aren't needed
 lv_obj_t *btn1;

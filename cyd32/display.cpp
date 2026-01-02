@@ -26,7 +26,12 @@ void hide_object_timer_cb(lv_timer_t *timer)
     if (obj != NULL)
     {
         logit("hide the object");
-        lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);  // Hide the object
+        //lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);  // Hide the object
+        logit("hide the object by setting popuplable parent to invisible screen");
+        // have to do it this way instead of just hiding it because when delete screen1 and screen2
+        // it becomes orphaned which is the same as being a screen, and you can't set
+        // the parent of a screen so this crashes
+        lv_obj_set_parent(popuplabel, invisiblescreen);
 
         //lv_obj_set_hidden(slider, true);
         logit("delete the timer");
@@ -56,8 +61,8 @@ void ShowPopupLabelBriefly(const char *msg)
     logit("center popuplable");
     lv_obj_align(popuplabel, LV_ALIGN_CENTER, 0, 0);
 
-    logit("unhide popuplable");
-    lv_obj_clear_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);
+    //logit("unhide popuplable");
+    //lv_obj_clear_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);
 
     logit("move popuplable to foreground");
     lv_obj_move_foreground(popuplabel);
@@ -170,7 +175,7 @@ void CreateScreen2()
 {
     enterfunction("CreateScreen2");
 
-    logit("create screen1 object");
+    logit("create screen2 object");
     screen2 = lv_obj_create(NULL);
 
     if (darkmode)
@@ -188,7 +193,7 @@ void CreateScreen2()
     lv_obj_add_event_cb(screen2, HandleGesture, LV_EVENT_GESTURE, NULL);
     logit("back from add gesture handler");
 
-    logit("create horn buttons for screen1");
+    logit("create horn buttons for screen2");
     for (int x = 7; x <= 10; x++)
     {
         create_image_button_from_sd(x);
@@ -219,6 +224,11 @@ void CreateSettingsScreen()
     }
 
     exitfunction("CreateSettingsScreen");
+}
+
+void CreateInvisibleScreen()
+{
+    invisiblescreen = lv_obj_create(NULL);
 }
 
 void InitializeDisplay()
@@ -258,6 +268,7 @@ void InitializeDisplay()
     CreateScreen1();
     CreateScreen2();
     CreateSettingsScreen();
+    CreateInvisibleScreen();
 
     logit("load screen1");
     lv_scr_load(screen1);
@@ -277,10 +288,10 @@ void InitializeDisplay()
     //lv_style_set_text_letter_space(&popuplabelstyle, 5); // more space between letters
     lv_style_set_text_font(&popuplabelstyle, &lv_font_montserrat_30);  // Set a larger font
 
-    popuplabel = lv_label_create(lv_screen_active());
+    popuplabel = lv_label_create(invisiblescreen);
     //lv_obj_set_pos(popuplabel, 200,200);
     lv_obj_center(popuplabel);
-    lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);  // Hide the object
+    //lv_obj_add_flag(popuplabel, LV_OBJ_FLAG_HIDDEN);  // Hide the object
 
     exitfunction("InitializeDisplay");
 }

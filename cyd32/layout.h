@@ -8,6 +8,7 @@ extern lv_style_t style_pr;
 extern lv_obj_t *screen1;
 extern lv_obj_t *screen2;
 extern lv_obj_t *settingsscreen;
+extern lv_obj_t *invisiblescreen;
 
 // These need better names or to be gotten rid of if they aren't needed
 extern lv_obj_t *btn1;
